@@ -1,0 +1,24 @@
+{
+  "name": "matrix-agent-backend",
+  "version": "1.0.0",
+  "description": "Node.js backend agent runtime.",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "start": "node dist/bundle.js"
+  },
+  "keywords": [],
+  "author": "",
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.6.3",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "dependencies": {
+    "express": "^4.21.1",
+    "socket.io": "^4.8.1"
+  }
+}
