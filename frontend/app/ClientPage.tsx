@@ -35,7 +35,14 @@ const ClientPage = () => {
   }, [agentLogs]);
 
   return (
-    <div>
+    <div
+      style={{
+        height: "95.5vh",
+        overflowY: "scroll",
+        padding: "1rem 2rem",
+        margin: "0 auto",
+      }}
+    >
       {agentLogs.map((log, index) => (
         <div
           key={index}
