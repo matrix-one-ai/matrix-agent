@@ -32,7 +32,6 @@ const pushActivityLog = async (activity: string) => {
     addRandomSuffix: false,
     cacheControlMaxAge: activityTimeout / 1000,
   });
-  console.log(blob);
 };
 
 app.get("/", (req, res) => {
@@ -56,7 +55,6 @@ server.listen(port, () => {
     );
 
     if (log) {
-      console.log(log.text);
       pushActivityLog(log.text);
     }
   }, activityTimeout);
