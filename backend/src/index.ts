@@ -27,11 +27,12 @@ const pushActivityLog = async (activity: string) => {
     activity,
     timestamp: new Date().toISOString(),
   });
-  const blob = await put("sami-logs.json", JSON.stringify(logs), {
+  await put("sami-logs.json", JSON.stringify(logs), {
     access: "public",
     addRandomSuffix: false,
     cacheControlMaxAge: activityTimeout / 1000,
   });
+  console.log("Activity log pushed:", activity.slice(0, 50));
 };
 
 app.get("/", (req, res) => {

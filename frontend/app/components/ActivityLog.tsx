@@ -39,7 +39,7 @@ const ActivityLog = () => {
         margin: "0 auto",
       }}
     >
-      {agentLogs.map((log, index) => (
+      {agentLogs.slice(-100).map((log, index) => (
         <div
           key={index}
           style={{
