@@ -25,6 +25,7 @@ body {
   background-image: url("/bg.png");
   background-size: cover;
   color: black;
+  scrollbar-color: hsla(191, 59%, 86%, 1) rgb(238, 190, 211);
 }
 
 * {
