@@ -27,6 +27,8 @@ const ClientPage = () => {
       style={{
         display: "flex",
         height: "calc(100vh - 60px)",
+        maxWidth: "1400px",
+        margin: "0 auto",
       }}
     >
       <div
