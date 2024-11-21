@@ -21,8 +21,19 @@ const Gifs = () => {
         height={100}
         style={{
           position: "fixed",
-          right: "10px",
+          left: "10px",
           top: "10px",
+        }}
+      />
+      <Image
+        src="/bird1.gif"
+        alt="Gifs"
+        width={100}
+        height={150}
+        style={{
+          position: "fixed",
+          right: "0",
+          bottom: "0",
         }}
       />
     </>
