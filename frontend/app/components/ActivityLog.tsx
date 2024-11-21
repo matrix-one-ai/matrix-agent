@@ -26,7 +26,7 @@ const ActivityLog = () => {
   const [agentLogs, setAgentLogs] = useState<AgentLog[]>([]);
 
   const lastLog = agentLogs.length > 0 ? agentLogs[agentLogs.length - 1] : null;
-  const typewriterText = useTypewriter(lastLog ? lastLog.activity : "", 10, 20);
+  const typewriterText = useTypewriter(lastLog ? lastLog.activity : "", 100, 20);
 
   useEffect(() => {
     const fetchLogs = async () => {
