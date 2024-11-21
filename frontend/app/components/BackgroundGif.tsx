@@ -20,7 +20,7 @@ const BackgroundGif = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setBackgroundCounter((prevCounter) =>
-        prevCounter < 10 ? prevCounter + 1 : 1
+        prevCounter < 9 ? prevCounter + 1 : 1
       );
       updateImage(`/forest-${backgroundCounter}.gif`);
     }, 15000);
