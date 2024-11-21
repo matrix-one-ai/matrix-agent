@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import ActivityLog from "./components/ActivityLog";
 import Gifs from "./components/Gifs";
 import TraderViewWidget from "./components/TraderViewWidget";
+import BackgroundGif from "./components/BackgroundGif";
 
 const LittleCard = ({
   title,
@@ -87,6 +88,8 @@ const ClientPage = () => {
       </div>
 
       <Gifs />
+
+      <BackgroundGif />
     </div>
   );
 };
