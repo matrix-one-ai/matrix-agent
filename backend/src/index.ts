@@ -27,6 +27,12 @@ const pushActivityLog = async (activity: string) => {
     activity,
     timestamp: new Date().toISOString(),
   });
+
+  // Limit logs to the latest 100 entries
+  if (logs.length > 100) {
+    logs.splice(0, logs.length - 100);
+  }
+
   await put("sami-logs.json", JSON.stringify(logs), {
     access: "public",
     addRandomSuffix: false,
