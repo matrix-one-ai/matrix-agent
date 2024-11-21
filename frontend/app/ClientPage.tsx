@@ -26,7 +26,7 @@ const ClientPage = () => {
     <div
       style={{
         display: "flex",
-        height: "95.5vh",
+        height: "95vh",
       }}
     >
       <div
