@@ -1,23 +1,31 @@
 "use client";
 
+import { ReactNode } from "react";
 import ActivityLog from "./components/ActivityLog";
 import Gifs from "./components/Gifs";
+import TraderViewWidget from "./components/TraderViewWidget";
 
-const LittleCard = ({ title }: { title: string }) => {
+const LittleCard = ({
+  title,
+  children,
+}: {
+  title: string;
+  children?: ReactNode;
+}) => {
   return (
     <div
       style={{
         display: "flex",
-        width: "100px",
-        height: "100px",
-        backgroundColor: "white",
+        width: "150px",
+        height: "150px",
+        backgroundColor: "#ffffff91",
         margin: "10px",
         alignItems: "center",
         justifyContent: "center",
         color: "#f789b9",
       }}
     >
-      {title}
+      {children ? children : title}
     </div>
   );
 };
@@ -68,7 +76,9 @@ const ClientPage = () => {
           flex: 1,
         }}
       >
-        <LittleCard title="get $SAMI" />
+        <LittleCard title="get $SAMI">
+          <TraderViewWidget />
+        </LittleCard>
         <LittleCard title="email me plz" />
         <LittleCard title="call me" />
         <LittleCard title="my tweets" />
