@@ -9,14 +9,17 @@ const azure = createAzure({
   apiKey: process.env.AZURE_OPENAI_KEY!,
 });
 
-export async function generateTextFromPrompt(prompt: string) {
+export async function generateTextFromPrompt(
+  prompt: string,
+  { temperature = 0.4, frequencyPenalty = 0.5, presencePenalty = 0.5 }
+) {
   try {
     const result = await generateText({
       model: azure("gpt-4o-mini"),
       prompt,
-      frequencyPenalty: 1,
-      presencePenalty: 1,
-      temperature: 0.4,
+      frequencyPenalty,
+      presencePenalty,
+      temperature,
     });
     return result;
   } catch (error) {
