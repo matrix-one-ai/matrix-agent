@@ -1,6 +1,7 @@
 "use client";
 
 import ActivityLog from "./components/ActivityLog";
+import Gifs from "./components/Gifs";
 
 const LittleCard = ({ title }: { title: string }) => {
   return (
@@ -74,6 +75,8 @@ const ClientPage = () => {
         <LittleCard title="my photo gallery" />
         <LittleCard title="buy my merch" />
       </div>
+
+      <Gifs />
     </div>
   );
 };
