@@ -1,10 +1,11 @@
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { put } from "@vercel/blob";
 import dotenv from "dotenv";
 import sequelize from "./db/db";
 import { generateTextFromPrompt } from "./ai";
+import { pushActivityLog } from "./logs";
+import twitterAgentInit from "./twitter";
 
 dotenv.config();
 
@@ -14,32 +15,11 @@ const io = new Server(server);
 
 const port = process.env.PORT || 3001;
 
-const activityTimeout = 10000;
-
-const logs: { activity: string; timestamp: string }[] = [];
+export const activityTimeout = 10000;
 
 sequelize.sync().then(() => {
   console.log("Database synced");
 });
-
-const pushActivityLog = async (activity: string) => {
-  logs.push({
-    activity,
-    timestamp: new Date().toISOString(),
-  });
-
-  // Limit logs to the latest 100 entries
-  if (logs.length > 100) {
-    logs.splice(0, logs.length - 100);
-  }
-
-  await put("sami-logs.json", JSON.stringify(logs), {
-    access: "public",
-    addRandomSuffix: false,
-    cacheControlMaxAge: activityTimeout / 1000,
-  });
-  console.log("Activity log pushed:", activity.slice(0, 50));
-};
 
 app.get("/", (req, res) => {
   res.send("Matrix agent backend is running.");
@@ -55,6 +35,8 @@ io.on("connection", (socket) => {
 
 server.listen(port, () => {
   console.log(`Matrix agent listening on port ${port}`);
+
+  twitterAgentInit();
 
   setInterval(async () => {
     const log = await generateTextFromPrompt(
