@@ -3,8 +3,6 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
 import sequelize from "./db/db";
-import { generateTextFromPrompt } from "./ai";
-import { pushActivityLog } from "./logs";
 import twitterAgentInit from "./twitter";
 
 dotenv.config();
