@@ -97,6 +97,7 @@ const startTweetLoop = async (twitterAgent: TwitterAgent) => {
         recentTweets,
         sami.topics[Math.random() * sami.topics.length]
       ),
+      "gpt-4o",
       {
         temperature: 0.8,
         frequencyPenalty: 0.8,
@@ -113,11 +114,15 @@ const startTweetLoop = async (twitterAgent: TwitterAgent) => {
 
     pushActivityLog(
       (
-        await generateTextFromPrompt(newTweetLogPrompt(sami, tweet?.text), {
-          temperature: 0.8,
-          frequencyPenalty: 0.8,
-          presencePenalty: 0.8,
-        })
+        await generateTextFromPrompt(
+          newTweetLogPrompt(sami, tweet?.text),
+          "gpt-4o",
+          {
+            temperature: 0.8,
+            frequencyPenalty: 0.8,
+            presencePenalty: 0.8,
+          }
+        )
       )?.text || ""
     );
   };
