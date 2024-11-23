@@ -1,6 +1,10 @@
 import { Scraper } from "agent-twitter-client";
 import { promises as fs } from "fs";
 import dotenv from "dotenv";
+import { generateTextFromPrompt } from "../ai";
+import { newTweetLogPrompt, twitterPostPrompt } from "./prompts";
+import sami from "../characters/sami";
+import { pushActivityLog } from "../logs";
 
 dotenv.config();
 
@@ -8,6 +12,7 @@ const COOKIE_PATH = "src/twitter/cookies.txt";
 
 class TwitterAgent {
   private scraper: Scraper;
+  public userId: string | null = null;
 
   constructor() {
     this.scraper = new Scraper();
@@ -45,7 +50,6 @@ class TwitterAgent {
   }
   async login() {
     const cachedCookies = await this.getCachedCookies();
-    console.log(cachedCookies);
     if (cachedCookies?.length > 0) {
       await this.scraper.setCookies(cachedCookies);
       console.log("Using cached cookies for twitter login");
@@ -58,13 +62,85 @@ class TwitterAgent {
       );
       await this.cacheCookies();
     }
+    this.userId = await this.scraper.getUserIdByScreenName(
+      process.env.TWITTER_USERNAME!
+    );
+    console.log("Logged in as:", process.env.TWITTER_USERNAME, this.userId);
+  }
+
+  async postTweet(text: string) {
+    return this.scraper.sendTweet(text);
+  }
+
+  async getMyTweets(count: number) {
+    return this.scraper.getTweets(process.env.TWITTER_USERNAME!, count);
   }
 }
+
+const startTweetLoop = async (twitterAgent: TwitterAgent) => {
+  const intervalTimeout = 1000 * 60 * 60 * 1; // 1 hour
+
+  const tweet = async () => {
+    const tweets = await twitterAgent.getMyTweets(5);
+    const recentTweets = [];
+
+    for await (const tweet of tweets) {
+      if (!tweet.text) {
+        continue;
+      }
+      recentTweets.push(tweet.text);
+    }
+
+    const tweet = await generateTextFromPrompt(
+      twitterPostPrompt(
+        sami,
+        recentTweets,
+        sami.topics[Math.random() * sami.topics.length]
+      ),
+      {
+        temperature: 0.8,
+        frequencyPenalty: 0.8,
+        presencePenalty: 0.8,
+      }
+    );
+
+    if (!tweet?.text) {
+      console.error("Error generating tweet");
+      return;
+    }
+
+    await twitterAgent.postTweet(tweet?.text);
+
+    pushActivityLog(
+      (
+        await generateTextFromPrompt(newTweetLogPrompt(sami, tweet?.text), {
+          temperature: 0.8,
+          frequencyPenalty: 0.8,
+          presencePenalty: 0.8,
+        })
+      )?.text || ""
+    );
+  };
+
+  await tweet();
+
+  const interval = setInterval(async () => {
+    try {
+      await tweet();
+    } catch (error) {
+      console.error("Error in tweet loop:", error);
+    }
+  }, intervalTimeout);
+
+  return interval;
+};
 
 async function twitterAgentInit() {
   const twitterAgent = new TwitterAgent();
   await twitterAgent.login();
   console.log("Twitter agent initialized");
+
+  await startTweetLoop(twitterAgent);
 }
 
 export default twitterAgentInit;

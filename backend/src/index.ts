@@ -37,18 +37,4 @@ server.listen(port, () => {
   console.log(`Matrix agent listening on port ${port}`);
 
   twitterAgentInit();
-
-  setInterval(async () => {
-    const log = await generateTextFromPrompt(
-      `Output a random text message like an terminal AI Agent working on actions. Your name is SAMI.
-      Output funky retro metaverse ascii art sometimes. Make it very cool and digital matrix style / cyberpunk.
-      Send random actions, make it look like you are working on something. Make it look like you are a cool AI Agent working on a cool project.
-      `,
-      { temperature: 0.8, frequencyPenalty: 0.8, presencePenalty: 0.8 }
-    );
-
-    if (log) {
-      pushActivityLog(log.text);
-    }
-  }, activityTimeout);
 });
