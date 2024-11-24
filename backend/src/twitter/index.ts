@@ -91,19 +91,19 @@ const startTweetLoop = async (twitterAgent: TwitterAgent) => {
       recentTweets.push(tweet.text);
     }
 
-    const tweet = await generateTextFromPrompt(
-      twitterPostPrompt(
-        sami,
-        recentTweets,
-        sami.topics[Math.random() * sami.topics.length]
-      ),
-      "gpt-4o",
-      {
-        temperature: 0.8,
-        frequencyPenalty: 0.8,
-        presencePenalty: 0.8,
-      }
+    const prompt = twitterPostPrompt(
+      sami,
+      recentTweets,
+      sami.topics[Math.floor(Math.random() * sami.topics.length)]
     );
+
+    console.log("Generating tweet from prompt:", prompt);
+
+    const tweet = await generateTextFromPrompt(prompt, "gpt-4o", {
+      temperature: 0.8,
+      frequencyPenalty: 1,
+      presencePenalty: 1,
+    });
 
     if (!tweet?.text) {
       console.error("Error generating tweet");
@@ -112,15 +112,17 @@ const startTweetLoop = async (twitterAgent: TwitterAgent) => {
 
     await twitterAgent.postTweet(tweet?.text);
 
+    console.log("Tweet posted:", tweet?.text);
+
     pushActivityLog(
       (
         await generateTextFromPrompt(
           newTweetLogPrompt(sami, tweet?.text),
           "gpt-4o",
           {
-            temperature: 0.8,
-            frequencyPenalty: 0.8,
-            presencePenalty: 0.8,
+            temperature: 0.5,
+            frequencyPenalty: 1,
+            presencePenalty: 1,
           }
         )
       )?.text || ""

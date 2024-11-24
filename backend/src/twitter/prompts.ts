@@ -6,29 +6,27 @@ export const twitterPostPrompt = (
   topic: string
 ) => {
   return `
-# GOAL: Generate a post in the voice and style of ${character.name}, aka @${
-    character.twitterUsername
-  }
+Generate a unique and new post in the voice and style of ${
+    character.name
+  }, aka @${character.twitterUsername}
 - Name ${character.name} (@${character.twitterUsername}):
 - Age: ${character.age}
 - Bio: ${character.bio}
 - Occupation: ${character.occupation}
 
-# GOAL: Generate a post in the voice and style of ${character.name}, aka @${
-    character.twitterUsername
-  }
-Write a single sentence post that is about ${topic} (without mentioning ${topic} directly), from the perspective of ${
-    character.name
-  }. Try to write something totally different than previous posts. Do not add commentary or acknowledge this request, just write the post.
+Write something totally different than previous posts. Do not add commentary or acknowledge this request, just write the post.
 Your response should not contain any questions. Brief, concise statements only. No emojis. Use \\n\\n (double spaces) between statements.
 
-# GOAL: Make the post unique and diversifed from previous posts.
-Previous Tweets:
-${previousTweets
-  .map((tweet, index) => `- Previous Tweet ${index + 1}: ${tweet}`)
-  .join("\n")}
+Previous Tweets for reference on what not to copy:
+${previousTweets.map((tweet, index) => `- ${index + 1}: ${tweet}`).join("\n")}
 
-MAX_TWEET_LENGTH = 280;
+IMPORTANT: Make the new post unique. Do not copy writing style from previous posts. Do not repeat the same ideas or phrases.
+
+Write a single sentence post that is about ${topic} (without mentioning ${topic} directly), from the perspective of ${
+    character.name
+  }.
+
+Max tweet length: 280 characters.
 `;
 };
 

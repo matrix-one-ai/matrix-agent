@@ -12,8 +12,9 @@ const azure = createAzure({
 export async function generateTextFromPrompt(
   prompt: string,
   model: "gpt-4o-mini" | "gpt-4o" = "gpt-4o-mini",
-  { temperature = 0.4, frequencyPenalty = 0.5, presencePenalty = 0.5 }
+  { temperature = 0.4, frequencyPenalty = 0.5, presencePenalty = 0.5, topK = 0, topP = 0 } = {}
 ) {
+  console.log(model, temperature, frequencyPenalty, presencePenalty);
   try {
     const result = await generateText({
       model: azure(model),
@@ -21,6 +22,8 @@ export async function generateTextFromPrompt(
       frequencyPenalty,
       presencePenalty,
       temperature,
+      topK,
+      topP,
     });
     return result;
   } catch (error) {
