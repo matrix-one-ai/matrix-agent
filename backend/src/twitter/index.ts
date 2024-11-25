@@ -66,7 +66,6 @@ class TwitterAgent {
     if (cachedCookies?.length > 0) {
       await this.scraper.setCookies(cachedCookies);
       console.log("Using cached cookies for twitter login");
-      return;
     } else {
       console.log("No cached cookies found, logging in...");
       await this.scraper.login(
@@ -145,6 +144,53 @@ class TwitterAgent {
       (tweet) => (tweet?.replies || 0) > 0
     );
     return retweets;
+  }
+
+  async checkIfReplied(tweetId: string) {
+    // Fetch the original tweet to get the conversation_id
+    const originalTweet = await userClient.v2.singleTweet(tweetId, {
+      "tweet.fields": ["conversation_id"],
+    });
+
+    const conversationId = originalTweet.data.conversation_id;
+
+    if (!conversationId) {
+      throw new Error("Conversation ID not found.");
+    }
+
+    const myUserId = this.userId;
+
+    // Search for replies in the conversation from yourself
+    const searchResults = await userClient.v2.search(
+      `conversation_id:${conversationId} from:${myUserId}`,
+      {
+        expansions: ["author_id"],
+        "tweet.fields": [
+          "author_id",
+          "in_reply_to_user_id",
+          "text",
+          "created_at",
+        ],
+      }
+    );
+
+    let hasReplied = false;
+
+    for (const tweet of searchResults.tweets) {
+      console.log(tweet);
+      if (tweet.author_id === myUserId) {
+        hasReplied = true;
+        break;
+      }
+    }
+
+    if (hasReplied) {
+      console.log("You have already replied to this tweet.");
+    } else {
+      console.log("You have not replied to this tweet yet.");
+    }
+
+    return hasReplied;
   }
 
   async getTweetReplies(tweetId: string) {
@@ -262,6 +308,12 @@ const startCommentResponseLoop = async (twitterAgent: TwitterAgent) => {
         const replies = await twitterAgent.getTweetReplies(tweet.id!);
         if (replies.length > 0) {
           for (const reply of replies) {
+            const hasReplied = await twitterAgent.checkIfReplied(reply.id!);
+
+            if (hasReplied) {
+              continue;
+            }
+
             const user = await twitterAgent.getUserById(reply.author_id!);
 
             const prompt = twitterReplyPrompt(sami, reply.text, user.username);
