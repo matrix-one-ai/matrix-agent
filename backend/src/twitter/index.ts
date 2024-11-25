@@ -92,7 +92,7 @@ class TwitterAgent {
   }
 
   async replyToTweet(text: string, tweetId: string) {
-    return this.scraper.sendTweetV2(text, tweetId);
+    return this.scraper.sendTweet(text, tweetId);
   }
 
   async getMyTweets(count: number) {
@@ -264,10 +264,7 @@ const startCommentResponseLoop = async (twitterAgent: TwitterAgent) => {
           for (const reply of replies) {
             const user = await twitterAgent.getUserById(reply.author_id!);
 
-            const prompt = twitterReplyPrompt(
-              sami,
-              `${reply.text} - @${user.name}`
-            );
+            const prompt = twitterReplyPrompt(sami, reply.text, user.username);
 
             const replyTweet = await generateTextFromPrompt(prompt, "gpt-4o", {
               temperature: 0.8,

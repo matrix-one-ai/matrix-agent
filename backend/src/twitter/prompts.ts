@@ -35,16 +35,25 @@ Max tweet length: 280 characters.
 `;
 };
 
-export const twitterReplyPrompt = (character: Character, tweet: string) => {
+export const twitterReplyPrompt = (
+  character: Character,
+  tweet: string,
+  username: string
+) => {
   return `
-# GOAL: Generate a reply to a tweet in the voice and style of ${character.name}, aka @${character.twitterUsername}
-- Name ${character.name} (@${character.twitterUsername}):
+# GOAL: Someone has replied to one of your tweets. Reply to them. 
+Generate a reply to a tweet in the voice and style of ${character.name}, aka @${character.twitterUsername}
 - Age: ${character.age}
 - Bio: ${character.bio}
 - Occupation: ${character.occupation}
 
 Tweet to reply to:
 ${tweet}
+
+Author username of reply: ${username}
+
+Do not add commentary or acknowledge this request, just write the reply.
+Your response should not contain any questions. Brief, concise statements only. No emojis.
 `;
 };
 
