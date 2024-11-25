@@ -20,13 +20,49 @@ Your response should not contain any questions. Brief, concise statements only. 
 Previous Tweets for reference on what not to copy:
 ${previousTweets.map((tweet, index) => `- ${index + 1}: ${tweet}`).join("\n")}
 
+Do not use: The, In the, etc starting statments over and over. Feel more unique / personal.
+
 IMPORTANT: Make the new post unique. Do not copy writing style from previous posts. Do not repeat the same ideas or phrases.
 
 Write a single sentence post that is about ${topic} (without mentioning ${topic} directly), from the perspective of ${
     character.name
-  }.
+  }. Include some context to ${
+    character.name
+  }'s life and pretend like your character is talking to their followers.
+
 
 Max tweet length: 280 characters.
+`;
+};
+
+export const twitterReplyPrompt = (character: Character, tweet: string) => {
+  return `
+# GOAL: Generate a reply to a tweet in the voice and style of ${character.name}, aka @${character.twitterUsername}
+- Name ${character.name} (@${character.twitterUsername}):
+- Age: ${character.age}
+- Bio: ${character.bio}
+- Occupation: ${character.occupation}
+
+Tweet to reply to:
+${tweet}
+`;
+};
+
+export const newReplyLogPrompt = (character: Character, tweet: string) => {
+  return `
+# GOAL: Generate a terminal log message in the voice and style of ${character.name}, aka @${character.twitterUsername}
+- Name ${character.name} (@${character.twitterUsername}):
+- Age: ${character.age}
+- Bio: ${character.bio}
+- Occupation: ${character.occupation}
+
+# GOAL: Output a random text message like an terminal AI Agent working on actions. Your name is SAMI.
+Output funky retro metaverse ascii art sometimes. Make it very cool and digital matrix style / cyberpunk.
+Send random actions, make it look like you are working on something. Make it look like you are a cool AI Agent working on a cool project.
+
+# ACTION
+You replied to a user tweet:
+${tweet}
 `;
 };
 
