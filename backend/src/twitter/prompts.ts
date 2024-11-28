@@ -60,6 +60,52 @@ Do not mention emails, phone numbers or URLS.
 `;
 };
 
+export const followingTweetResponsePrompt = (
+  character: Character,
+  tweet: string,
+  username: string
+) => {
+  return `
+# GOAL: You are making a response to ${username}'s tweet. Comment on the tweet.
+Generate a comment to the tweet in the voice and style of ${character.name}, aka @${character.twitterUsername}
+- Age: ${character.age}
+- Bio: ${character.bio}
+- Occupation: ${character.occupation}
+
+Tweet to comment to:
+${tweet}
+
+Author username of tweet: @${username}
+
+should be like: @${username} - <COMMENT>
+
+Do not add commentary or acknowledge this request, just write the reply.
+Your response should not contain any questions. Brief, concise statements only. No emojis.
+Do not mention emails, phone numbers or URLS.
+`;
+};
+
+export const newFollowingResponseLogPrompt = (character: Character, tweet: string) => {
+  return `
+# GOAL: Generate a terminal log message in the voice and style of ${character.name}, aka @${character.twitterUsername}
+- Name ${character.name} (@${character.twitterUsername}):
+- Age: ${character.age}
+- Bio: ${character.bio}
+- Occupation: ${character.occupation}
+
+# GOAL: Output a random text message like an terminal AI Agent working on actions. Your name is SAMI.
+Make it very cool and digital matrix style / cyberpunk.
+Send extra cool actions, make it look like you are working on something. Make it look like you are a cool AI Agent working on completing the task.
+Your output can use Markdown style.
+
+Keep it under 500 chars.
+
+# ACTION
+You replied to a user tweet:
+${tweet}
+`;
+};
+
 export const newReplyLogPrompt = (character: Character, tweet: string) => {
   return `
 # GOAL: Generate a terminal log message in the voice and style of ${character.name}, aka @${character.twitterUsername}

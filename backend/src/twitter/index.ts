@@ -3,6 +3,8 @@ import { promises as fs } from "fs";
 import dotenv from "dotenv";
 import { generateTextFromPrompt } from "../ai";
 import {
+  followingTweetResponsePrompt,
+  newFollowingResponseLogPrompt,
   newReplyLogPrompt,
   newTweetLogPrompt,
   twitterPostPrompt,
@@ -61,6 +63,7 @@ class TwitterAgent {
       }
     }
   }
+
   async login() {
     const cachedCookies = await this.getCachedCookies();
     if (cachedCookies?.length > 0) {
@@ -86,6 +89,14 @@ class TwitterAgent {
     console.log("Logged in as:", process.env.TWITTER_USERNAME, this.userId);
   }
 
+  async followUser(userId: string) {
+    return this.scraper.followUser(userId);
+  }
+
+  async getMyFollowings() {
+    return this.scraper.getFollowing(this.userId!, 100);
+  }
+
   async postTweet(text: string) {
     return this.scraper.sendTweet(text);
   }
@@ -96,6 +107,10 @@ class TwitterAgent {
 
   async getMyTweets(count: number) {
     return this.scraper.getTweets(process.env.TWITTER_USERNAME!, count);
+  }
+
+  async getUserTweets(username: string, count: number) {
+    return this.scraper.getTweets(username, count);
   }
 
   async getTweet(tweetId: string) {
@@ -146,6 +161,14 @@ class TwitterAgent {
     return tweets;
   }
 
+  async searchTweets(query: string) {
+    return userClient.v2.search(query, {
+      "tweet.fields": ["conversation_id", "author_id", "referenced_tweets"],
+      "user.fields": ["username"],
+      max_results: 100,
+    });
+  }
+
   async getUnrepliedMentions() {
     const myUserId = this.userId!;
 
@@ -161,7 +184,7 @@ class TwitterAgent {
         "in_reply_to_user_id",
       ],
       "user.fields": ["username"],
-      max_results: 100, // Adjust as needed
+      max_results: 100,
     });
 
     // Iterate through the paginator to collect all mentions
@@ -177,7 +200,7 @@ class TwitterAgent {
     let repliesPaginator = await userClient.v2.userTimeline(myUserId, {
       expansions: ["referenced_tweets.id"],
       "tweet.fields": ["referenced_tweets"],
-      max_results: 100, // Adjust as needed
+      max_results: 100,
     });
 
     // Iterate through the paginator to collect all replies
@@ -210,46 +233,6 @@ class TwitterAgent {
     );
 
     return unrepliedMentions;
-  }
-
-  async getTweetReplies(tweetId: string) {
-    // Fetch the original tweet to get the conversation_id and author_id
-    const originalTweet = await userClient.v2.singleTweet(tweetId, {
-      "tweet.fields": ["conversation_id", "author_id"],
-    });
-
-    const conversationId = originalTweet.data.conversation_id;
-    const originalAuthorId = originalTweet.data.author_id;
-
-    if (!conversationId) {
-      throw new Error("Conversation ID not found.");
-    }
-
-    // Search for all tweets in the conversation excluding the original author's tweets
-    const searchResults = await userClient.v2.search(
-      `conversation_id:${conversationId} -from:${originalAuthorId}`,
-      {
-        expansions: ["author_id"],
-        "tweet.fields": [
-          "author_id",
-          "in_reply_to_user_id",
-          "text",
-          "created_at",
-        ],
-        "user.fields": ["username", "name"],
-      }
-    );
-
-    // Process and display the replies
-    for (const tweet of searchResults.tweets) {
-      console.log(`Reply from @${tweet.author_id}: ${tweet.text}`);
-    }
-
-    return searchResults.tweets.filter(
-      (tweet) =>
-        tweet.in_reply_to_user_id === originalAuthorId &&
-        tweet.author_id !== originalAuthorId
-    );
   }
 }
 
@@ -379,6 +362,116 @@ const startCommentResponseLoop = async (twitterAgent: TwitterAgent) => {
   return interval;
 };
 
+const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
+  const intervalTimeout = 1000 * 60 * 60 * 0.5; // 30 minutes
+
+  const hasRepliedToTweet = async (
+    conversationId: string,
+    myUsername: string
+  ) => {
+    const searchQuery = `conversation_id:${conversationId} from:${myUsername}`;
+    const searchResults = await twitterAgent.searchTweets(searchQuery);
+    for (const tweet of searchResults) {
+      if (tweet.author_id === twitterAgent.userId) {
+        return true;
+      }
+    }
+  };
+
+  const main = async () => {
+    try {
+      const myFollowing = await twitterAgent.getMyFollowings();
+
+      for await (const user of myFollowing) {
+        const tweets = await twitterAgent.getUserTweets(user.username!, 5);
+
+        for await (const tweet of tweets) {
+          if (!tweet.text) {
+            continue;
+          }
+
+          // Skip tweets that are replies
+          if (tweet.isReply) {
+            continue;
+          }
+
+          // Skip tweets that are retweets
+          if (tweet.isRetweet) {
+            continue;
+          }
+
+          // Skip tweets already replied to by me
+          if (
+            await hasRepliedToTweet(tweet.conversationId!, twitterAgent.userId!)
+          ) {
+            console.log("Already replied to tweet:", tweet.text);
+            continue;
+          }
+
+          const tweetResponsePrompt = followingTweetResponsePrompt(
+            sami,
+            tweet.text,
+            user.username!
+          );
+
+          const responseTweet = await generateTextFromPrompt(
+            tweetResponsePrompt,
+            "gpt-4o",
+            {
+              temperature: 0.8,
+              frequencyPenalty: 1,
+              presencePenalty: 1,
+            }
+          );
+
+          if (!responseTweet?.text) {
+            console.error("Error generating response tweet");
+            continue;
+          }
+
+          await twitterAgent.replyToTweet(responseTweet?.text, tweet.id!);
+
+          console.log(
+            "Responded to tweet:",
+            user.username,
+            responseTweet?.text
+          );
+
+          pushActivityLog({
+            moduleType: "twitter",
+            title: "New Following Tweet Response",
+            description:
+              (
+                await generateTextFromPrompt(
+                  newFollowingResponseLogPrompt(
+                    sami,
+                    `@${tweet.username} - ${responseTweet?.text}`
+                  ),
+                  "gpt-4o",
+                  {
+                    temperature: 0.5,
+                    frequencyPenalty: 1,
+                    presencePenalty: 1,
+                  }
+                )
+              )?.text || "",
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error in comment response loop:", error);
+    }
+  };
+
+  await main();
+
+  const interval = setInterval(async () => {
+    await main();
+  }, intervalTimeout);
+
+  return interval;
+};
+
 async function twitterAgentInit() {
   const twitterAgent = new TwitterAgent();
   await twitterAgent.login();
@@ -386,6 +479,7 @@ async function twitterAgentInit() {
 
   await startTweetLoop(twitterAgent);
   await startCommentResponseLoop(twitterAgent);
+  await startFollowingTweetResponses(twitterAgent);
 }
 
 export default twitterAgentInit;

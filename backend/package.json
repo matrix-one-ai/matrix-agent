@@ -12,16 +12,16 @@
   "devDependencies": {
     "@types/express": "^5.0.0",
     "ts-loader": "^9.5.1",
-    "typescript": "^5.6.3",
+    "typescript": "^5.7.2",
     "webpack": "^5.96.1",
     "webpack-cli": "^5.1.4",
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
-    "@ai-sdk/azure": "^1.0.3",
+    "@ai-sdk/azure": "^1.0.7",
     "@vercel/blob": "^0.26.0",
-    "agent-twitter-client": "^0.0.14",
-    "ai": "^4.0.2",
+    "agent-twitter-client": "^0.0.16",
+    "ai": "^4.0.8",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "sequelize": "^6.37.5",
