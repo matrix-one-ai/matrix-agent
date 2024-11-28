@@ -10,7 +10,7 @@ import {
 } from "./prompts";
 import sami from "../characters/sami";
 import { pushActivityLog } from "../logs";
-import { TwitterApi } from "twitter-api-v2";
+import { TweetV2, TwitterApi } from "twitter-api-v2";
 
 const userClient = new TwitterApi({
   appKey: process.env.TWITTER_API_KEY!,
@@ -139,24 +139,20 @@ class TwitterAgent {
 
   async getTweetsWithReplies() {
     const timeline = this.scraper.getTweets(process.env.TWITTER_USERNAME!, 100);
-    const retweets = await this.scraper.getTweetsWhere(
+    const tweets = await this.scraper.getTweetsWhere(
       timeline,
       (tweet) => (tweet?.replies || 0) > 0
     );
-    return retweets;
+    return tweets;
   }
 
-  async checkIfReplied(tweetId: string) {
+  async getUnrepliedConversations(tweetId: string) {
     // Fetch the original tweet to get the conversation_id
     const originalTweet = await userClient.v2.singleTweet(tweetId, {
       "tweet.fields": ["conversation_id"],
     });
 
-    console.log("Original tweet:", originalTweet);
-
     const conversationId = originalTweet.data.conversation_id;
-
-    console.log(tweetId, conversationId);
 
     if (!conversationId) {
       throw new Error("Conversation ID not found.");
@@ -164,36 +160,122 @@ class TwitterAgent {
 
     const myUserId = this.userId;
 
-    // Search for replies in the conversation from yourself
-    const searchResults = await userClient.v2.search(
-      `conversation_id:${conversationId} from:${myUserId}`,
-      {
-        expansions: ["author_id"],
-        "tweet.fields": [
-          "author_id",
-          "in_reply_to_user_id",
-          "text",
-          "created_at",
-        ],
+    const allTweetsInConversation: TweetV2[] = [];
+    let nextToken: string | undefined = undefined;
+
+    do {
+      // Fetch tweets in the conversation with pagination
+      const response: any = await userClient.v2.search(
+        `conversation_id:${conversationId}`,
+        {
+          expansions: ["author_id", "referenced_tweets.id"],
+          "tweet.fields": [
+            "author_id",
+            "referenced_tweets",
+            "text",
+            "created_at",
+          ],
+          next_token: nextToken,
+        }
+      );
+
+      if (response.tweets) {
+        allTweetsInConversation.push(...response.tweets);
       }
+
+      nextToken = response.meta?.next_token;
+    } while (nextToken);
+
+    // Collect all tweets authored by you (your replies)
+    const userReplies = allTweetsInConversation.filter(
+      (tweet) => tweet.author_id === myUserId
     );
 
-    let hasReplied = false;
-
-    for (const tweet of searchResults.tweets) {
-      if (tweet.author_id === myUserId) {
-        hasReplied = true;
-        break;
+    // Build a set of tweet IDs that you've replied to
+    const repliedToTweetIds = new Set<string>();
+    for (const tweet of userReplies) {
+      if (tweet.referenced_tweets) {
+        for (const ref of tweet.referenced_tweets) {
+          console.log(ref);
+          if (ref.type === "replied_to") {
+            repliedToTweetIds.add(ref.id);
+          }
+        }
       }
     }
 
-    if (hasReplied) {
-      console.log("You have already replied to this tweet.");
-    } else {
-      console.log("You have not replied to this tweet yet.");
+    // Identify tweets not authored by you and not replied to by you
+    const unrepliedTweets = allTweetsInConversation.filter((tweet) => {
+      return tweet.author_id !== myUserId && !repliedToTweetIds.has(tweet.id);
+    });
+
+    return unrepliedTweets;
+  }
+
+  async getUnrepliedMentions() {
+    const myUserId = this.userId!;
+
+    // Initialize array to collect mentions
+    const mentions: TweetV2[] = [];
+
+    // Fetch the initial page of mentions
+    let paginator = await userClient.v2.userMentionTimeline(myUserId, {
+      expansions: ["author_id", "referenced_tweets.id"],
+      "tweet.fields": [
+        "conversation_id",
+        "referenced_tweets",
+        "in_reply_to_user_id",
+      ],
+      "user.fields": ["username"],
+      max_results: 100, // Adjust as needed
+    });
+
+    // Iterate through the paginator to collect all mentions
+    for await (const tweet of paginator) {
+      mentions.push(tweet);
     }
 
-    return hasReplied;
+    // Build a set of IDs of tweets you've replied to
+    const mentionTweetIds = mentions.map((tweet) => tweet.id);
+
+    // Fetch your own replies to these mentions
+    const myReplies: TweetV2[] = [];
+    let repliesPaginator = await userClient.v2.userTimeline(myUserId, {
+      expansions: ["referenced_tweets.id"],
+      "tweet.fields": ["referenced_tweets"],
+      max_results: 100, // Adjust as needed
+    });
+
+    // Iterate through the paginator to collect all replies
+    for await (const tweet of repliesPaginator) {
+      if (tweet.referenced_tweets) {
+        for (const ref of tweet.referenced_tweets) {
+          if (ref.type === "replied_to" && mentionTweetIds.includes(ref.id)) {
+            myReplies.push(tweet);
+          }
+        }
+      }
+    }
+
+    // Build a set of tweet IDs that you've replied to
+    const repliedToTweetIds = new Set<string>();
+    for (const tweet of myReplies) {
+      if (tweet.referenced_tweets) {
+        for (const ref of tweet.referenced_tweets) {
+          if (ref.type === "replied_to") {
+            repliedToTweetIds.add(ref.id);
+          }
+        }
+      }
+    }
+
+    // Filter out mentions you've already replied to
+    const unrepliedMentions = mentions.filter(
+      (tweet) =>
+        !repliedToTweetIds.has(tweet.id) && tweet.author_id !== myUserId
+    );
+
+    return unrepliedMentions;
   }
 
   async getTweetReplies(tweetId: string) {
@@ -308,55 +390,46 @@ const startCommentResponseLoop = async (twitterAgent: TwitterAgent) => {
 
   const main = async () => {
     try {
-      const tweets = await twitterAgent.getTweetsWithReplies();
+      const unrepliedMentions = await twitterAgent.getUnrepliedMentions();
 
-      for await (const tweet of tweets) {
-        const replies = await twitterAgent.getTweetReplies(tweet.id!);
-        if (replies.length > 0) {
-          for (const reply of replies) {
-            const hasReplied = await twitterAgent.checkIfReplied(reply.id!);
+      console.log("Unreplied mentions:", unrepliedMentions);
 
-            if (hasReplied) {
-              continue;
-            }
+      for (const mention of unrepliedMentions) {
+        const user = await twitterAgent.getUserById(mention.author_id!);
 
-            const user = await twitterAgent.getUserById(reply.author_id!);
+        const prompt = twitterReplyPrompt(sami, mention.text, user.username);
 
-            const prompt = twitterReplyPrompt(sami, reply.text, user.username);
+        const replyTweet = await generateTextFromPrompt(prompt, "gpt-4o", {
+          temperature: 0.8,
+          frequencyPenalty: 1,
+          presencePenalty: 1,
+        });
 
-            const replyTweet = await generateTextFromPrompt(prompt, "gpt-4o", {
-              temperature: 0.8,
-              frequencyPenalty: 1,
-              presencePenalty: 1,
-            });
-
-            if (!replyTweet?.text) {
-              console.error("Error generating reply tweet");
-              continue;
-            }
-
-            await twitterAgent.replyToTweet(replyTweet?.text, reply.id!);
-
-            console.log("Replied:", replyTweet?.text);
-
-            pushActivityLog({
-              moduleType: "twitter",
-              title: "New Reply",
-              description:
-                (
-                  await generateTextFromPrompt(
-                    newReplyLogPrompt(sami, replyTweet?.text),
-                    "gpt-4o",
-                    {
-                      temperature: 0.5,
-                      frequencyPenalty: 1,
-                      presencePenalty: 1,
-                    }
-                  )
-                )?.text || "",
-            });
-          }
+        if (!replyTweet?.text) {
+          console.error("Error generating reply tweet");
+          continue;
         }
+
+        await twitterAgent.replyToTweet(replyTweet?.text, mention.id!);
+
+        console.log("Replied:", replyTweet?.text);
+
+        pushActivityLog({
+          moduleType: "twitter",
+          title: "New Reply",
+          description:
+            (
+              await generateTextFromPrompt(
+                newReplyLogPrompt(sami, replyTweet?.text),
+                "gpt-4o",
+                {
+                  temperature: 0.5,
+                  frequencyPenalty: 1,
+                  presencePenalty: 1,
+                }
+              )
+            )?.text || "",
+        });
       }
     } catch (error) {
       console.error("Error in comment response loop:", error);

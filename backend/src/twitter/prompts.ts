@@ -50,10 +50,13 @@ Generate a reply to a tweet in the voice and style of ${character.name}, aka @${
 Tweet to reply to:
 ${tweet}
 
-Author username of reply: ${username}
+Author username of reply: @${username}
+
+should be like: @${username} - <REPLY>
 
 Do not add commentary or acknowledge this request, just write the reply.
 Your response should not contain any questions. Brief, concise statements only. No emojis.
+Do not mention emails, phone numbers or URLS.
 `;
 };
 
