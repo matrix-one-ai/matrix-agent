@@ -1,4 +1,6 @@
-export interface AgentLog {
-  activity: string;
+interface ActivityLog {
+  moduleType: "twitter";
+  title: string;
+  description: string;
   timestamp: string;
 }

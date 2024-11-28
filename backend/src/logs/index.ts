@@ -1,11 +1,24 @@
 import { put } from "@vercel/blob";
 import { activityTimeout } from "..";
 
-const logs: { activity: string; timestamp: string }[] = [];
+interface ActivityLog {
+  moduleType: "twitter";
+  title: string;
+  description: string;
+  timestamp: string;
+}
 
-export const pushActivityLog = async (activity: string) => {
+const logs: ActivityLog[] = [];
+
+export const pushActivityLog = async ({
+  moduleType,
+  title,
+  description,
+}: Omit<ActivityLog, "timestamp">) => {
   logs.push({
-    activity,
+    moduleType,
+    title,
+    description,
     timestamp: new Date().toISOString(),
   });
 
@@ -19,5 +32,5 @@ export const pushActivityLog = async (activity: string) => {
     addRandomSuffix: false,
     cacheControlMaxAge: activityTimeout / 1000,
   });
-  console.log("Activity log pushed:", activity.slice(0, 50));
+  console.log("Activity log pushed:", title, description.slice(0, 50));
 };

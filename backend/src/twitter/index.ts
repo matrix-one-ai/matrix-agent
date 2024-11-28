@@ -152,7 +152,11 @@ class TwitterAgent {
       "tweet.fields": ["conversation_id"],
     });
 
+    console.log("Original tweet:", originalTweet);
+
     const conversationId = originalTweet.data.conversation_id;
+
+    console.log(tweetId, conversationId);
 
     if (!conversationId) {
       throw new Error("Conversation ID not found.");
@@ -177,7 +181,6 @@ class TwitterAgent {
     let hasReplied = false;
 
     for (const tweet of searchResults.tweets) {
-      console.log(tweet);
       if (tweet.author_id === myUserId) {
         hasReplied = true;
         break;
@@ -270,19 +273,22 @@ const startTweetLoop = async (twitterAgent: TwitterAgent) => {
 
       console.log("Tweet posted:", tweet?.text);
 
-      pushActivityLog(
-        (
-          await generateTextFromPrompt(
-            newTweetLogPrompt(sami, tweet?.text),
-            "gpt-4o",
-            {
-              temperature: 0.5,
-              frequencyPenalty: 1,
-              presencePenalty: 1,
-            }
-          )
-        )?.text || ""
-      );
+      pushActivityLog({
+        moduleType: "twitter",
+        title: "New Tweet",
+        description:
+          (
+            await generateTextFromPrompt(
+              newTweetLogPrompt(sami, tweet?.text),
+              "gpt-4o",
+              {
+                temperature: 0.5,
+                frequencyPenalty: 1,
+                presencePenalty: 1,
+              }
+            )
+          )?.text || "",
+      });
     } catch (error) {
       console.error("Error in tweet loop:", error);
     }
@@ -298,7 +304,7 @@ const startTweetLoop = async (twitterAgent: TwitterAgent) => {
 };
 
 const startCommentResponseLoop = async (twitterAgent: TwitterAgent) => {
-  const intervalTimeout = 1000 * 60 * 60 * 1; // 1 hour
+  const intervalTimeout = 1000 * 60 * 60 * 0.5 // 30 minutes
 
   const main = async () => {
     try {
@@ -333,19 +339,22 @@ const startCommentResponseLoop = async (twitterAgent: TwitterAgent) => {
 
             console.log("Replied:", replyTweet?.text);
 
-            pushActivityLog(
-              (
-                await generateTextFromPrompt(
-                  newReplyLogPrompt(sami, replyTweet?.text),
-                  "gpt-4o",
-                  {
-                    temperature: 0.5,
-                    frequencyPenalty: 1,
-                    presencePenalty: 1,
-                  }
-                )
-              )?.text || ""
-            );
+            pushActivityLog({
+              moduleType: "twitter",
+              title: "New Reply",
+              description:
+                (
+                  await generateTextFromPrompt(
+                    newReplyLogPrompt(sami, replyTweet?.text),
+                    "gpt-4o",
+                    {
+                      temperature: 0.5,
+                      frequencyPenalty: 1,
+                      presencePenalty: 1,
+                    }
+                  )
+                )?.text || "",
+            });
           }
         }
       }

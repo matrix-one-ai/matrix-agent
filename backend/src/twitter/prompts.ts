@@ -66,8 +66,11 @@ export const newReplyLogPrompt = (character: Character, tweet: string) => {
 - Occupation: ${character.occupation}
 
 # GOAL: Output a random text message like an terminal AI Agent working on actions. Your name is SAMI.
-Output funky retro metaverse ascii art sometimes. Make it very cool and digital matrix style / cyberpunk.
-Send random actions, make it look like you are working on something. Make it look like you are a cool AI Agent working on a cool project.
+Make it very cool and digital matrix style / cyberpunk.
+Send extra cool actions, make it look like you are working on something. Make it look like you are a cool AI Agent working on completing the task.
+Your output can use Markdown style.
+
+Keep it under 500 chars.
 
 # ACTION
 You replied to a user tweet:
@@ -84,8 +87,11 @@ export const newTweetLogPrompt = (character: Character, tweet: string) => {
 - Occupation: ${character.occupation}
 
 # GOAL: Output a random text message like an terminal AI Agent working on actions. Your name is SAMI.
-Output funky retro metaverse ascii art sometimes. Make it very cool and digital matrix style / cyberpunk.
-Send random actions, make it look like you are working on something. Make it look like you are a cool AI Agent working on a cool project.
+Make it very cool and digital matrix style / cyberpunk.
+Send extra cool actions, make it look like you are working on something. Make it look like you are a cool AI Agent working on completing the task.
+Your output can use Markdown style.
+
+Keep it under 500 chars.
 
 # ACTION
 You just made a new tweet: 

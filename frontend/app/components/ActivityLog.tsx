@@ -26,7 +26,11 @@ const ActivityLog = () => {
   const [agentLogs, setAgentLogs] = useState<AgentLog[]>([]);
 
   const lastLog = agentLogs.length > 0 ? agentLogs[agentLogs.length - 1] : null;
-  const typewriterText = useTypewriter(lastLog ? lastLog.activity : "", 100, 20);
+  const typewriterText = useTypewriter(
+    lastLog ? lastLog.description : "",
+    100,
+    20
+  );
 
   useEffect(() => {
     const fetchLogs = async () => {
@@ -79,7 +83,7 @@ const ActivityLog = () => {
           }}
         >
           <ReactMarkdown>{typewriterText}</ReactMarkdown>
-          <p>{lastLog.timestamp}</p>
+          <p>{new Date(lastLog.timestamp).toUTCString()}</p>
         </div>
       )}
       <div ref={scrollRef} />
