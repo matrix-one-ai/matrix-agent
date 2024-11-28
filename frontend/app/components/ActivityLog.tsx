@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { AgentLog } from "../types";
+import { ActivityLog } from "../types";
 
 const useTypewriter = (text: string, speed: number, chunkSize: number) => {
   const [displayedText, setDisplayedText] = useState("");
@@ -21,9 +21,9 @@ const useTypewriter = (text: string, speed: number, chunkSize: number) => {
   return displayedText;
 };
 
-const ActivityLog = () => {
+const ActivityLogList = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [agentLogs, setAgentLogs] = useState<AgentLog[]>([]);
+  const [agentLogs, setAgentLogs] = useState<ActivityLog[]>([]);
 
   const lastLog = agentLogs.length > 0 ? agentLogs[agentLogs.length - 1] : null;
   const typewriterText = useTypewriter(
@@ -72,7 +72,7 @@ const ActivityLog = () => {
             padding: "1rem",
           }}
         >
-          <ReactMarkdown>{log.activity}</ReactMarkdown>
+          <ReactMarkdown>{log.description}</ReactMarkdown>
           <p>{log.timestamp}</p>
         </div>
       ))}
@@ -91,4 +91,4 @@ const ActivityLog = () => {
   );
 };
 
-export default ActivityLog;
+export default ActivityLogList;

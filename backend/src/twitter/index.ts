@@ -304,7 +304,7 @@ const startTweetLoop = async (twitterAgent: TwitterAgent) => {
 };
 
 const startCommentResponseLoop = async (twitterAgent: TwitterAgent) => {
-  const intervalTimeout = 1000 * 60 * 60 * 0.5 // 30 minutes
+  const intervalTimeout = 1000 * 60 * 60 * 0.5; // 30 minutes
 
   const main = async () => {
     try {
