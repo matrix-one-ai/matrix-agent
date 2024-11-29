@@ -9,7 +9,11 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        verdana: ["Verdana", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };

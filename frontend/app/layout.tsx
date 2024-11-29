@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import { Tilt_Neon } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
-
-const tiltNeon = Tilt_Neon({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "SAMI",
@@ -17,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${tiltNeon.className}`}>
+      <body>
         {children}
         <Analytics />
       </body>
