@@ -27,7 +27,7 @@
   font-family: "Verdana";
   src: url("/fonts/Verdana Bold Italic.ttf") format("truetype");
   font-weight: 700;
-  font-style: normal;
+  font-style: italic;
 }
 
 html,
