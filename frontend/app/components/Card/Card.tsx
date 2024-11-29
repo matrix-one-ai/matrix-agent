@@ -34,8 +34,10 @@ const Card: React.FC<ICardProps> = ({
       {/* Content */}
       <div
         className={clsx(
-          "transition-all origin-top w-full p-4 overflow-hidden border-2 border-t-0 border-black ",
-          isCollapsed ? "scale-y-0 opacity-0" : "scale-y-100 opacity-100",
+          "transition-all origin-top w-full overflow-hidden border-2 border-t-0 border-black ",
+          isCollapsed
+            ? "scale-y-0 opacity-0 h-0 p-0"
+            : "scale-y-100 opacity-100 h-auto p-4",
         )}
       >
         {children}
