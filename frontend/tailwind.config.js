@@ -21,6 +21,9 @@ module.exports = {
       fontFamily: {
         verdana: ["Verdana", "sans-serif"],
       },
+      backgroundColor: {
+        main: "#d9d9d9",
+      },
     },
   },
   plugins: [],
