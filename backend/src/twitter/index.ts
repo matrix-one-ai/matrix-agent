@@ -354,7 +354,12 @@ const startCommentResponseLoop = async (twitterAgent: TwitterAgent) => {
       for (const mention of unrepliedMentions) {
         const user = await twitterAgent.getUserById(mention.author_id!);
 
-        const prompt = twitterReplyPrompt(sami, mention.text, user.username);
+        const prompt = twitterReplyPrompt(
+          sami,
+          mention.text,
+          user.username,
+          user.description!
+        );
 
         const replyTweet = await generateTextFromPrompt(prompt, "gpt-4o", {
           temperature: 0.8,
@@ -423,7 +428,7 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
       const myFollowing = await twitterAgent.getMyFollowings();
 
       for await (const user of myFollowing) {
-        const tweets = await twitterAgent.getUserTweets(user.username!, 5);
+        const tweets = await twitterAgent.getUserTweets(user.username!, 2);
 
         for await (const tweet of tweets) {
           if (!tweet.text) {
@@ -477,7 +482,8 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
           const tweetResponsePrompt = followingTweetResponsePrompt(
             sami,
             tweet.text,
-            user.username!
+            user.username!,
+            user.biography!
           );
 
           const responseTweet = await generateTextFromPrompt(
@@ -618,9 +624,8 @@ async function twitterAgentInit() {
   console.log("Twitter agent initialized");
 
   // await startTweetLoop(twitterAgent);
-
-  // await startCommentResponseLoop(twitterAgent);
-  // await startFollowingTweetResponses(twitterAgent);
+  await startCommentResponseLoop(twitterAgent);
+  await startFollowingTweetResponses(twitterAgent);
   await startTrendingCryptoTweetLoop(twitterAgent);
 }
 

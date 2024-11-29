@@ -61,7 +61,8 @@ Output: TRUE or FALSE
 export const twitterReplyPrompt = (
   character: Character,
   tweet: string,
-  username: string
+  username: string,
+  bio: string
 ) => {
   return `
 # GOAL: Someone has replied to one of your tweets. Reply to them. 
@@ -74,6 +75,7 @@ Tweet to reply to:
 ${tweet}
 
 Author username of reply: @${username}
+Bio of author: ${bio}
 
 should be like: @${username} - <REPLY>
 
@@ -115,7 +117,8 @@ https://app.chainnews.one/?article=${slug}
 export const followingTweetResponsePrompt = (
   character: Character,
   tweet: string,
-  username: string
+  username: string,
+  bio: string
 ) => {
   const userSpecificResponses = character.twitterUserExampleResponses[username];
 
@@ -132,6 +135,7 @@ Tweet to comment to:
 ${tweet}
 
 Author username of tweet: @${username}
+Bio of author: ${bio}
 
 should be like: @${username} - <COMMENT>
 
