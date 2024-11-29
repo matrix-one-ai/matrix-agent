@@ -259,7 +259,8 @@ const startTweetLoop = async (twitterAgent: TwitterAgent) => {
       const prompt = twitterPostPrompt(
         sami,
         recentTweets,
-        sami.topics[Math.floor(Math.random() * sami.topics.length)]
+        sami.topics[Math.floor(Math.random() * sami.topics.length)],
+        sami.emotions[Math.floor(Math.random() * sami.emotions.length)]
       );
 
       const tweet = await generateTextFromPrompt(prompt, "gpt-4o", {

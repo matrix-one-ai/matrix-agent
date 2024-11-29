@@ -10,6 +10,7 @@ export interface Character {
   twitterUsername: string;
   exampleMessages: string[];
   topics: string[];
+  emotions: string[];
   twitterUserExampleResponses: Record<string, {
     attitudes: string[];
     responses: string[];
