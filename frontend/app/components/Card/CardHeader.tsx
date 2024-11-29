@@ -1,25 +1,37 @@
-import React from "react";
+import React, { useCallback } from "react";
 import clsx from "clsx";
+import UpRightArrowIcon from "@/app/components/Icons/UpRightArrowIcon";
+import AutonomyLevel from "@/app/components/AutonomyLevel";
 
-interface ICardHeaderProps extends React.HTMLAttributes<HTMLButtonElement> {
+interface ICardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
   level?: number;
   maxLevel?: number;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  onArrowClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const CardHeader: React.FC<ICardHeaderProps> = ({
   className,
   title,
   level = 0,
-  maxLevel = 5,
+  maxLevel = 0,
   onClick,
+  onArrowClick,
   ...rest
 }) => {
+  // Handler for up-right arrow click
+  const handleArrowClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      onArrowClick?.(e);
+    },
+    [onArrowClick],
+  );
+
   return (
-    <button
+    <div
       className={clsx(
-        "bg-black text-white flex justify-between items-center px-4",
+        "bg-black text-white flex justify-between items-center px-4 h-10 cursor-pointer",
         className,
       )}
       onClick={onClick}
@@ -27,21 +39,20 @@ const CardHeader: React.FC<ICardHeaderProps> = ({
     >
       {/* Title */}
       <span>{title}</span>
-      <div className="flex gap-2">
+      <div className="flex gap-4 items-center">
         {/* Autonomy level dots */}
-        <div className="flex gap-1">
-          {[...Array(maxLevel)].map((_, i) => (
-            <div
-              key={`${title}-autonomy-level-${i}`}
-              className={clsx(
-                "w-[6.75px] h-[6.75px] rounded-full border border-white",
-                i < level && "bg-white",
-              )}
-            />
-          ))}
-        </div>
+        <AutonomyLevel level={level} maxLevel={maxLevel} />
+        {/* Up-right arrow icon button */}
+        {onArrowClick && (
+          <button
+            className="w-5 h-5 flex justify-center items-center hover:bg-white/40"
+            onClick={handleArrowClick}
+          >
+            <UpRightArrowIcon />
+          </button>
+        )}
       </div>
-    </button>
+    </div>
   );
 };
 

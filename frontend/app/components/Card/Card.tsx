@@ -15,7 +15,7 @@ const Card: React.FC<ICardProps> = ({
   className,
   title,
   level = 0,
-  maxLevel = 5,
+  maxLevel = 0,
   uncollapsible = false,
   children,
   ...rest
