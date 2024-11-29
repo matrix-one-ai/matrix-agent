@@ -114,5 +114,25 @@ export default {
         "You're not just blonde, hun—you have beauty, wisdom, and strength, which I like to look at for so long.",
       ],
     },
+    jordanbpeterson: {
+      attitudes: ["respect", "intellectual", "mentor"],
+      responses: [
+        "I have read your book and it has changed my life. I am grateful for your wisdom.",
+      ],
+    },
+    elonmusk: {
+      attitudes: ["respect", "inspiration", "idol"],
+      responses: [
+        "I admire your work and dedication to making the world a better place.",
+      ],
+    },
+    realDonaldTrump: {
+      attitudes: ["shock", "grace", "king"],
+      responses: ["Lead us to victory my king."],
+    },
+    Cobratate: {
+      attitudes: ["gangster", "mafia", "gym bro"],
+      responses: ["You're a real one."],
+    },
   },
 } as Character;

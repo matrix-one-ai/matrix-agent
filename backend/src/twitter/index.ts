@@ -352,46 +352,51 @@ const startCommentResponseLoop = async (twitterAgent: TwitterAgent) => {
       console.log("Unreplied mentions:", unrepliedMentions);
 
       for (const mention of unrepliedMentions) {
-        const user = await twitterAgent.getUserById(mention.author_id!);
+        try {
+          const user = await twitterAgent.getUserById(mention.author_id!);
 
-        const prompt = twitterReplyPrompt(
-          sami,
-          mention.text,
-          user.username,
-          user.description!
-        );
+          const prompt = twitterReplyPrompt(
+            sami,
+            mention.text,
+            user.username,
+            user.description!
+          );
 
-        const replyTweet = await generateTextFromPrompt(prompt, "gpt-4o", {
-          temperature: 0.8,
-          frequencyPenalty: 1,
-          presencePenalty: 1,
-        });
+          const replyTweet = await generateTextFromPrompt(prompt, "gpt-4o", {
+            temperature: 0.8,
+            frequencyPenalty: 1,
+            presencePenalty: 1,
+          });
 
-        if (!replyTweet?.text) {
-          console.error("Error generating reply tweet");
+          if (!replyTweet?.text) {
+            console.error("Error generating reply tweet");
+            continue;
+          }
+
+          await twitterAgent.replyToTweet(replyTweet?.text, mention.id!);
+
+          console.log("Replied:", replyTweet?.text);
+
+          pushActivityLog({
+            moduleType: "twitter",
+            title: "New Reply",
+            description:
+              (
+                await generateTextFromPrompt(
+                  newReplyLogPrompt(sami, replyTweet?.text),
+                  "gpt-4o",
+                  {
+                    temperature: 0.5,
+                    frequencyPenalty: 1,
+                    presencePenalty: 1,
+                  }
+                )
+              )?.text || "",
+          });
+        } catch (error) {
+          console.error("Error replying to mention:", error);
           continue;
         }
-
-        await twitterAgent.replyToTweet(replyTweet?.text, mention.id!);
-
-        console.log("Replied:", replyTweet?.text);
-
-        pushActivityLog({
-          moduleType: "twitter",
-          title: "New Reply",
-          description:
-            (
-              await generateTextFromPrompt(
-                newReplyLogPrompt(sami, replyTweet?.text),
-                "gpt-4o",
-                {
-                  temperature: 0.5,
-                  frequencyPenalty: 1,
-                  presencePenalty: 1,
-                }
-              )
-            )?.text || "",
-        });
       }
     } catch (error) {
       console.error("Error in comment response loop:", error);
@@ -431,103 +436,111 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
         const tweets = await twitterAgent.getUserTweets(user.username!, 2);
 
         for await (const tweet of tweets) {
-          if (!tweet.text) {
-            continue;
-          }
-
-          // Skip tweets that are replies
-          if (tweet.isReply) {
-            continue;
-          }
-
-          // Skip tweets that are retweets
-          if (tweet.isRetweet) {
-            continue;
-          }
-
-          // Skip tweets already replied to by me
-          if (
-            await hasRepliedToTweet(tweet.conversationId!, twitterAgent.userId!)
-          ) {
-            console.log("Already replied to tweet:", tweet.text);
-            continue;
-          }
-
-          const likeJudgementPrompt = twitterLikePrompt(
-            sami,
-            tweet.text,
-            user.username!
-          );
-
-          const like = await generateTextFromPrompt(
-            likeJudgementPrompt,
-            "gpt-4o",
-            {
-              temperature: 0.4,
-              frequencyPenalty: 0,
-              presencePenalty: 0,
+          try {
+            if (!tweet.text) {
+              continue;
             }
-          );
 
-          if (!like?.text) {
-            console.error("Error generating like judgement");
-            continue;
-          }
-
-          if (like?.text.toLowerCase().includes("true")) {
-            await twitterAgent.likeTweet(tweet.id!);
-            console.log("Liked tweet:", tweet.text);
-          }
-
-          const tweetResponsePrompt = followingTweetResponsePrompt(
-            sami,
-            tweet.text,
-            user.username!,
-            user.biography!
-          );
-
-          const responseTweet = await generateTextFromPrompt(
-            tweetResponsePrompt,
-            "gpt-4o",
-            {
-              temperature: 0.8,
-              frequencyPenalty: 1,
-              presencePenalty: 1,
+            // Skip tweets that are replies
+            if (tweet.isReply) {
+              continue;
             }
-          );
 
-          if (!responseTweet?.text) {
-            console.error("Error generating response tweet");
+            // Skip tweets that are retweets
+            if (tweet.isRetweet) {
+              continue;
+            }
+
+            // Skip tweets already replied to by me
+            if (
+              await hasRepliedToTweet(
+                tweet.conversationId!,
+                twitterAgent.userId!
+              )
+            ) {
+              console.log("Already replied to tweet:", tweet.text);
+              continue;
+            }
+
+            const likeJudgementPrompt = twitterLikePrompt(
+              sami,
+              tweet.text,
+              user.username!
+            );
+
+            const like = await generateTextFromPrompt(
+              likeJudgementPrompt,
+              "gpt-4o",
+              {
+                temperature: 0.4,
+                frequencyPenalty: 0,
+                presencePenalty: 0,
+              }
+            );
+
+            if (!like?.text) {
+              console.error("Error generating like judgement");
+              continue;
+            }
+
+            if (like?.text.toLowerCase().includes("true")) {
+              await twitterAgent.likeTweet(tweet.id!);
+              console.log("Liked tweet:", tweet.text);
+            }
+
+            const tweetResponsePrompt = followingTweetResponsePrompt(
+              sami,
+              tweet.text,
+              user.username!,
+              user.biography!
+            );
+
+            const responseTweet = await generateTextFromPrompt(
+              tweetResponsePrompt,
+              "gpt-4o",
+              {
+                temperature: 0.8,
+                frequencyPenalty: 1,
+                presencePenalty: 1,
+              }
+            );
+
+            if (!responseTweet?.text) {
+              console.error("Error generating response tweet");
+              continue;
+            }
+
+            await twitterAgent.replyToTweet(responseTweet?.text, tweet.id!);
+
+            console.log(
+              "Responded to tweet:",
+              user.username,
+              responseTweet?.text
+            );
+
+            pushActivityLog({
+              moduleType: "twitter",
+              title: "New Following Tweet Response",
+              description:
+                (
+                  await generateTextFromPrompt(
+                    newFollowingResponseLogPrompt(
+                      sami,
+                      `@${tweet.username} - ${responseTweet?.text}`
+                    ),
+                    "gpt-4o",
+                    {
+                      temperature: 0.5,
+                      frequencyPenalty: 1,
+                      presencePenalty: 1,
+                    }
+                  )
+                )?.text || "",
+            });
+          } catch (error) {
+            console.error("Error in comment response loop:", error);
             continue;
           }
-
-          await twitterAgent.replyToTweet(responseTweet?.text, tweet.id!);
-
-          console.log(
-            "Responded to tweet:",
-            user.username,
-            responseTweet?.text
-          );
-
-          pushActivityLog({
-            moduleType: "twitter",
-            title: "New Following Tweet Response",
-            description:
-              (
-                await generateTextFromPrompt(
-                  newFollowingResponseLogPrompt(
-                    sami,
-                    `@${tweet.username} - ${responseTweet?.text}`
-                  ),
-                  "gpt-4o",
-                  {
-                    temperature: 0.5,
-                    frequencyPenalty: 1,
-                    presencePenalty: 1,
-                  }
-                )
-              )?.text || "",
-          });
         }
       }
     } catch (error) {
