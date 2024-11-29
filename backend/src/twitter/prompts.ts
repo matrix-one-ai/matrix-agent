@@ -65,9 +65,13 @@ export const followingTweetResponsePrompt = (
   tweet: string,
   username: string
 ) => {
+  const userSpecificResponses = character.twitterUserExampleResponses[username];
+
   return `
 # GOAL: You are making a response to ${username}'s tweet. Comment on the tweet.
-Generate a comment to the tweet in the voice and style of ${character.name}, aka @${character.twitterUsername}
+Generate a comment to the tweet in the voice and style of ${
+    character.name
+  }, aka @${character.twitterUsername}
 - Age: ${character.age}
 - Bio: ${character.bio}
 - Occupation: ${character.occupation}
@@ -82,10 +86,22 @@ should be like: @${username} - <COMMENT>
 Do not add commentary or acknowledge this request, just write the reply.
 Your response should not contain any questions. Brief, concise statements only. No emojis.
 Do not mention emails, phone numbers or URLS.
+
+${
+  userSpecificResponses
+    ? `Tune your response specific to given attidue and use example response to get theme of style of writing. 
+    Attitude: ${userSpecificResponses.attitudes.join(
+      ", "
+    )}, Example Responses: ${userSpecificResponses.responses.join(", ")}`
+    : ""
+}
 `;
 };
 
-export const newFollowingResponseLogPrompt = (character: Character, tweet: string) => {
+export const newFollowingResponseLogPrompt = (
+  character: Character,
+  tweet: string
+) => {
   return `
 # GOAL: Generate a terminal log message in the voice and style of ${character.name}, aka @${character.twitterUsername}
 - Name ${character.name} (@${character.twitterUsername}):
@@ -101,7 +117,7 @@ Your output can use Markdown style.
 Keep it under 500 chars.
 
 # ACTION
-You replied to a user tweet:
+You reviewed a tweet and decided to respond:
 ${tweet}
 `;
 };

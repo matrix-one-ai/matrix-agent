@@ -169,6 +169,11 @@ class TwitterAgent {
     });
   }
 
+  async getUserIdByUsername(username: string) {
+    const userId = await this.scraper.getUserIdByScreenName(username);
+    return userId;
+  }
+
   async getUnrepliedMentions() {
     const myUserId = this.userId!;
 
@@ -472,6 +477,15 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
   return interval;
 };
 
+// const syncFollows = async (twitterAgent: TwitterAgent) => {
+//   const users = Object.keys(sami.twitterUserExampleResponses);
+//   for (const username of users) {
+//     const userId = await twitterAgent.getUserIdByUsername(username);
+//     console.log(userId)
+//     await twitterAgent.followUser(userId!);
+//   }
+// };
+
 async function twitterAgentInit() {
   const twitterAgent = new TwitterAgent();
   await twitterAgent.login();
@@ -480,6 +494,8 @@ async function twitterAgentInit() {
   await startTweetLoop(twitterAgent);
   await startCommentResponseLoop(twitterAgent);
   await startFollowingTweetResponses(twitterAgent);
+
+  // await syncFollows(twitterAgent);
 }
 
 export default twitterAgentInit;
