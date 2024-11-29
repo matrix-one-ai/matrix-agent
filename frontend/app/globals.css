@@ -54,3 +54,22 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+h1 {
+  @apply text-h1 font-bold;
+}
+h2 {
+  @apply text-h2 font-bold;
+}
+h3 {
+  @apply text-h3 font-semibold;
+}
+h4 {
+  @apply text-h4 font-semibold;
+}
+h5 {
+  @apply text-h5 font-medium;
+}
+h6 {
+  @apply text-h6 font-medium;
+}
