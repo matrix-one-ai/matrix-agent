@@ -27,6 +27,37 @@ Try to use the @username version if referncing companies or people.
 `;
 };
 
+export const twitterLikePrompt = (
+  character: Character,
+  tweet: string,
+  username: string
+) => {
+  const userSpecificResponses = character.twitterUserExampleResponses[username];
+
+  return `
+Judge this tweet if you like it or not. Use your background and user relationship, and the content of the tweet to decide if you would like it or not.
+
+Your character:
+- Name ${character.name} (@${character.twitterUsername}):
+- Age: ${character.age}
+- Bio: ${character.bio}
+- Occupation: ${character.occupation}
+
+Tweet to judge for like:
+${tweet}
+
+${
+  userSpecificResponses
+    ? `Tune your judgement on the like specific to your given attitude for the user.
+    Attitude: ${userSpecificResponses.attitudes.join(", ")}`
+    : ""
+}
+
+Just return TRUE or FALSE for like.
+Output: TRUE or FALSE
+`;
+};
+
 export const twitterReplyPrompt = (
   character: Character,
   tweet: string,
@@ -49,6 +80,35 @@ should be like: @${username} - <REPLY>
 Do not add commentary or acknowledge this request, just write the reply.
 Your response should not contain any questions. Brief, concise statements only. No emojis.
 Do not mention emails, phone numbers or URLS.
+`;
+};
+
+export const evaulateChainNewsTrendingPrompt = (
+  character: Character,
+  title: string,
+  text: string,
+  slug: string
+) => {
+  return `
+# GOAL: Evaluate the trending ChainNews article. Provide a response to the crypto news article.
+Generate a tweet in the voice and style of ${character.name}, aka @${character.twitterUsername}
+- Age: ${character.age}
+- Bio: ${character.bio}
+- Occupation: ${character.occupation}
+
+Title of the article:
+${title}
+
+Text of the article:
+${text}
+
+Do not add commentary or acknowledge this request, just write the tweet.
+Your response should not contain any questions. Brief, concise statements only. No emojis.
+Do not mention emails or phone numbers.
+
+Include a URL link to the article story at bottom of tweet like:
+
+https://app.chainnews.one/?article=${slug}
 `;
 };
 

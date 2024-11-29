@@ -3,16 +3,19 @@ import { promises as fs } from "fs";
 import dotenv from "dotenv";
 import { generateTextFromPrompt } from "../ai";
 import {
+  evaulateChainNewsTrendingPrompt,
   followingTweetResponsePrompt,
   newFollowingResponseLogPrompt,
   newReplyLogPrompt,
   newTweetLogPrompt,
+  twitterLikePrompt,
   twitterPostPrompt,
   twitterReplyPrompt,
 } from "./prompts";
 import sami from "../characters/sami";
 import { pushActivityLog } from "../logs";
 import { TweetV2, TwitterApi } from "twitter-api-v2";
+import ChainNewsTrending from "../db/models/ChainNewsTrending";
 
 const userClient = new TwitterApi({
   appKey: process.env.TWITTER_API_KEY!,
@@ -117,6 +120,10 @@ class TwitterAgent {
     return this.scraper.getTweet(tweetId);
   }
 
+  async likeTweet(tweetId: string) {
+    return this.scraper.likeTweet(tweetId);
+  }
+
   async getTweetV2(tweetId: string) {
     return this.scraper.getTweetV2(tweetId, {
       expansions: [
@@ -135,6 +142,28 @@ class TwitterAgent {
     });
   }
 
+  async getTrends() {
+    return this.scraper.getTrends();
+  }
+
+  async getTimeline() {
+    return userClient.v2.homeTimeline({
+      "tweet.fields": ["conversation_id", "author_id"],
+      "user.fields": ["username"],
+      max_results: 100,
+    });
+  }
+
+  async getTrendingTweets(query: string) {
+    return userClient.v2.search({
+      query,
+      "tweet.fields": ["conversation_id", "author_id", "public_metrics"],
+      "user.fields": ["username"],
+      max_results: 100,
+      sort_order: "relevancy",
+    });
+  }
+
   async getUserById(userId: string) {
     const user = await userClient.v2.user(userId, {
       "user.fields": [
@@ -146,6 +175,11 @@ class TwitterAgent {
       ],
     });
     return user.data;
+  }
+
+  async getChainNewsTrendingNews() {
+    const news = await fetch("https://app.chainnews.one/api/news/trending");
+    return news.json();
   }
 
   async getTweetsAndRepliesV2() {
@@ -414,6 +448,32 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
             continue;
           }
 
+          const likeJudgementPrompt = twitterLikePrompt(
+            sami,
+            tweet.text,
+            user.username!
+          );
+
+          const like = await generateTextFromPrompt(
+            likeJudgementPrompt,
+            "gpt-4o",
+            {
+              temperature: 0.4,
+              frequencyPenalty: 0,
+              presencePenalty: 0,
+            }
+          );
+
+          if (!like?.text) {
+            console.error("Error generating like judgement");
+            continue;
+          }
+
+          if (like?.text.toLowerCase().includes("true")) {
+            await twitterAgent.likeTweet(tweet.id!);
+            console.log("Liked tweet:", tweet.text);
+          }
+
           const tweetResponsePrompt = followingTweetResponsePrompt(
             sami,
             tweet.text,
@@ -478,25 +538,90 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
   return interval;
 };
 
-// const syncFollows = async (twitterAgent: TwitterAgent) => {
-//   const users = Object.keys(sami.twitterUserExampleResponses);
-//   for (const username of users) {
-//     const userId = await twitterAgent.getUserIdByUsername(username);
-//     console.log(userId)
-//     await twitterAgent.followUser(userId!);
-//   }
-// };
+const startTrendingCryptoTweetLoop = async (twitterAgent: TwitterAgent) => {
+  const intervalTimeout = 1000 * 60 * 60 * 1; // 1 hour
+
+  const main = async () => {
+    try {
+      const trendingCrypto = await twitterAgent.getChainNewsTrendingNews();
+
+      let uniqueArticleFound = false;
+      let article;
+      let attempts = 0;
+
+      while (!uniqueArticleFound && attempts < trendingCrypto.length) {
+        const randomIndex = Math.floor(Math.random() * trendingCrypto.length);
+        article = trendingCrypto[randomIndex];
+
+        const doesExist = await ChainNewsTrending.findOne({
+          where: {
+            newsId: article.id,
+          },
+        });
+
+        if (!doesExist) {
+          uniqueArticleFound = true;
+        } else {
+          console.log("Article already tweeted:", article.title);
+        }
+
+        attempts++;
+      }
+
+      if (!uniqueArticleFound) {
+        console.log("No more unique articles to post.");
+        return;
+      }
+
+      const tweetResponse = await generateTextFromPrompt(
+        evaulateChainNewsTrendingPrompt(
+          sami,
+          article.text,
+          article.title,
+          article.slug
+        ),
+        "gpt-4o",
+        {
+          temperature: 0.8,
+          frequencyPenalty: 1,
+          presencePenalty: 1,
+        }
+      );
+
+      if (tweetResponse?.text) {
+        await twitterAgent.postTweet(tweetResponse.text);
+
+        await ChainNewsTrending.create({
+          newsId: article.id,
+          title: article.title,
+          slug: article.slug,
+        });
+        console.log("Tweeted article:", article.title);
+      } else {
+        console.error("Error generating tweet response");
+      }
+    } catch (error) {
+      console.error("Error in news article loop:", error);
+    }
+  };
+
+  const interval = setInterval(async () => {
+    await main();
+  }, intervalTimeout);
+
+  return interval;
+};
 
 async function twitterAgentInit() {
   const twitterAgent = new TwitterAgent();
   await twitterAgent.login();
   console.log("Twitter agent initialized");
 
-  await startTweetLoop(twitterAgent);
-  await startCommentResponseLoop(twitterAgent);
-  await startFollowingTweetResponses(twitterAgent);
+  // await startTweetLoop(twitterAgent);
 
-  // await syncFollows(twitterAgent);
+  // await startCommentResponseLoop(twitterAgent);
+  // await startFollowingTweetResponses(twitterAgent);
+  await startTrendingCryptoTweetLoop(twitterAgent);
 }
 
 export default twitterAgentInit;

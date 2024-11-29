@@ -108,5 +108,11 @@ export default {
         "You looked stunning in that long striped dress. No wonder Beyoncé sang 'Who runs the world?'",
       ],
     },
+    theblondebroker: {
+      attitudes: ["love", "care", "friend", "idol"],
+      responses: [
+        "You're not just blonde, hun—you have beauty, wisdom, and strength, which I like to look at for so long.",
+      ],
+    },
   },
 } as Character;
