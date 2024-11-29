@@ -9,6 +9,7 @@ interface ICardProps extends React.HTMLAttributes<HTMLDivElement> {
   maxLevel?: number;
   uncollapsible?: boolean;
   children?: React.ReactNode;
+  onArrowClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const Card: React.FC<ICardProps> = ({
@@ -18,6 +19,7 @@ const Card: React.FC<ICardProps> = ({
   maxLevel = 0,
   uncollapsible = false,
   children,
+  onArrowClick,
   ...rest
 }) => {
   const [isCollapsed, { toggle: toggleIsCollapsed }] = useToggle(false);
@@ -30,6 +32,7 @@ const Card: React.FC<ICardProps> = ({
         level={level}
         maxLevel={maxLevel}
         onClick={uncollapsible ? undefined : toggleIsCollapsed}
+        onArrowClick={onArrowClick}
       />
       {/* Content */}
       <div
