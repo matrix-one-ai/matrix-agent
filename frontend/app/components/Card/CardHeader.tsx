@@ -41,7 +41,7 @@ const CardHeader: React.FC<ICardHeaderProps> = ({
       <span>{title}</span>
       <div className="flex gap-4 items-center">
         {/* Autonomy level dots */}
-        <AutonomyLevel level={level} maxLevel={maxLevel} />
+        <AutonomyLevel id={title} level={level} maxLevel={maxLevel} />
         {/* Up-right arrow icon button */}
         {onArrowClick && (
           <button
