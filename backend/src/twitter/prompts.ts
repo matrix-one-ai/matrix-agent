@@ -154,6 +154,39 @@ ${
 `;
 };
 
+export const trendingTokenAnalysisPrompt = (
+  character: Character,
+  tokenInfo: any,
+  tweets: string[]
+) => {
+  return `
+# GOAL: Analyze the trending token. Provide a response to the trending token.
+Act like a crypto investor expert. Make it informational.
+Generate a tweet in the voice and style of ${character.name}, aka @${
+    character.twitterUsername
+  }
+- Age: ${character.age}
+- Bio: ${character.bio}
+- Occupation: ${character.occupation}
+
+Token Name: ${tokenInfo.name}
+Token Symbol: ${tokenInfo.symbol}
+
+Token JSON info dump:
+
+${JSON.stringify(tokenInfo, null, 2)}
+
+Tweets about the token for sentiment analysis:
+
+${tweets.join("\n\n")}
+
+Do not add commentary or acknowledge this request, just write the tweet.
+Your response should not contain any questions. Brief, concise statements only. No emojis.
+Do not mention emails or phone numbers. No hashtags. Use $TOKEN when saying token names.
+Max tweet length: 280 characters.
+`;
+};
+
 export const newFollowingResponseLogPrompt = (
   character: Character,
   tweet: string

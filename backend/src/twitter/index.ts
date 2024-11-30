@@ -8,6 +8,7 @@ import {
   newFollowingResponseLogPrompt,
   newReplyLogPrompt,
   newTweetLogPrompt,
+  trendingTokenAnalysisPrompt,
   twitterLikePrompt,
   twitterPostPrompt,
   twitterReplyPrompt,
@@ -557,7 +558,7 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
   return interval;
 };
 
-const startTrendingCryptoTweetLoop = async (twitterAgent: TwitterAgent) => {
+const startChainNewsArticles = async (twitterAgent: TwitterAgent) => {
   const intervalTimeout = 1000 * 60 * 60 * 1; // 1 hour
 
   const main = async () => {
@@ -631,6 +632,55 @@ const startTrendingCryptoTweetLoop = async (twitterAgent: TwitterAgent) => {
   return interval;
 };
 
+const startTrendingTokenAnalysis = async (twitterAgent: TwitterAgent) => {
+  const intervalTimeout = 1000 * 60 * 60 * 1.5; // 1.5 hours
+
+  const main = async () => {
+    try {
+      const resp = await fetch(
+        "https://pro-api.coingecko.com/api/v3/search/trending",
+        {
+          headers: {
+            "x-cg-pro-api-key": process.env.COINGECKO_API_KEY!,
+          },
+        }
+      );
+
+      const json = await resp.json();
+
+      const topItem =
+        json.coins[Math.floor(Math.random() * json.coins.length)].item;
+
+      const tweets = await twitterAgent.getTrendingTweets(topItem.name);
+
+      const tweetTexts = tweets.data.data.map((tweet) => tweet.text);
+
+      const tweetResponse = await generateTextFromPrompt(
+        trendingTokenAnalysisPrompt(sami, topItem, tweetTexts),
+        "gpt-4o",
+        {
+          temperature: 0.5,
+          frequencyPenalty: 1,
+          presencePenalty: 1,
+        }
+      );
+
+      if (tweetResponse?.text) {
+        await twitterAgent.postTweet(tweetResponse.text);
+        console.log("Tweeted about trending token:", tweetResponse.text);
+      }
+    } catch (error) {
+      console.error("Error in news article loop:", error);
+    }
+  };
+
+  const interval = setInterval(async () => {
+    await main();
+  }, intervalTimeout);
+
+  return interval;
+};
+
 async function twitterAgentInit() {
   const twitterAgent = new TwitterAgent();
   await twitterAgent.login();
@@ -639,7 +689,8 @@ async function twitterAgentInit() {
   // await startTweetLoop(twitterAgent);
   await startCommentResponseLoop(twitterAgent);
   await startFollowingTweetResponses(twitterAgent);
-  await startTrendingCryptoTweetLoop(twitterAgent);
+  await startChainNewsArticles(twitterAgent);
+  await startTrendingTokenAnalysis(twitterAgent);
 }
 
 export default twitterAgentInit;
