@@ -222,6 +222,7 @@ class TwitterAgent {
         "conversation_id",
         "referenced_tweets",
         "in_reply_to_user_id",
+        "created_at",
       ],
       "user.fields": ["username"],
       max_results: 100,
@@ -239,7 +240,7 @@ class TwitterAgent {
     const myReplies: TweetV2[] = [];
     let repliesPaginator = await userClient.v2.userTimeline(myUserId, {
       expansions: ["referenced_tweets.id"],
-      "tweet.fields": ["referenced_tweets"],
+      "tweet.fields": ["referenced_tweets", "created_at"],
       max_results: 100,
     });
 
@@ -267,10 +268,23 @@ class TwitterAgent {
     }
 
     // Filter out mentions you've already replied to
-    const unrepliedMentions = mentions.filter(
-      (tweet) =>
-        !repliedToTweetIds.has(tweet.id) && tweet.author_id !== myUserId
-    );
+    const unrepliedMentions = mentions.filter((mention) => {
+      // If the mention ID is in the set of replied tweet IDs, it's been replied to
+      if (repliedToTweetIds.has(mention.id)) {
+        return false;
+      }
+
+      // If the mention is older than the earliest fetched reply, assume it's old and exclude it
+      const mentionDate = new Date(mention.created_at!);
+      const earliestReplyDate = new Date(
+        myReplies[myReplies.length - 1].created_at!
+      );
+      if (mentionDate < earliestReplyDate) {
+        return false;
+      }
+
+      return true;
+    });
 
     return unrepliedMentions;
   }
@@ -348,7 +362,7 @@ const startCommentResponseLoop = async (twitterAgent: TwitterAgent) => {
 
   const main = async () => {
     try {
-      const unrepliedMentions = await twitterAgent.getUnrepliedMentions();
+      const unrepliedMentions: any = await twitterAgent.getUnrepliedMentions();
 
       console.log("Unreplied mentions:", unrepliedMentions);
 
@@ -427,6 +441,7 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
         return true;
       }
     }
+    return true;
   };
 
   const main = async () => {
@@ -625,6 +640,8 @@ const startChainNewsArticles = async (twitterAgent: TwitterAgent) => {
     }
   };
 
+  await main();
+
   const interval = setInterval(async () => {
     await main();
   }, intervalTimeout);
@@ -673,6 +690,8 @@ const startTrendingTokenAnalysis = async (twitterAgent: TwitterAgent) => {
       console.error("Error in news article loop:", error);
     }
   };
+
+  await main();
 
   const interval = setInterval(async () => {
     await main();

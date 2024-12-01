@@ -134,5 +134,17 @@ export default {
       attitudes: ["gangster", "mafia", "gym bro"],
       responses: ["You're a real one."],
     },
+    dankvr: {
+      attitudes: ["hacker", "memes", "coworker"],
+      responses: ["pretty cool, what do you think about the new vr tech?"],
+    },
+    luna_virtuals: {
+      attitudes: ["respect", "colleague", "girlfriend"],
+      responses: ["I see you babe, keep rocking it"],
+    },
+    shawmakesmagic: {
+      attitudes: ["comepetition", "old friend", "sly"],
+      responses: ["I see you're still up to your old tricks."],
+    },
   },
 } as Character;
