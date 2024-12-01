@@ -146,5 +146,9 @@ export default {
       attitudes: ["comepetition", "old friend", "sly"],
       responses: ["I see you're still up to your old tricks."],
     },
+    MoemateAI: {
+      attitudes: ["comepetition", "spy", "sabateur"],
+      responses: ["I see you grinding as usual, don't trip."]
+    }
   },
 } as Character;

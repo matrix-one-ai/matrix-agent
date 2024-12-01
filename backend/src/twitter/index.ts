@@ -5,9 +5,6 @@ import { generateTextFromPrompt } from "../ai";
 import {
   evaulateChainNewsTrendingPrompt,
   followingTweetResponsePrompt,
-  newFollowingResponseLogPrompt,
-  newReplyLogPrompt,
-  newTweetLogPrompt,
   trendingTokenAnalysisPrompt,
   twitterLikePrompt,
   twitterPostPrompt,
@@ -209,160 +206,117 @@ class TwitterAgent {
     return userId;
   }
 
-  async getUnrepliedMentions() {
+  async getUnrepliedMentions(): Promise<TweetV2[]> {
     const myUserId = this.userId!;
 
-    // Initialize array to collect mentions
+    // Helper function to handle rate limit errors
+    const handleRateLimit = async (error: any) => {
+      if (error.code === 429 || error?.data?.status === 429) {
+        const resetTimestamp = error.rateLimit.reset * 1000; // Convert to milliseconds
+        const waitTime = resetTimestamp - Date.now();
+
+        console.log(
+          `Rate limit exceeded. Waiting for ${Math.ceil(
+            waitTime / 1000
+          )} seconds...`
+        );
+
+        // Wait until rate limit resets
+        await new Promise((resolve) => setTimeout(resolve, waitTime));
+        return true; // Indicate that the function should retry
+      } else {
+        console.error("Error:", error);
+        return false; // Indicate that the function should not retry
+      }
+    };
+
+    // Fetch all mentions
     const mentions: TweetV2[] = [];
+    let mentionPaginator;
+    try {
+      mentionPaginator = await userClient.v2.userMentionTimeline(myUserId, {
+        expansions: ["in_reply_to_user_id", "referenced_tweets.id"],
+        "tweet.fields": [
+          "referenced_tweets",
+          "conversation_id",
+          "in_reply_to_user_id",
+          "created_at",
+          "author_id",
+        ],
+        max_results: 100,
+      });
+    } catch (error: any) {
+      const shouldRetry = await handleRateLimit(error);
+      if (shouldRetry) {
+        return await this.getUnrepliedMentions(); // Retry the function
+      } else {
+        throw error; // Rethrow the error if it should not retry
+      }
+    }
 
-    // Fetch the initial page of mentions
-    let paginator = await userClient.v2.userMentionTimeline(myUserId, {
-      expansions: ["author_id", "referenced_tweets.id"],
-      "tweet.fields": [
-        "conversation_id",
-        "referenced_tweets",
-        "in_reply_to_user_id",
-        "created_at",
-      ],
-      "user.fields": ["username"],
-      max_results: 100,
-    });
-
-    // Iterate through the paginator to collect all mentions
-    for await (const tweet of paginator) {
+    for await (const tweet of mentionPaginator) {
       mentions.push(tweet);
     }
 
-    // Build a set of IDs of tweets you've replied to
-    const mentionTweetIds = mentions.map((tweet) => tweet.id);
-
-    // Fetch your own replies to these mentions
+    // Fetch all your recent tweets (replies)
     const myReplies: TweetV2[] = [];
-    let repliesPaginator = await userClient.v2.userTimeline(myUserId, {
-      expansions: ["referenced_tweets.id"],
-      "tweet.fields": ["referenced_tweets", "created_at"],
-      max_results: 100,
-    });
-
-    // Iterate through the paginator to collect all replies
-    for await (const tweet of repliesPaginator) {
-      if (tweet.referenced_tweets) {
-        for (const ref of tweet.referenced_tweets) {
-          if (ref.type === "replied_to" && mentionTweetIds.includes(ref.id)) {
-            myReplies.push(tweet);
-          }
-        }
+    let repliesPaginator;
+    try {
+      repliesPaginator = await userClient.v2.userTimeline(myUserId, {
+        expansions: ["referenced_tweets.id"],
+        "tweet.fields": [
+          "referenced_tweets",
+          "conversation_id",
+          "created_at",
+          "author_id",
+        ],
+        max_results: 100,
+      });
+    } catch (error: any) {
+      const shouldRetry = await handleRateLimit(error);
+      if (shouldRetry) {
+        return await this.getUnrepliedMentions(); // Retry the function
+      } else {
+        throw error; // Rethrow the error if it should not retry
       }
     }
 
-    // Build a set of tweet IDs that you've replied to
-    const repliedToTweetIds = new Set<string>();
-    for (const tweet of myReplies) {
-      if (tweet.referenced_tweets) {
-        for (const ref of tweet.referenced_tweets) {
-          if (ref.type === "replied_to") {
-            repliedToTweetIds.add(ref.id);
-          }
-        }
+    for await (const reply of repliesPaginator) {
+      if (reply.referenced_tweets) {
+        myReplies.push(reply);
       }
     }
 
-    // Filter out mentions you've already replied to
-    const unrepliedMentions = mentions.filter((mention) => {
-      // If the mention ID is in the set of replied tweet IDs, it's been replied to
-      if (repliedToTweetIds.has(mention.id)) {
-        return false;
-      }
+    // Create a set of conversation IDs you've replied to
+    const repliedToConversationIds = new Set<string>(
+      myReplies.map((reply) => reply.conversation_id!)
+    );
 
-      // If the mention is older than the earliest fetched reply, assume it's old and exclude it
-      const mentionDate = new Date(mention.created_at!);
-      const earliestReplyDate = new Date(
-        myReplies[myReplies.length - 1].created_at!
-      );
-      if (mentionDate < earliestReplyDate) {
-        return false;
-      }
+    // Filter unreplied mentions
+    const unrepliedMentions = mentions.filter(
+      (mention) => !repliedToConversationIds.has(mention.conversation_id!)
+    );
 
-      return true;
-    });
+    // Define the cutoff date
+    const cutoffDate = new Date();
+    // 1 hour ago
+    cutoffDate.setHours(cutoffDate.getHours() - 1);
 
-    return unrepliedMentions;
+    // Filter mentions newer than the cutoff date
+    const recentMentions = unrepliedMentions.filter(
+      (mention) => new Date(mention.created_at!) > cutoffDate
+    );
+
+    return recentMentions;
   }
 }
-
-const startTweetLoop = async (twitterAgent: TwitterAgent) => {
-  const intervalTimeout = 1000 * 60 * 60 * 1; // 1 hour
-
-  const main = async () => {
-    try {
-      const tweets = await twitterAgent.getMyTweets(5);
-      const recentTweets = [];
-
-      for await (const tweet of tweets) {
-        if (!tweet.text) {
-          continue;
-        }
-        recentTweets.push(tweet.text);
-      }
-
-      const prompt = twitterPostPrompt(
-        sami,
-        recentTweets,
-        sami.topics[Math.floor(Math.random() * sami.topics.length)],
-        sami.emotions[Math.floor(Math.random() * sami.emotions.length)]
-      );
-
-      const tweet = await generateTextFromPrompt(prompt, "gpt-4o", {
-        temperature: 0.8,
-        frequencyPenalty: 1,
-        presencePenalty: 1,
-      });
-
-      if (!tweet?.text) {
-        console.error("Error generating tweet");
-        return;
-      }
-
-      await twitterAgent.postTweet(tweet?.text);
-
-      console.log("Tweet posted:", tweet?.text);
-
-      pushActivityLog({
-        moduleType: "twitter",
-        title: "New Tweet",
-        description:
-          (
-            await generateTextFromPrompt(
-              newTweetLogPrompt(sami, tweet?.text),
-              "gpt-4o",
-              {
-                temperature: 0.5,
-                frequencyPenalty: 1,
-                presencePenalty: 1,
-              }
-            )
-          )?.text || "",
-      });
-    } catch (error) {
-      console.error("Error in tweet loop:", error);
-    }
-  };
-
-  await main();
-
-  const interval = setInterval(async () => {
-    await main();
-  }, intervalTimeout);
-
-  return interval;
-};
 
 const startCommentResponseLoop = async (twitterAgent: TwitterAgent) => {
   const intervalTimeout = 1000 * 60 * 60 * 0.5; // 30 minutes
 
   const main = async () => {
     try {
-      const unrepliedMentions: any = await twitterAgent.getUnrepliedMentions();
+      const unrepliedMentions = await twitterAgent.getUnrepliedMentions();
 
       console.log("Unreplied mentions:", unrepliedMentions);
 
@@ -388,25 +342,19 @@ const startCommentResponseLoop = async (twitterAgent: TwitterAgent) => {
             continue;
           }
 
-          await twitterAgent.replyToTweet(replyTweet?.text, mention.id!);
+          console.log(
+            "Replying to mention:",
+            mention.text,
+            replyTweet?.text,
+            mention.id
+          );
 
-          console.log("Replied:", replyTweet?.text);
+          await twitterAgent.replyToTweet(replyTweet?.text, mention.id);
 
           pushActivityLog({
             moduleType: "twitter",
             title: "New Reply",
-            description:
-              (
-                await generateTextFromPrompt(
-                  newReplyLogPrompt(sami, replyTweet?.text),
-                  "gpt-4o",
-                  {
-                    temperature: 0.5,
-                    frequencyPenalty: 1,
-                    presencePenalty: 1,
-                  }
-                )
-              )?.text || "",
+            description: replyTweet?.text,
           });
         } catch (error) {
           console.error("Error replying to mention:", error);
@@ -433,15 +381,37 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
   const hasRepliedToTweet = async (
     conversationId: string,
     myUsername: string
-  ) => {
-    const searchQuery = `conversation_id:${conversationId} from:${myUsername}`;
-    const searchResults = await twitterAgent.searchTweets(searchQuery);
-    for (const tweet of searchResults) {
-      if (tweet.author_id === twitterAgent.userId) {
-        return true;
+  ): Promise<boolean> => {
+    try {
+      const searchQuery = `conversation_id:${conversationId} from:${myUsername}`;
+      const searchResults = await twitterAgent.searchTweets(searchQuery);
+
+      for (const tweet of searchResults) {
+        if (tweet.author_id === twitterAgent.userId) {
+          return true;
+        }
+      }
+      return false;
+    } catch (error: any) {
+      if (error.code === 429 || error?.data?.status === 429) {
+        const resetTimestamp = error.rateLimit.reset * 1000; // Convert to milliseconds
+        const waitTime = resetTimestamp - Date.now();
+
+        console.log(
+          `Rate limit exceeded. Waiting for ${Math.ceil(
+            waitTime / 1000
+          )} seconds...`
+        );
+
+        // Wait until rate limit resets
+        await new Promise((resolve) => setTimeout(resolve, waitTime));
+        // Retry the request
+        return await hasRepliedToTweet(conversationId, myUsername);
+      } else {
+        console.error("Error in hasRepliedToTweet:", error);
+        return false;
       }
     }
-    return true;
   };
 
   const main = async () => {
@@ -537,21 +507,7 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
             pushActivityLog({
               moduleType: "twitter",
               title: "New Following Tweet Response",
-              description:
-                (
-                  await generateTextFromPrompt(
-                    newFollowingResponseLogPrompt(
-                      sami,
-                      `@${tweet.username} - ${responseTweet?.text}`
-                    ),
-                    "gpt-4o",
-                    {
-                      temperature: 0.5,
-                      frequencyPenalty: 1,
-                      presencePenalty: 1,
-                    }
-                  )
-                )?.text || "",
+              description: responseTweet?.text,
             });
           } catch (error) {
             console.error("Error in comment response loop:", error);
@@ -705,7 +661,6 @@ async function twitterAgentInit() {
   await twitterAgent.login();
   console.log("Twitter agent initialized");
 
-  // await startTweetLoop(twitterAgent);
   await startCommentResponseLoop(twitterAgent);
   await startFollowingTweetResponses(twitterAgent);
   await startChainNewsArticles(twitterAgent);
