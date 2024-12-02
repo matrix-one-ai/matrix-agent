@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -28,10 +28,16 @@ const ACTIVITY_LOG_ICON: Record<EActivityLogModuleType, React.ReactNode> = {
 const ClientPage = () => {
   const activityLogs = useActivityLog();
   const timeRef = useRef<string | null>(null);
+  const activitLogRef = useRef<HTMLDivElement | null>(null);
 
   const handleHelloWorldArrowClick = useCallback(() => {
     // TODO: Open proper page
   }, []);
+
+  // Scroll to top of activity log content when activity logs change
+  useEffect(() => {
+    activitLogRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+  }, [activityLogs]);
 
   return (
     <div className="flex h-0 flex-grow overflow-auto gap-6 flex-col md:flex-row">
@@ -88,7 +94,10 @@ const ClientPage = () => {
           </div>
         </Card>
         <Card title="activity log" level={2} maxLevel={5}>
-          <div className="flex flex-col gap-4 h-[1000px] overflow-auto">
+          <div
+            ref={activitLogRef}
+            className="flex flex-col gap-4 h-[1000px] overflow-auto"
+          >
             {activityLogs.map(
               ({ moduleType, title, description, timestamp }, i) => {
                 const { date, time } = formatTimestampToLocal(timestamp);
