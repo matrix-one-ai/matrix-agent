@@ -42,7 +42,7 @@ const ClientPage = () => {
   }, [activityLogs]);
 
   return (
-    <div className="flex h-0 flex-grow gap-6 flex-col md:flex-row max-w-[1024px]">
+    <div className="flex gap-6 flex-col pb-10 md:flex-row max-w-[1024px]">
       {/* Left board */}
       <div className="flex flex-col gap-6 flex-1 max-w-none order-2 md:order-1 md:max-w-64">
         <Card title="photo">
