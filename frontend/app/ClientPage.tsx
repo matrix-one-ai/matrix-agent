@@ -40,9 +40,9 @@ const ClientPage = () => {
   }, [activityLogs]);
 
   return (
-    <div className="flex h-0 flex-grow gap-6 flex-col md:flex-row">
+    <div className="flex h-0 flex-grow gap-6 flex-col md:flex-row max-w-[1024px]">
       {/* Left board */}
-      <div className="flex flex-col gap-6 flex-1 max-w-none order-2 md:order-1 md:max-w-72">
+      <div className="flex flex-col gap-6 flex-1 max-w-none order-2 md:order-1 md:max-w-64">
         <Card title="photo">
           <Image
             className="w-full grayscale hover:grayscale-0 transition-all duration-300"
@@ -147,7 +147,7 @@ const ClientPage = () => {
         </Card>
       </div>
       {/* Right board */}
-      <div className="flex flex-col gap-6 flex-1 max-w-none order-3 md:order-3 md:max-w-72">
+      <div className="flex flex-col gap-6 flex-1 max-w-none order-3 md:order-3 md:max-w-64">
         <Card title="links">
           <div className="flex flex-col gap-4">
             <div className="flex gap-2 items-center">
@@ -174,7 +174,7 @@ const ClientPage = () => {
         </Card>
         <Card title="token">
           <div className="flex flex-col gap-4">
-            <p className="font-bold">CA: 123487219034789274</p>
+            <p className="font-bold text-sm">CA: 123487219034789274</p>
             <div className="flex gap-2 items-center">
               <PumpFunIcon />
               <Link
