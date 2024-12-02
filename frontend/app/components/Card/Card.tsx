@@ -11,6 +11,7 @@ interface ICardProps extends React.HTMLAttributes<HTMLDivElement> {
   maxLevel?: number;
   uncollapsible?: boolean;
   children?: React.ReactNode;
+  contentClassName?: string;
   onArrowClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -21,6 +22,7 @@ const Card: React.FC<ICardProps> = ({
   maxLevel = 0,
   uncollapsible = false,
   children,
+  contentClassName,
   onArrowClick,
   ...rest
 }) => {
@@ -39,10 +41,11 @@ const Card: React.FC<ICardProps> = ({
       {/* Content */}
       <div
         className={clsx(
-          "transition-all origin-top w-full overflow-hidden border-2 border-t-0 border-black ",
+          "transition-all origin-top w-full px-4 overflow-hidden border-2 border-t-0 border-black ",
           isCollapsed
-            ? "scale-y-0 opacity-0 h-0 p-0"
-            : "scale-y-100 opacity-100 h-auto p-4",
+            ? "scale-y-0 opacity-0 !h-0 py-0"
+            : "scale-y-100 opacity-100 h-auto py-4",
+          contentClassName,
         )}
       >
         {children}
