@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -28,15 +28,21 @@ const ACTIVITY_LOG_ICON: Record<EActivityLogModuleType, React.ReactNode> = {
 const ClientPage = () => {
   const activityLogs = useActivityLog();
   const timeRef = useRef<string | null>(null);
+  const activitLogRef = useRef<HTMLDivElement | null>(null);
 
   const handleHelloWorldArrowClick = useCallback(() => {
     // TODO: Open proper page
   }, []);
 
+  // Scroll to top of activity log content when activity logs change
+  useEffect(() => {
+    activitLogRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+  }, [activityLogs]);
+
   return (
-    <div className="flex h-0 flex-grow overflow-auto gap-6 flex-col md:flex-row">
+    <div className="flex h-0 flex-grow gap-6 flex-col md:flex-row max-w-[1024px]">
       {/* Left board */}
-      <div className="flex flex-col gap-6 flex-1 max-w-none order-2 md:order-1 md:max-w-72">
+      <div className="flex flex-col gap-6 flex-1 max-w-none order-2 md:order-1 md:max-w-64">
         <Card title="photo">
           <Image
             className="w-full grayscale hover:grayscale-0 transition-all duration-300"
@@ -87,8 +93,11 @@ const ClientPage = () => {
             <p>November 27, 2024</p>
           </div>
         </Card>
-        <Card title="activity log" level={2} maxLevel={5}>
-          <div className="flex flex-col gap-4 h-[1000px] overflow-auto">
+        <Card title="activity log" level={2} maxLevel={5} uncollapsible>
+          <div
+            ref={activitLogRef}
+            className="flex flex-col gap-4 h-[1000px] overflow-auto"
+          >
             {activityLogs.map(
               ({ moduleType, title, description, timestamp }, i) => {
                 const { date, time } = formatTimestampToLocal(timestamp);
@@ -138,7 +147,7 @@ const ClientPage = () => {
         </Card>
       </div>
       {/* Right board */}
-      <div className="flex flex-col gap-6 flex-1 max-w-none order-3 md:order-3 md:max-w-72">
+      <div className="flex flex-col gap-6 flex-1 max-w-none order-3 md:order-3 md:max-w-64">
         <Card title="links">
           <div className="flex flex-col gap-4">
             <div className="flex gap-2 items-center">
@@ -165,7 +174,7 @@ const ClientPage = () => {
         </Card>
         <Card title="token">
           <div className="flex flex-col gap-4">
-            <p className="font-bold">CA: 123487219034789274</p>
+            <p className="font-bold text-sm">CA: 123487219034789274</p>
             <div className="flex gap-2 items-center">
               <PumpFunIcon />
               <Link
