@@ -47,7 +47,7 @@ const ClientPage = () => {
       <div className="flex flex-col gap-6 flex-1 max-w-none order-2 md:order-1 md:max-w-64">
         <Card title="photo">
           <Image
-            className="w-full grayscale hover:grayscale-0 transition-all duration-300"
+            className="w-full grayscale"
             src="/images/sami_profile_photo.png"
             alt=""
             width={256}

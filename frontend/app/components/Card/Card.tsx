@@ -35,7 +35,7 @@ const Card: React.FC<ICardProps> = ({
         title={title}
         level={level}
         maxLevel={maxLevel}
-        onClick={uncollapsible ? undefined : toggleIsCollapsed}
+        // onClick={uncollapsible ? undefined : toggleIsCollapsed}
         onArrowClick={onArrowClick}
       />
       {/* Content */}
