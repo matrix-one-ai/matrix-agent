@@ -58,12 +58,14 @@ const ClientPage = () => {
           <div className="flex flex-col gap-2">
             {AUTONOMY_LEVELS.map((level, i) => (
               <div key={`${level}-${i}`} className="flex flex-col gap-1">
-                <p className="text-xs">{level}</p>
+                <p>{level}</p>
                 <AutonomyLevel
+                  className="gap-3"
                   id={level}
                   level={i + 1}
                   maxLevel={5}
                   variant="secondary"
+                  size="large"
                 />
               </div>
             ))}
@@ -179,9 +181,9 @@ const ClientPage = () => {
             </div>
           </div>
         </Card>
-        <Card title="token">
+        <Card title="my token">
           <div className="flex flex-col gap-4">
-            <p className="font-bold text-sm">CA: 123487219034789274</p>
+            <p className="font-bold text-sm">CA: </p>
             <div className="flex gap-2 items-center">
               <PumpFunIcon />
               <Link
@@ -203,6 +205,34 @@ const ClientPage = () => {
               </Link>
             </div>
           </div>
+        </Card>
+        {/* Placeholder cards */}
+        <Card title="<placeholder>">
+          <Image
+            className="w-full"
+            src="/images/pictures.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>">
+          <Image
+            className="w-full"
+            src="/images/media.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>">
+          <Image
+            className="w-full"
+            src="/images/box.png"
+            alt=""
+            width={256}
+            height={256}
+          />
         </Card>
       </div>
     </div>
