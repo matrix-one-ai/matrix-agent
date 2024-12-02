@@ -93,7 +93,7 @@ const ClientPage = () => {
             <p>November 27, 2024</p>
           </div>
         </Card>
-        <Card title="activity log" level={2} maxLevel={5}>
+        <Card title="activity log" level={2} maxLevel={5} uncollapsible>
           <div
             ref={activitLogRef}
             className="flex flex-col gap-4 h-[1000px] overflow-auto"
