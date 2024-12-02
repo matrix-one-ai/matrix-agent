@@ -10,8 +10,9 @@ import TwitterBirdIcon from "@/app/components/Icons/TwitterBirdIcon";
 import DexIcon from "@/app/components/Icons/DexIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import { useActivityLog } from "./hooks/useActivityLog";
-import { formatTimestampToLocal } from "./utils/string";
+import { convertToLinks, formatTimestampToLocal } from "./utils/string";
 import { EActivityLogModuleType } from "./types";
+import MarkdownComponents from "./components/MarkdownComponents";
 
 const AUTONOMY_LEVELS = [
   "No Autonomy",
@@ -136,8 +137,13 @@ const ClientPage = () => {
                       </div>
                       <p className="text-sm">{`[${time}]`}</p>
                     </div>
-                    <ReactMarkdown className="text-sm">
-                      {description}
+                    <ReactMarkdown
+                      className="text-sm"
+                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                      // @ts-expect-error
+                      components={MarkdownComponents}
+                    >
+                      {convertToLinks(description)}
                     </ReactMarkdown>
                     <hr className="border-gray-400" />
                   </div>
