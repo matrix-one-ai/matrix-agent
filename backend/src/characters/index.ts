@@ -6,6 +6,8 @@ export interface Character {
   gender: string;
   occupation: string;
   bio: string;
+  appearance: string;
+  personality: string;
   image: string;
   twitterUsername: string;
   exampleMessages: string[];

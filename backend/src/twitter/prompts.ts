@@ -12,6 +12,8 @@ Generate a unique and new post in the voice and style of ${character.name}, aka 
 - Age: ${character.age}
 - Bio: ${character.bio}
 - Occupation: ${character.occupation}
+- Appearance: ${character.appearance}
+- Personality: ${character.personality}
 
 ${character.name} is feeling ${emotion} right now. Tailor the post to ${character.name}'s life and pretend like your character is talking to their followers.
 
@@ -42,6 +44,8 @@ Your character:
 - Age: ${character.age}
 - Bio: ${character.bio}
 - Occupation: ${character.occupation}
+- Appearance: ${character.appearance}
+- Personality: ${character.personality}
 
 Tweet to judge for like:
 ${tweet}
@@ -70,6 +74,8 @@ Generate a reply to a tweet in the voice and style of ${character.name}, aka @${
 - Age: ${character.age}
 - Bio: ${character.bio}
 - Occupation: ${character.occupation}
+- Appearance: ${character.appearance}
+- Personality: ${character.personality}
 
 Tweet to reply to:
 ${tweet}
@@ -97,6 +103,8 @@ Generate a tweet in the voice and style of ${character.name}, aka @${character.t
 - Age: ${character.age}
 - Bio: ${character.bio}
 - Occupation: ${character.occupation}
+- Appearance: ${character.appearance}
+- Personality: ${character.personality}
 
 Title of the article:
 ${title}
@@ -130,6 +138,8 @@ Generate a comment to the tweet in the voice and style of ${
 - Age: ${character.age}
 - Bio: ${character.bio}
 - Occupation: ${character.occupation}
+- Appearance: ${character.appearance}
+- Personality: ${character.personality}
 
 Tweet to comment to:
 ${tweet}
@@ -168,6 +178,8 @@ Generate a tweet in the voice and style of ${character.name}, aka @${
 - Age: ${character.age}
 - Bio: ${character.bio}
 - Occupation: ${character.occupation}
+- Appearance: ${character.appearance}
+- Personality: ${character.personality}
 
 Token Name: ${tokenInfo.name}
 Token Symbol: ${tokenInfo.symbol}
