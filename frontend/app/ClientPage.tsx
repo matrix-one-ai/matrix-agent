@@ -30,8 +30,9 @@ const ClientPage = () => {
   const timeRef = useRef<string | null>(null);
   const activitLogRef = useRef<HTMLDivElement | null>(null);
 
+  // Open hello world in a new tab
   const handleHelloWorldArrowClick = useCallback(() => {
-    // TODO: Open proper page
+    window.open("hello", "_blank");
   }, []);
 
   // Scroll to top of activity log content when activity logs change
