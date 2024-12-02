@@ -204,6 +204,34 @@ const ClientPage = () => {
             </div>
           </div>
         </Card>
+        {/* Placeholder cards */}
+        <Card title="<placeholder>">
+          <Image
+            className="w-full"
+            src="/images/pictures.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>">
+          <Image
+            className="w-full"
+            src="/images/media.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>">
+          <Image
+            className="w-full"
+            src="/images/box.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
       </div>
     </div>
   );
