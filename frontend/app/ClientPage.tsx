@@ -127,7 +127,7 @@ const ClientPage = () => {
                   >
                     {canAddDateLabel && (
                       <>
-                        <p className="text-sm">{date}</p>
+                        <p>{date}</p>
                         <hr className="border-gray-400" />
                       </>
                     )}
@@ -138,12 +138,11 @@ const ClientPage = () => {
                         ) : (
                           <></>
                         )}
-                        <p className="text-sm">{title}</p>
+                        <p>{title}</p>
                       </div>
-                      <p className="text-sm">{`[${time}]`}</p>
+                      <p>{`[${time}]`}</p>
                     </div>
                     <ReactMarkdown
-                      className="text-sm"
                       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                       // @ts-expect-error
                       components={MarkdownComponents}
@@ -165,7 +164,7 @@ const ClientPage = () => {
             <div className="flex gap-2 items-center">
               <span className="text-2xl">👩‍💻</span>
               <Link
-                className="text-sm underline"
+                className="underline"
                 href="https://www.chainnews.one"
                 target="_blank"
               >
@@ -175,7 +174,7 @@ const ClientPage = () => {
             <div className="flex gap-2 items-center">
               <TwitterBirdIcon />
               <Link
-                className="text-sm underline"
+                className="underline"
                 href="https://x.com/SamMatrixOne"
                 target="_blank"
               >
@@ -186,11 +185,11 @@ const ClientPage = () => {
         </Card>
         <Card title="my token">
           <div className="flex flex-col gap-4">
-            <p className="font-bold text-sm">CA: </p>
+            <p className="font-bold">CA: </p>
             <div className="flex gap-2 items-center">
               <PumpFunIcon />
               <Link
-                className="text-sm underline"
+                className="underline"
                 href="https://pump.fun/"
                 target="_blank"
               >
@@ -200,7 +199,7 @@ const ClientPage = () => {
             <div className="flex gap-2 items-center">
               <DexIcon />
               <Link
-                className="text-sm underline"
+                className="underline"
                 href="https://dexscreener.com/"
                 target="_blank"
               >
