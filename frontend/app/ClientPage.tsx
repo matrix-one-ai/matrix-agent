@@ -1,13 +1,17 @@
 "use client";
 
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
 import Card from "./components/Card/Card";
 import AutonomyLevel from "./components/AutonomyLevel";
 import TwitterBirdIcon from "@/app/components/Icons/TwitterBirdIcon";
 import DexIcon from "@/app/components/Icons/DexIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
+import { useActivityLog } from "./hooks/useActivityLog";
+import { formatTimestampToLocal } from "./utils/string";
+import { EActivityLogModuleType } from "./types";
 
 const AUTONOMY_LEVELS = [
   "No Autonomy",
@@ -17,7 +21,14 @@ const AUTONOMY_LEVELS = [
   "Full Autonomy",
 ];
 
+const ACTIVITY_LOG_ICON: Record<EActivityLogModuleType, React.ReactNode> = {
+  [EActivityLogModuleType.Twitter]: <TwitterBirdIcon />,
+};
+
 const ClientPage = () => {
+  const activityLogs = useActivityLog();
+  const timeRef = useRef<string | null>(null);
+
   const handleHelloWorldArrowClick = useCallback(() => {
     // TODO: Open proper page
   }, []);
@@ -77,8 +88,52 @@ const ClientPage = () => {
           </div>
         </Card>
         <Card title="activity log" level={2} maxLevel={5}>
-          <div className="flex flex-col gap-4">
-            <p>TODO</p>
+          <div className="flex flex-col gap-4 h-[1000px] overflow-auto">
+            {activityLogs.map(
+              ({ moduleType, title, description, timestamp }, i) => {
+                const { date, time } = formatTimestampToLocal(timestamp);
+
+                // Reset timeRef on first iteration
+                if (i === 0) {
+                  timeRef.current = null;
+                }
+
+                // Only add date label if it's a new day
+                const canAddDateLabel = date !== timeRef.current;
+                if (canAddDateLabel) {
+                  timeRef.current = date;
+                }
+
+                return (
+                  <div
+                    key={`activity-log-${i}-${title}`}
+                    className="flex flex-col gap-2"
+                  >
+                    {canAddDateLabel && (
+                      <>
+                        <p className="text-sm">{date}</p>
+                        <hr className="border-gray-400" />
+                      </>
+                    )}
+                    <div className="flex gap-2 justify-between">
+                      <div className="flex gap-2 w-0 flex-grow">
+                        {ACTIVITY_LOG_ICON[moduleType] ? (
+                          ACTIVITY_LOG_ICON[moduleType]
+                        ) : (
+                          <></>
+                        )}
+                        <p className="text-sm">{title}</p>
+                      </div>
+                      <p className="text-sm">{`[${time}]`}</p>
+                    </div>
+                    <ReactMarkdown className="text-sm">
+                      {description}
+                    </ReactMarkdown>
+                    <hr className="border-gray-400" />
+                  </div>
+                );
+              },
+            )}
           </div>
         </Card>
       </div>
