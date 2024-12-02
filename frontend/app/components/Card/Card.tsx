@@ -20,12 +20,14 @@ const Card: React.FC<ICardProps> = ({
   title,
   level = 0,
   maxLevel = 0,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   uncollapsible = false,
   children,
   contentClassName,
   onArrowClick,
   ...rest
 }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isCollapsed, { toggle: toggleIsCollapsed }] = useToggle(false);
 
   return (
@@ -35,6 +37,7 @@ const Card: React.FC<ICardProps> = ({
         title={title}
         level={level}
         maxLevel={maxLevel}
+        // TODO: Enable once this collapsible feature is necessary
         // onClick={uncollapsible ? undefined : toggleIsCollapsed}
         onArrowClick={onArrowClick}
       />
