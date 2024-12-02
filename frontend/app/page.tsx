@@ -2,11 +2,12 @@ import ClientPage from "./ClientPage";
 
 export default function Home() {
   return (
-    <div>
-      <main>
-        <h3 style={{ textAlign: "center", padding: "1rem" }}>$(♥s♥a♥m♥i♥)</h3>
-        <ClientPage />
-      </main>
-    </div>
+    <main className="flex flex-col p-6 pt-10 pb-16 h-full">
+      <h1 className="text-6xl font-normal text-center mb-4">SamiOne</h1>
+      <h6 className="font-normal text-center mb-10">
+        The Future of Legacy Media
+      </h6>
+      <ClientPage />
+    </main>
   );
 }

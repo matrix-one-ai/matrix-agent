@@ -1,17 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Verdana";
+  src: url("/fonts/Verdana.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Verdana";
+  src: url("/fonts/Verdana Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Verdana";
+  src: url("/fonts/Verdana Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Verdana";
+  src: url("/fonts/Verdana Bold Italic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+}
+
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  font-family: "Verdana", sans-serif;
+  width: 100%;
+  height: 100%;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url("/bg.png");
-  background-size: cover;
-  color: black;
-  scrollbar-color: hsla(191, 59%, 86%, 1) rgb(238, 190, 211);
+  scrollbar-color: #c1c1c1 #f1f1f1;
+  background-color: #d9d9d9;
 }
 
 * {
@@ -23,4 +55,23 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+h1 {
+  @apply text-h1 font-bold;
+}
+h2 {
+  @apply text-h2 font-bold;
+}
+h3 {
+  @apply text-h3 font-semibold;
+}
+h4 {
+  @apply text-h4 font-semibold;
+}
+h5 {
+  @apply text-h5 font-medium;
+}
+h6 {
+  @apply text-h6 font-medium;
 }
