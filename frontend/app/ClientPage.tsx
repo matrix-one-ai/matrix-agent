@@ -75,12 +75,6 @@ const ClientPage = () => {
         <Card title="bio">
           <div className="flex flex-col gap-0.5"></div>
         </Card>
-        <Card title="disclaimer">
-          <div className="flex flex-col gap-0.5">
-            <p className="underline">hello world</p>
-            <p className="underline">SamiOne disclaimer</p>
-          </div>
-        </Card>
         {/* Placeholder cards */}
         <Card title="<placeholder>" level={1} maxLevel={5}>
           <Image
@@ -146,6 +140,9 @@ const ClientPage = () => {
             height={256}
           />
         </Card>
+        <a className="underline" href="/disclaimer">
+          [Disclaimer]
+        </a>
       </div>
       {/* Center board */}
       <div className="flex flex-col gap-6 flex-1 order-1 md:order-2">
@@ -342,15 +339,6 @@ const ClientPage = () => {
           <Image
             className="w-full"
             src="/images/placeholder_11.png"
-            alt=""
-            width={256}
-            height={256}
-          />
-        </Card>
-        <Card title="<placeholder>" level={1} maxLevel={5}>
-          <Image
-            className="w-full"
-            src="/images/placeholder_12.png"
             alt=""
             width={256}
             height={256}
