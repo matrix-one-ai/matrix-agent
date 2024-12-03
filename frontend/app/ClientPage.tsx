@@ -234,7 +234,7 @@ const ClientPage = () => {
         </Card>
       </div>
       {/* Right board */}
-      <div className="flex flex-col gap-6 flex-1 max-w-none order-3 md:order-3 md:max-w-64">
+      <div className="flex flex-col gap-[22px] flex-1 max-w-none order-3 md:order-3 md:max-w-64">
         <Card title="links">
           <div className="flex flex-col gap-4">
             <div className="flex gap-2 items-center">
@@ -355,6 +355,15 @@ const ClientPage = () => {
           <Image
             className="w-full"
             src="/images/placeholder_12.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Image
+            className="w-full"
+            src="/images/placeholder_13.png"
             alt=""
             width={256}
             height={256}
