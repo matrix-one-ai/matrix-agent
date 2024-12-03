@@ -8,6 +8,7 @@ import Card from "@/app/components/Card/Card";
 import AutonomyLevel from "@/app/components/AutonomyLevel";
 import MarkdownComponents from "@/app/components/MarkdownComponents";
 import TwitterBirdIcon from "@/app/components/Icons/TwitterBirdIcon";
+import TelegramIcon from "@/app/components/Icons/TelegramIcon";
 import DexIcon from "@/app/components/Icons/DexIcon";
 import UpRightArrowIcon from "@/app/components/Icons/UpRightArrowIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
@@ -254,6 +255,16 @@ const ClientPage = () => {
                   target="_blank"
                 >
                   @OnlyOneSami
+                </Link>
+              </div>
+              <div className="flex gap-2 items-center">
+                <TelegramIcon />
+                <Link
+                  className="underline"
+                  href="https://t.me/Only_One_Sami"
+                  target="_blank"
+                >
+                  @Only_One_Sami
                 </Link>
               </div>
             </div>
