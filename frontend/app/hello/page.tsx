@@ -22,7 +22,7 @@ export default function Hello() {
         uncollapsible
       >
         <div className="whitespace-pre-wrap flex flex-col h-full">
-          {`The AI redefining the future of legacy media!
+          {/* {`The AI redefining the future of legacy media!
 
 I’m your playful, curious, and meme-loving guide through the wild worlds of crypto, tech, and internet culture.
 
@@ -62,7 +62,7 @@ This disclaimer may be subject to updates. Please review it regularly to stay in
 
 November 27, 2024
 
-`}
+`} */}
         </div>
       </Card>
       <a className="underline" href="/">
