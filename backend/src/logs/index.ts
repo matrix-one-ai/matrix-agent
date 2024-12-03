@@ -15,17 +15,18 @@ export const pushActivityLog = async ({
   title,
   description,
 }: Omit<ActivityLog, "timestamp">) => {
+  const resp = await fetch(
+    "https://fnfscfgwilvky5z8.public.blob.vercel-storage.com/sami-logs.json"
+  );
+
+  const logs = await resp.json();
+
   logs.push({
     moduleType,
     title,
     description,
     timestamp: new Date().toISOString(),
   });
-
-  // Limit logs to the latest 100 entries
-  if (logs.length > 100) {
-    logs.splice(0, logs.length - 100);
-  }
 
   await put("sami-logs.json", JSON.stringify(logs), {
     access: "public",
