@@ -250,10 +250,10 @@ const ClientPage = () => {
                 <TwitterBirdIcon />
                 <Link
                   className="underline"
-                  href="https://x.com/SamMatrixOne"
+                  href="https://x.com/OnlyOneSami"
                   target="_blank"
                 >
-                  @SamMatrixOne
+                  @OnlyOneSami
                 </Link>
               </div>
             </div>
