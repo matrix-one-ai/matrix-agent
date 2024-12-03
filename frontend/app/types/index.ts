@@ -7,4 +7,5 @@ export interface IActivityLog {
   title: string;
   description: string;
   timestamp: string;
+  tweetId?: string;
 }

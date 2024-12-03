@@ -182,7 +182,7 @@ const ClientPage = () => {
           >
             <div ref={activitLogRef} className="flex flex-col gap-4">
               {activityLogs.map(
-                ({ moduleType, title, description, timestamp }, i) => {
+                ({ moduleType, title, description, timestamp, tweetId }, i) => {
                   const { date, time } = formatTimestampToLocal(timestamp);
 
                   // Reset timeRef on first iteration
@@ -214,7 +214,17 @@ const ClientPage = () => {
                           ) : (
                             <></>
                           )}
-                          <p>{title}</p>
+                          {tweetId ? (
+                            <a
+                              className="underline"
+                              href={`https://x.com/OnlyOneSami/status/${tweetId}`}
+                              target="_blank"
+                            >
+                              {title}
+                            </a>
+                          ) : (
+                            <p>{title}</p>
+                          )}
                         </div>
                         <p>{`[${time}]`}</p>
                       </div>
