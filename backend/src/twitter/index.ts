@@ -416,10 +416,21 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
 
   const main = async () => {
     try {
-      const myFollowing = await twitterAgent.getMyFollowings();
+      let myFollowing = await twitterAgent.getMyFollowings();
+      const randomFollowing: any = [];
+
+      // randomize the order of the following
+
+      for await (const follow of myFollowing) {
+        randomFollowing.push(follow);
+      }
+
+      randomFollowing.sort(() => Math.random() - 0.5);
+
+      myFollowing = randomFollowing;
 
       for await (const user of myFollowing) {
-        const tweets = await twitterAgent.getUserTweets(user.username!, 2);
+        const tweets = await twitterAgent.getUserTweets(user.username!, 1);
 
         for await (const tweet of tweets) {
           try {
