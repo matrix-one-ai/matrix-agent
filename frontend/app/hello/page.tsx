@@ -126,7 +126,7 @@ export default function Hello() {
           <p>Welcome to Sami.One—the future of media and AI starts here.</p>
           <p>With ambition and purpose,</p>
           <p>Signed Sami - The Future of Legacy Media</p>
-          <p className="pb-3">December 3, 2024</p>
+          <p className="pt-4 pb-3">December 3, 2024</p>
         </div>
       </Card>
       <a className="underline" href="/">
