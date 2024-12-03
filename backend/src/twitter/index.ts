@@ -7,7 +7,6 @@ import {
   followingTweetResponsePrompt,
   trendingTokenAnalysisPrompt,
   twitterLikePrompt,
-  twitterPostPrompt,
   twitterReplyPrompt,
 } from "./prompts";
 import sami from "../characters/sami";

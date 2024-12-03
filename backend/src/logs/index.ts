@@ -38,3 +38,11 @@ export const pushActivityLog = async ({
   });
   console.log("Activity log pushed:", title, description.slice(0, 50));
 };
+
+export const wipeLogs = async () => {
+  await put("sami-logs.json", JSON.stringify([]), {
+    access: "public",
+    addRandomSuffix: false,
+    cacheControlMaxAge: activityTimeout / 1000,
+  });
+}
