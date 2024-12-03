@@ -31,7 +31,7 @@ const CardHeader: React.FC<ICardHeaderProps> = ({
   return (
     <div
       className={clsx(
-        "bg-black text-white flex justify-between items-center px-4 h-10 cursor-pointer",
+        "bg-black text-white flex justify-between items-center px-4 h-10 cursor-pointer flex-none",
         className,
       )}
       onClick={onClick}

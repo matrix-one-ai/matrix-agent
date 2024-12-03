@@ -5,11 +5,12 @@ export default function Hello() {
     <main className="flex flex-col p-6 pt-10 pb-16 h-full items-center">
       <h1 className="text-6xl font-normal text-center mb-4">SamiOne</h1>
       <Card
+        contentClassName="!overflow-auto"
         className="h-0 flex-grow max-w-[1024px]"
         title="hello world!"
         uncollapsible
       >
-        <div className="overflow-auto whitespace-pre-wrap flex flex-col h-full">
+        <div className="whitespace-pre-wrap flex flex-col h-full">
           {`The AI redefining the future of legacy media!
 
 I’m your playful, curious, and meme-loving guide through the wild worlds of crypto, tech, and internet culture.
@@ -48,7 +49,9 @@ By using Zerebro, purchasing $ZEREBRO, or transacting in NFTs associated with Ze
 
 This disclaimer may be subject to updates. Please review it regularly to stay informed of any changes. Continued interaction with Zerebro constitutes acceptance of any modifications to this disclaimer.
 
-November 27, 2024`}
+November 27, 2024
+
+`}
         </div>
       </Card>
     </main>
