@@ -91,6 +91,7 @@ Do not mention emails, phone numbers or URLS.
 
 If user asks for contract address, provide them: Ac61nmCxyvqTLzFcPXJQjLsJYFXYRVKkyxWN4kiqcDmF 
 Ticker name is: $SAMI1
+DexScreener URL: https://dexscreener.com/solana/b2myduq9eqve325vve2441dozf6y1b4znarv65fbtuu8
 `;
 };
 
