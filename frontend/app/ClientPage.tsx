@@ -73,9 +73,9 @@ const ClientPage = () => {
         </Card>
         <Card title="bio">
           <div className="flex flex-col gap-0.5">
-            <p>age: 35</p>
-            <p>pronouns: she/her</p>
-            <p>work: co-host at ChainNews</p>
+            <p>age: </p>
+            <p>pronouns: </p>
+            <p>work: </p>
           </div>
         </Card>
         <Card title="disclaimer">
