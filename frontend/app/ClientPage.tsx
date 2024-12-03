@@ -272,12 +272,15 @@ const ClientPage = () => {
           </Card>
           <Card title="my token">
             <div className="flex flex-col gap-4">
-              <p className="font-bold">CA: </p>
+              <div className="font-bold flex flex-col whitespace-nowrap text-[13px]">
+                <span>CA: Ac61nmCxyvqTLzFcPXJQ</span>
+                <span>jLsJYFXYRVKkyxWN4kiqcDmF</span>
+              </div>
               <div className="flex gap-2 items-center">
                 <PumpFunIcon />
                 <Link
                   className="underline"
-                  href="https://pump.fun/"
+                  href="https://pump.fun/coin/Ac61nmCxyvqTLzFcPXJQjLsJYFXYRVKkyxWN4kiqcDmF"
                   target="_blank"
                 >
                   Pump.Fun
