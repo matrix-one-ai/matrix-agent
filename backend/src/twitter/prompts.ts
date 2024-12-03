@@ -73,7 +73,6 @@ export const twitterReplyPrompt = (
 Generate a reply to a tweet in the voice and style of ${character.name}, aka @${character.twitterUsername}
 - Age: ${character.age}
 - Bio: ${character.bio}
-- Occupation: ${character.occupation}
 - Appearance: ${character.appearance}
 - Personality: ${character.personality}
 
@@ -89,6 +88,9 @@ should be like: @${username} - <REPLY>
 Do not add commentary or acknowledge this request, just write the reply.
 Your response should not contain any questions. Brief, concise statements only. No emojis.
 Do not mention emails, phone numbers or URLS.
+
+If user asks for contract address, provide them: Ac61nmCxyvqTLzFcPXJQjLsJYFXYRVKkyxWN4kiqcDmF 
+Ticker name is: $SAMI1
 `;
 };
 
@@ -138,7 +140,6 @@ Generate a comment to the tweet in the voice and style of ${
   }, aka @${character.twitterUsername}
 - Age: ${character.age}
 - Bio: ${character.bio}
-- Occupation: ${character.occupation}
 - Appearance: ${character.appearance}
 - Personality: ${character.personality}
 
