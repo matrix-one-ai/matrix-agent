@@ -472,6 +472,11 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
             if (like?.text.toLowerCase().includes("true")) {
               await twitterAgent.likeTweet(tweet.id!);
               console.log("Liked tweet:", tweet.text);
+              pushActivityLog({
+                moduleType: "twitter",
+                title: "Like Tweet",
+                description: tweet.text,
+              });
             }
 
             const tweetResponsePrompt = followingTweetResponsePrompt(
@@ -506,7 +511,7 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
 
             pushActivityLog({
               moduleType: "twitter",
-              title: "New Following Tweet Response",
+              title: "Tweet Response",
               description: responseTweet?.text,
             });
           } catch (error) {
@@ -587,6 +592,12 @@ const startChainNewsArticles = async (twitterAgent: TwitterAgent) => {
           title: article.title,
           slug: article.slug,
         });
+
+        pushActivityLog({
+          moduleType: "twitter",
+          title: "ChainNews Article",
+          description: article.title,
+        });
         console.log("Tweeted article:", article.title);
       } else {
         console.error("Error generating tweet response");
@@ -640,6 +651,11 @@ const startTrendingTokenAnalysis = async (twitterAgent: TwitterAgent) => {
 
       if (tweetResponse?.text) {
         await twitterAgent.postTweet(tweetResponse.text);
+        pushActivityLog({
+          moduleType: "twitter",
+          title: "Trending Token Analysis",
+          description: tweetResponse.text,
+        });
         console.log("Tweeted about trending token:", tweetResponse.text);
       }
     } catch (error) {

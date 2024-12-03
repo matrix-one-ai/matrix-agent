@@ -81,6 +81,7 @@ Tweet to reply to:
 ${tweet}
 
 Author username of reply: @${username}
+
 Bio of author: ${bio}
 
 should be like: @${username} - <REPLY>
