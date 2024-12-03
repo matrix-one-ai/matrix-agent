@@ -163,7 +163,8 @@ const ClientPage = () => {
           </div>
         </Card>
         <Card
-          contentClassName="!h-[1000px] !overflow-auto"
+          className="h-0 flex-grow"
+          contentClassName="!h-0 flex-grow !overflow-auto"
           title="activity log"
           level={2}
           maxLevel={5}
