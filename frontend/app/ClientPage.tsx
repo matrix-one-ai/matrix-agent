@@ -182,7 +182,7 @@ const ClientPage = () => {
           >
             <div ref={activitLogRef} className="flex flex-col gap-4">
               {activityLogs.map(
-                ({ moduleType, title, description, timestamp }, i) => {
+                ({ moduleType, title, description, timestamp, tweetId }, i) => {
                   const { date, time } = formatTimestampToLocal(timestamp);
 
                   // Reset timeRef on first iteration
@@ -214,7 +214,17 @@ const ClientPage = () => {
                           ) : (
                             <></>
                           )}
-                          <p>{title}</p>
+                          {tweetId ? (
+                            <a
+                              className="underline"
+                              href={`https://x.com/OnlyOneSami/status/${tweetId}`}
+                              target="_blank"
+                            >
+                              {title}
+                            </a>
+                          ) : (
+                            <p>{title}</p>
+                          )}
                         </div>
                         <p>{`[${time}]`}</p>
                       </div>
@@ -234,7 +244,7 @@ const ClientPage = () => {
           </Card>
         </div>
         {/* Right board */}
-        <div className="flex flex-col gap-[27px] flex-1 max-w-none order-3 md:order-3 md:max-w-64">
+        <div className="flex flex-col gap-[22px] flex-1 max-w-none order-3 md:order-3 md:max-w-64">
           <Card title="links">
             <div className="flex flex-col gap-4">
               <div className="flex gap-2 items-center">
