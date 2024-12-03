@@ -57,6 +57,17 @@ const ClientPage = () => {
               height={256}
             />
           </Card>
+          <Card title="bio">
+            <div className="flex flex-col gap-0.5">
+              <Image
+                className="w-full"
+                src="/images/placeholder_14.png"
+                alt=""
+                width={256}
+                height={256}
+              />
+            </div>
+          </Card>
           <Card title="level of autonomy">
             <div className="flex flex-col gap-2">
               {AUTONOMY_LEVELS.map((level, i) => (
@@ -72,17 +83,6 @@ const ClientPage = () => {
                   />
                 </div>
               ))}
-            </div>
-          </Card>
-          <Card title="bio">
-            <div className="flex flex-col gap-0.5">
-              <Image
-                className="w-full"
-                src="/images/placeholder_14.png"
-                alt=""
-                width={256}
-                height={256}
-              />
             </div>
           </Card>
           {/* Placeholder cards */}
