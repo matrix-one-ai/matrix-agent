@@ -33,7 +33,7 @@ const ClientPage = () => {
 
   // Open hello world in a new tab
   const handleHelloWorldArrowClick = useCallback(() => {
-    window.open("hello", "_blank");
+    window.open("hello", "_self");
   }, []);
 
   // Scroll to top of activity log content when activity logs change
