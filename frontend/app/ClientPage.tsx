@@ -73,11 +73,7 @@ const ClientPage = () => {
           </div>
         </Card>
         <Card title="bio">
-          <div className="flex flex-col gap-0.5">
-            <p>age: </p>
-            <p>pronouns: </p>
-            <p>work: </p>
-          </div>
+          <div className="flex flex-col gap-0.5"></div>
         </Card>
         <Card title="disclaimer">
           <div className="flex flex-col gap-0.5">
