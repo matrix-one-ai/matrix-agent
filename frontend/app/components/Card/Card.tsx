@@ -12,7 +12,8 @@ interface ICardProps extends React.HTMLAttributes<HTMLDivElement> {
   uncollapsible?: boolean;
   children?: React.ReactNode;
   contentClassName?: string;
-  onArrowClick?: React.MouseEventHandler<HTMLButtonElement>;
+  actionBtnIcon?: React.ReactNode;
+  onActionBtnClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const Card: React.FC<ICardProps> = ({
@@ -24,7 +25,8 @@ const Card: React.FC<ICardProps> = ({
   uncollapsible = false,
   children,
   contentClassName,
-  onArrowClick,
+  actionBtnIcon,
+  onActionBtnClick,
   ...rest
 }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -37,9 +39,10 @@ const Card: React.FC<ICardProps> = ({
         title={title}
         level={level}
         maxLevel={maxLevel}
+        actionBtnIcon={actionBtnIcon}
         // TODO: Enable once this collapsible feature is necessary
         // onClick={uncollapsible ? undefined : toggleIsCollapsed}
-        onArrowClick={onArrowClick}
+        onActionBtnClick={onActionBtnClick}
       />
       {/* Content */}
       <div

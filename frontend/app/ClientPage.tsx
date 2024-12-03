@@ -4,15 +4,16 @@ import React, { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
-import Card from "./components/Card/Card";
-import AutonomyLevel from "./components/AutonomyLevel";
+import Card from "@/app/components/Card/Card";
+import AutonomyLevel from "@/app/components/AutonomyLevel";
+import MarkdownComponents from "@/app/components/MarkdownComponents";
 import TwitterBirdIcon from "@/app/components/Icons/TwitterBirdIcon";
 import DexIcon from "@/app/components/Icons/DexIcon";
+import UpRightArrowIcon from "@/app/components/Icons/UpRightArrowIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import { useActivityLog } from "./hooks/useActivityLog";
 import { convertToLinks, formatTimestampToLocal } from "./utils/string";
 import { EActivityLogModuleType } from "./types";
-import MarkdownComponents from "./components/MarkdownComponents";
 
 const AUTONOMY_LEVELS = [
   "No Autonomy",
@@ -31,9 +32,9 @@ const ClientPage = () => {
   const timeRef = useRef<string | null>(null);
   const activitLogRef = useRef<HTMLDivElement | null>(null);
 
-  // Open hello world in a new tab
-  const handleHelloWorldArrowClick = useCallback(() => {
-    window.open("hello", "_blank");
+  // Open hello world page
+  const handleOpenHelloPage = useCallback(() => {
+    window.open("hello", "_self");
   }, []);
 
   // Scroll to top of activity log content when activity logs change
@@ -73,9 +74,9 @@ const ClientPage = () => {
         </Card>
         <Card title="bio">
           <div className="flex flex-col gap-0.5">
-            <p>age: 35</p>
-            <p>pronouns: she/her</p>
-            <p>work: co-host at ChainNews</p>
+            <p>age: </p>
+            <p>pronouns: </p>
+            <p>work: </p>
           </div>
         </Card>
         <Card title="disclaimer">
@@ -84,21 +85,96 @@ const ClientPage = () => {
             <p className="underline">SamiOne disclaimer</p>
           </div>
         </Card>
+        {/* Placeholder cards */}
+        <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Image
+            className="w-full"
+            src="/images/placeholder_01.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Image
+            className="w-full"
+            src="/images/placeholder_02.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card
+          contentClassName="flex flex-col gap-2.5"
+          title="<placeholder>"
+          level={1}
+          maxLevel={5}
+        >
+          <Image
+            className="w-full"
+            src="/images/placeholder_03.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+          <Image
+            className="w-full"
+            src="/images/placeholder_03.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+          <Image
+            className="w-full"
+            src="/images/placeholder_03.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Image
+            className="w-full"
+            src="/images/placeholder_04.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Image
+            className="w-full"
+            src="/images/placeholder_05.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
       </div>
       {/* Center board */}
       <div className="flex flex-col gap-6 flex-1 order-1 md:order-2">
-        <Card title="hello world!" onArrowClick={handleHelloWorldArrowClick}>
+        <Card
+          title="hello world!"
+          actionBtnIcon={<UpRightArrowIcon />}
+          onActionBtnClick={handleOpenHelloPage}
+        >
           <div className="flex flex-col gap-4">
             <p>The AI redefining the future of legacy media!</p>
             <p>
               I’m your playful, curious, and meme-loving guide through the wild
               worlds of crypto, tech, and internet culture.
             </p>
-            <p>November 27, 2024</p>
+            <div className="flex justify-between">
+              <p>November 27, 2024</p>
+              <a className="underline" href="/hello">
+                [read more]
+              </a>
+            </div>
           </div>
         </Card>
         <Card
-          contentClassName="!h-[1000px] !overflow-auto"
+          className="h-0 flex-grow"
+          contentClassName="!h-0 flex-grow !overflow-auto"
           title="activity log"
           level={2}
           maxLevel={5}
@@ -158,7 +234,7 @@ const ClientPage = () => {
         </Card>
       </div>
       {/* Right board */}
-      <div className="flex flex-col gap-6 flex-1 max-w-none order-3 md:order-3 md:max-w-64">
+      <div className="flex flex-col gap-[22px] flex-1 max-w-none order-3 md:order-3 md:max-w-64">
         <Card title="links">
           <div className="flex flex-col gap-4">
             <div className="flex gap-2 items-center">
@@ -209,28 +285,85 @@ const ClientPage = () => {
           </div>
         </Card>
         {/* Placeholder cards */}
-        <Card title="<placeholder>">
+        <Card title="<placeholder>" level={1} maxLevel={5}>
           <Image
             className="w-full"
-            src="/images/pictures.png"
+            src="/images/placeholder_06.png"
             alt=""
             width={256}
             height={256}
           />
         </Card>
-        <Card title="<placeholder>">
+        <Card title="<placeholder>" level={1} maxLevel={5}>
           <Image
             className="w-full"
-            src="/images/media.png"
+            src="/images/placeholder_07.png"
             alt=""
             width={256}
             height={256}
           />
         </Card>
-        <Card title="<placeholder>">
+        <Card title="<placeholder>" level={1} maxLevel={5}>
           <Image
             className="w-full"
-            src="/images/box.png"
+            src="/images/placeholder_08.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card
+          contentClassName="flex flex-col gap-2.5"
+          title="<placeholder>"
+          level={1}
+          maxLevel={5}
+        >
+          <Image
+            className="w-full"
+            src="/images/placeholder_09.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+          <Image
+            className="w-full"
+            src="/images/placeholder_09.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Image
+            className="w-full"
+            src="/images/placeholder_10.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Image
+            className="w-full"
+            src="/images/placeholder_11.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Image
+            className="w-full"
+            src="/images/placeholder_12.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Image
+            className="w-full"
+            src="/images/placeholder_13.png"
             alt=""
             width={256}
             height={256}
