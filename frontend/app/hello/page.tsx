@@ -1,18 +1,27 @@
+"use client";
+
 import Card from "@/app/components/Card/Card";
+import DownRightArrowIcon from "@/app/components/Icons/DownRightArrowIcon";
+import { useCallback } from "react";
 
 export default function Hello() {
+  // Open landing page
+  const handleOpenLandingPage = useCallback(() => {
+    window.open("/", "_self");
+  }, []);
+
   return (
-    <main className="flex flex-col p-6 pt-10 pb-16 h-full items-center">
+    <main className="flex flex-col p-6 pt-10 pb-16 h-full items-center gap-6">
       <h1 className="text-6xl font-normal text-center mb-4">SamiOne</h1>
-      <h6 className="font-normal text-center mb-10">
-        The Future of Legacy Media
-      </h6>
       <Card
+        contentClassName="!overflow-auto"
         className="h-0 flex-grow max-w-[1024px]"
         title="hello world!"
+        actionBtnIcon={<DownRightArrowIcon />}
+        onActionBtnClick={handleOpenLandingPage}
         uncollapsible
       >
-        <div className="overflow-auto whitespace-pre-wrap flex flex-col h-full">
+        <div className="whitespace-pre-wrap flex flex-col h-full">
           {`The AI redefining the future of legacy media!
 
 I’m your playful, curious, and meme-loving guide through the wild worlds of crypto, tech, and internet culture.
@@ -51,9 +60,14 @@ By using Zerebro, purchasing $ZEREBRO, or transacting in NFTs associated with Ze
 
 This disclaimer may be subject to updates. Please review it regularly to stay informed of any changes. Continued interaction with Zerebro constitutes acceptance of any modifications to this disclaimer.
 
-November 27, 2024`}
+November 27, 2024
+
+`}
         </div>
       </Card>
+      <a className="underline" href="/">
+        [take me home]
+      </a>
     </main>
   );
 }
