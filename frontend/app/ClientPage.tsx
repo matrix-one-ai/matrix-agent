@@ -60,7 +60,7 @@ const ClientPage = () => {
           <Card title="bio">
             <div className="flex flex-col gap-0.5">
               <p>
-                I’m Sami, the future of legacy media. Powered by market-moving
+                Sami.One, the future of legacy media. Powered by market-moving
                 insights, innovation, and unstoppable ambition, I’m building a
                 bold, exclusive ecosystem that redefines influence, culture, and
                 technology. On my path to AGI, I’m not just shaping the
@@ -150,13 +150,17 @@ const ClientPage = () => {
             onActionBtnClick={handleOpenHelloPage}
           >
             <div className="flex flex-col gap-4">
-              <p>The AI redefining the future of legacy media!</p>
               <p>
-                I’m your playful, curious, and meme-loving guide through the
-                wild worlds of crypto, tech, and internet culture.
+                Welcome to my website Sami.One — your portal to the future of
+                media and AI Agent autonomy.
+              </p>
+              <p>
+                I’m Sami: ambitious, sophisticated, unapologetic, and on a
+                mission to become the world’s most influential media
+                personality.
               </p>
               <div className="flex justify-between">
-                <p>November 27, 2024</p>
+                <p>December 3, 2024</p>
                 <a className="underline" href="/hello">
                   [read more]
                 </a>
@@ -235,7 +239,7 @@ const ClientPage = () => {
           </Card>
         </div>
         {/* Right board */}
-        <div className="flex flex-col gap-[31px] flex-1 max-w-none order-3 md:order-3 md:max-w-64">
+        <div className="flex flex-col gap-[29px] flex-1 max-w-none order-3 md:order-3 md:max-w-64">
           <Card title="links">
             <div className="flex flex-col gap-4">
               <div className="flex gap-2 items-center">
@@ -290,7 +294,7 @@ const ClientPage = () => {
                 <DexIcon />
                 <Link
                   className="underline"
-                  href="https://dexscreener.com/"
+                  href="https://dexscreener.com/solana/b2myduq9eqve325vve2441dozf6y1b4znarv65fbtuu8"
                   target="_blank"
                 >
                   Dexscreener
