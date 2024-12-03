@@ -84,6 +84,71 @@ const ClientPage = () => {
             <p className="underline">SamiOne disclaimer</p>
           </div>
         </Card>
+        {/* Placeholder cards */}
+        <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Image
+            className="w-full"
+            src="/images/placeholder_01.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Image
+            className="w-full"
+            src="/images/placeholder_02.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card
+          contentClassName="flex flex-col gap-2.5"
+          title="<placeholder>"
+          level={1}
+          maxLevel={5}
+        >
+          <Image
+            className="w-full"
+            src="/images/placeholder_03.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+          <Image
+            className="w-full"
+            src="/images/placeholder_03.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+          <Image
+            className="w-full"
+            src="/images/placeholder_03.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Image
+            className="w-full"
+            src="/images/placeholder_04.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Image
+            className="w-full"
+            src="/images/placeholder_05.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
       </div>
       {/* Center board */}
       <div className="flex flex-col gap-6 flex-1 order-1 md:order-2">
@@ -209,28 +274,76 @@ const ClientPage = () => {
           </div>
         </Card>
         {/* Placeholder cards */}
-        <Card title="<placeholder>">
+        <Card title="<placeholder>" level={1} maxLevel={5}>
           <Image
             className="w-full"
-            src="/images/pictures.png"
+            src="/images/placeholder_06.png"
             alt=""
             width={256}
             height={256}
           />
         </Card>
-        <Card title="<placeholder>">
+        <Card title="<placeholder>" level={1} maxLevel={5}>
           <Image
             className="w-full"
-            src="/images/media.png"
+            src="/images/placeholder_07.png"
             alt=""
             width={256}
             height={256}
           />
         </Card>
-        <Card title="<placeholder>">
+        <Card title="<placeholder>" level={1} maxLevel={5}>
           <Image
             className="w-full"
-            src="/images/box.png"
+            src="/images/placeholder_08.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card
+          contentClassName="flex flex-col gap-2.5"
+          title="<placeholder>"
+          level={1}
+          maxLevel={5}
+        >
+          <Image
+            className="w-full"
+            src="/images/placeholder_09.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+          <Image
+            className="w-full"
+            src="/images/placeholder_09.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Image
+            className="w-full"
+            src="/images/placeholder_10.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Image
+            className="w-full"
+            src="/images/placeholder_11.png"
+            alt=""
+            width={256}
+            height={256}
+          />
+        </Card>
+        <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Image
+            className="w-full"
+            src="/images/placeholder_12.png"
             alt=""
             width={256}
             height={256}
