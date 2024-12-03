@@ -4,15 +4,16 @@ import React, { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
-import Card from "./components/Card/Card";
-import AutonomyLevel from "./components/AutonomyLevel";
+import Card from "@/app/components/Card/Card";
+import AutonomyLevel from "@/app/components/AutonomyLevel";
+import MarkdownComponents from "@/app/components/MarkdownComponents";
 import TwitterBirdIcon from "@/app/components/Icons/TwitterBirdIcon";
 import DexIcon from "@/app/components/Icons/DexIcon";
+import UpRightArrowIcon from "@/app/components/Icons/UpRightArrowIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import { useActivityLog } from "./hooks/useActivityLog";
 import { convertToLinks, formatTimestampToLocal } from "./utils/string";
 import { EActivityLogModuleType } from "./types";
-import MarkdownComponents from "./components/MarkdownComponents";
 
 const AUTONOMY_LEVELS = [
   "No Autonomy",
@@ -31,8 +32,8 @@ const ClientPage = () => {
   const timeRef = useRef<string | null>(null);
   const activitLogRef = useRef<HTMLDivElement | null>(null);
 
-  // Open hello world in a new tab
-  const handleHelloWorldArrowClick = useCallback(() => {
+  // Open hello world page
+  const handleOpenHelloPage = useCallback(() => {
     window.open("hello", "_self");
   }, []);
 
@@ -152,14 +153,23 @@ const ClientPage = () => {
       </div>
       {/* Center board */}
       <div className="flex flex-col gap-6 flex-1 order-1 md:order-2">
-        <Card title="hello world!" onArrowClick={handleHelloWorldArrowClick}>
+        <Card
+          title="hello world!"
+          actionBtnIcon={<UpRightArrowIcon />}
+          onActionBtnClick={handleOpenHelloPage}
+        >
           <div className="flex flex-col gap-4">
             <p>The AI redefining the future of legacy media!</p>
             <p>
               I’m your playful, curious, and meme-loving guide through the wild
               worlds of crypto, tech, and internet culture.
             </p>
-            <p>November 27, 2024</p>
+            <div className="flex justify-between">
+              <p>November 27, 2024</p>
+              <a className="underline" href="/hello">
+                [read more]
+              </a>
+            </div>
           </div>
         </Card>
         <Card

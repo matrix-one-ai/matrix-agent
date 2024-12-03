@@ -1,13 +1,24 @@
+"use client";
+
 import Card from "@/app/components/Card/Card";
+import DownRightArrowIcon from "@/app/components/Icons/DownRightArrowIcon";
+import { useCallback } from "react";
 
 export default function Hello() {
+  // Open landing page
+  const handleOpenLandingPage = useCallback(() => {
+    window.open("/", "_self");
+  }, []);
+
   return (
-    <main className="flex flex-col p-6 pt-10 pb-16 h-full items-center">
+    <main className="flex flex-col p-6 pt-10 pb-16 h-full items-center gap-6">
       <h1 className="text-6xl font-normal text-center mb-4">SamiOne</h1>
       <Card
         contentClassName="!overflow-auto"
         className="h-0 flex-grow max-w-[1024px]"
         title="hello world!"
+        actionBtnIcon={<DownRightArrowIcon />}
+        onActionBtnClick={handleOpenLandingPage}
         uncollapsible
       >
         <div className="whitespace-pre-wrap flex flex-col h-full">
@@ -54,6 +65,9 @@ November 27, 2024
 `}
         </div>
       </Card>
+      <a className="underline" href="/">
+        [take me home]
+      </a>
     </main>
   );
 }
