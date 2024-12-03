@@ -355,6 +355,7 @@ const startCommentResponseLoop = async (twitterAgent: TwitterAgent) => {
             moduleType: "twitter",
             title: "New Reply",
             description: replyTweet?.text,
+            tweetId: mention.id,
           });
         } catch (error) {
           console.error("Error replying to mention:", error);
@@ -487,6 +488,7 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
                 moduleType: "twitter",
                 title: "Like Tweet",
                 description: tweet.text,
+                tweetId: tweet.id!,
               });
             }
 
@@ -524,6 +526,7 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
               moduleType: "twitter",
               title: "Tweet Response",
               description: responseTweet?.text,
+              tweetId: tweet.id!,
             });
           } catch (error) {
             console.error("Error in comment response loop:", error);
@@ -596,7 +599,9 @@ const startChainNewsArticles = async (twitterAgent: TwitterAgent) => {
       );
 
       if (tweetResponse?.text) {
-        await twitterAgent.postTweet(tweetResponse.text);
+        const resp = await twitterAgent.postTweet(tweetResponse.text);
+        const json = await resp.json();
+        const tweetId = json.data.create_tweet.tweet_results.result.rest_id;
 
         await ChainNewsTrending.create({
           newsId: article.id,
@@ -608,6 +613,7 @@ const startChainNewsArticles = async (twitterAgent: TwitterAgent) => {
           moduleType: "twitter",
           title: "ChainNews Article",
           description: article.title,
+          tweetId,
         });
         console.log("Tweeted article:", article.title);
       } else {
@@ -661,11 +667,15 @@ const startTrendingTokenAnalysis = async (twitterAgent: TwitterAgent) => {
       );
 
       if (tweetResponse?.text) {
-        await twitterAgent.postTweet(tweetResponse.text);
+        const resp = await twitterAgent.postTweet(tweetResponse.text);
+        const json = await resp.json();
+        const tweetId = json.data.create_tweet.tweet_results.result.rest_id;
+
         pushActivityLog({
           moduleType: "twitter",
           title: "Trending Token Analysis",
           description: tweetResponse.text,
+          tweetId,
         });
         console.log("Tweeted about trending token:", tweetResponse.text);
       }
