@@ -8,6 +8,7 @@ import Card from "@/app/components/Card/Card";
 import AutonomyLevel from "@/app/components/AutonomyLevel";
 import MarkdownComponents from "@/app/components/MarkdownComponents";
 import TwitterBirdIcon from "@/app/components/Icons/TwitterBirdIcon";
+import TelegramIcon from "@/app/components/Icons/TelegramIcon";
 import DexIcon from "@/app/components/Icons/DexIcon";
 import UpRightArrowIcon from "@/app/components/Icons/UpRightArrowIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
@@ -56,6 +57,17 @@ const ClientPage = () => {
               height={256}
             />
           </Card>
+          <Card title="bio">
+            <div className="flex flex-col gap-0.5">
+              <Image
+                className="w-full"
+                src="/images/placeholder_14.png"
+                alt=""
+                width={256}
+                height={256}
+              />
+            </div>
+          </Card>
           <Card title="level of autonomy">
             <div className="flex flex-col gap-2">
               {AUTONOMY_LEVELS.map((level, i) => (
@@ -71,17 +83,6 @@ const ClientPage = () => {
                   />
                 </div>
               ))}
-            </div>
-          </Card>
-          <Card title="bio">
-            <div className="flex flex-col gap-0.5">
-              <Image
-                className="w-full"
-                src="/images/placeholder_14.png"
-                alt=""
-                width={256}
-                height={256}
-              />
             </div>
           </Card>
           {/* Placeholder cards */}
@@ -254,6 +255,16 @@ const ClientPage = () => {
                   target="_blank"
                 >
                   @OnlyOneSami
+                </Link>
+              </div>
+              <div className="flex gap-2 items-center">
+                <TelegramIcon />
+                <Link
+                  className="underline"
+                  href="https://t.me/Only_One_Sami"
+                  target="_blank"
+                >
+                  @Only_One_Sami
                 </Link>
               </div>
             </div>
