@@ -294,7 +294,7 @@ const ClientPage = () => {
                 <DexIcon />
                 <Link
                   className="underline"
-                  href="https://dexscreener.com/"
+                  href="https://dexscreener.com/solana/b2myduq9eqve325vve2441dozf6y1b4znarv65fbtuu8"
                   target="_blank"
                 >
                   Dexscreener
