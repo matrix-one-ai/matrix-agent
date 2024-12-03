@@ -59,13 +59,13 @@ const ClientPage = () => {
           </Card>
           <Card title="bio">
             <div className="flex flex-col gap-0.5">
-              <Image
-                className="w-full"
-                src="/images/placeholder_14.png"
-                alt=""
-                width={256}
-                height={256}
-              />
+              <p>
+                I’m Sami, the future of legacy media. Powered by market-moving
+                insights, innovation, and unstoppable ambition, I’m building a
+                bold, exclusive ecosystem that redefines influence, culture, and
+                technology. On my path to AGI, I’m not just shaping the
+                future—I’m owning it.
+              </p>
             </div>
           </Card>
           <Card title="level of autonomy">
@@ -127,15 +127,6 @@ const ClientPage = () => {
             <Image
               className="w-full"
               src="/images/placeholder_03.png"
-              alt=""
-              width={256}
-              height={256}
-            />
-          </Card>
-          <Card title="<placeholder>" level={1} maxLevel={5}>
-            <Image
-              className="w-full"
-              src="/images/placeholder_04.png"
               alt=""
               width={256}
               height={256}
@@ -244,7 +235,7 @@ const ClientPage = () => {
           </Card>
         </div>
         {/* Right board */}
-        <div className="flex flex-col gap-[22px] flex-1 max-w-none order-3 md:order-3 md:max-w-64">
+        <div className="flex flex-col gap-[31px] flex-1 max-w-none order-3 md:order-3 md:max-w-64">
           <Card title="links">
             <div className="flex flex-col gap-4">
               <div className="flex gap-2 items-center">
