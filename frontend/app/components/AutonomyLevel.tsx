@@ -23,9 +23,10 @@ const AutonomyLevel: React.FC<IAutonomyLevelProps> = ({
         <div
           key={`${id}-autonomy-level-${i}`}
           className={clsx(
-            "w-[6.75px] h-[6.75px] rounded-full border",
+            "rounded-full border",
             variant === "primary" ? "border-white" : "border-black",
             i < level && (variant === "primary" ? "bg-white" : "bg-black"),
+            size === "small" && "w-[6.75px] h-[6.75px]",
             size === "medium" && "w-[8.75px] h-[8.75px]",
             size === "large" && "w-[10.75px] h-[10.75px]",
           )}
