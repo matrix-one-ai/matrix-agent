@@ -15,7 +15,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <main className="flex flex-col p-6 pt-10 pb-16 h-full items-center">
+          <h1 className="text-6xl font-normal text-center mb-10">Sami</h1>
+          {children}
+        </main>
         <Analytics />
       </body>
     </html>

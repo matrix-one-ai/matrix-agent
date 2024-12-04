@@ -11,11 +11,10 @@ export default function Hello() {
   }, []);
 
   return (
-    <main className="flex flex-col p-6 pt-10 pb-16 h-full items-center gap-6">
-      <h1 className="text-6xl font-normal text-center mb-4">Sami</h1>
+    <>
       <Card
         contentClassName="!overflow-auto"
-        className="h-0 flex-grow max-w-[1024px]"
+        className="h-0 flex-grow max-w-[1024px] mb-6"
         title="hello world!"
         actionBtnIcon={<DownRightArrowIcon />}
         onActionBtnClick={handleOpenLandingPage}
@@ -132,6 +131,6 @@ export default function Hello() {
       <a className="underline" href="/">
         [take me home]
       </a>
-    </main>
+    </>
   );
 }
