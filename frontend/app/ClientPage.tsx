@@ -86,7 +86,12 @@ const ClientPage = () => {
             </div>
           </Card>
           {/* Placeholder cards */}
-          <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Card
+            className="hidden md:flex"
+            title="<placeholder>"
+            level={1}
+            maxLevel={5}
+          >
             <Image
               className="w-full"
               src="/images/placeholder_01.png"
@@ -95,7 +100,12 @@ const ClientPage = () => {
               height={256}
             />
           </Card>
-          <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Card
+            className="hidden md:flex"
+            title="<placeholder>"
+            level={1}
+            maxLevel={5}
+          >
             <Image
               className="w-full"
               src="/images/placeholder_02.png"
@@ -105,6 +115,7 @@ const ClientPage = () => {
             />
           </Card>
           <Card
+            className="hidden md:flex"
             contentClassName="flex flex-col gap-2.5"
             title="<placeholder>"
             level={1}
@@ -132,7 +143,12 @@ const ClientPage = () => {
               height={256}
             />
           </Card>
-          <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Card
+            className="hidden md:flex"
+            title="<placeholder>"
+            level={1}
+            maxLevel={5}
+          >
             <Image
               className="w-full"
               src="/images/placeholder_05.png"
