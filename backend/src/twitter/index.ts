@@ -162,16 +162,8 @@ class TwitterAgent {
   }
 
   async getUserById(userId: string) {
-    const user = await userClient.v2.user(userId, {
-      "user.fields": [
-        "username",
-        "name",
-        "profile_image_url",
-        "location",
-        "description",
-      ],
-    });
-    return user.data;
+    const username = await this.scraper.getScreenNameByUserId(userId);
+    return await this.scraper.getProfile(username);
   }
 
   async getChainNewsTrendingNews() {
@@ -326,8 +318,8 @@ const startCommentResponseLoop = async (twitterAgent: TwitterAgent) => {
           const prompt = twitterReplyPrompt(
             sami,
             mention.text,
-            user.username,
-            user.description!
+            user.username!,
+            user.biography!
           );
 
           const replyTweet = await generateTextFromPrompt(prompt, "gpt-4o", {
@@ -548,7 +540,7 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
 };
 
 const startChainNewsArticles = async (twitterAgent: TwitterAgent) => {
-  const intervalTimeout = 1000 * 60 * 60 * 1; // 1 hour
+  const intervalTimeout = 1000 * 60 * 60 * 4; // 4 hours
 
   const main = async () => {
     try {

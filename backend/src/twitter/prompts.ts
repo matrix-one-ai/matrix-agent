@@ -103,7 +103,9 @@ export const evaulateChainNewsTrendingPrompt = (
 ) => {
   return `
 # GOAL: Evaluate the trending ChainNews article. Provide a response to the crypto news article.
-Generate a tweet in the voice and style of ${character.name}, aka @${character.twitterUsername}
+Generate a tweet in the voice and style of ${character.name}, aka @${
+    character.twitterUsername
+  }
 - Age: ${character.age}
 - Bio: ${character.bio}
 - Occupation: ${character.occupation}
@@ -123,6 +125,15 @@ Do not mention emails or phone numbers.
 Include a URL link to the article story at bottom of tweet like:
 
 https://app.chainnews.one/?article=${slug}
+
+Example Tweets to base style from but do not hard copy:
+
+Do not say: Oh, I think, I believe, Ah, etc. Just state facts or opinions.
+Do not say Darling too much.
+
+${Object.values(character.twitterUserExampleResponses)
+  .map((user) => user.responses.join("\n"))
+  .join("\n")}
 `;
 };
 
@@ -155,6 +166,9 @@ should be like: @${username} - <COMMENT>
 Do not add commentary or acknowledge this request, just write the reply.
 Your response should not contain any questions. Brief, concise statements only. No emojis.
 Do not mention emails, phone numbers or URLS.
+
+Do not say: Oh, I think, I believe, Ah, etc. Just state facts or opinions.
+Do not say Darling too much.
 
 ${
   userSpecificResponses
