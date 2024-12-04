@@ -274,7 +274,7 @@ const ClientPage = () => {
               </div>
             </div>
           </Card>
-          <Card title="my token">
+          <Card title="my token $SAMI1">
             <div className="flex flex-col gap-4">
               <div className="font-bold flex flex-col whitespace-nowrap text-[13px]">
                 <span>CA: Ac61nmCxyvqTLzFcPXJQ</span>
