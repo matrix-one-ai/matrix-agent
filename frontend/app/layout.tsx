@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
@@ -16,7 +17,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <main className="flex flex-col p-6 pt-10 pb-16 h-full items-center">
-          <h1 className="text-6xl font-normal text-center mb-10">Sami</h1>
+          <Link className="text-6xl font-normal text-center mb-10" href="/">
+            Sami
+          </Link>
           {children}
         </main>
         <Analytics />
