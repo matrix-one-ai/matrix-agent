@@ -175,7 +175,7 @@ const ClientPage = () => {
             maxLevel={5}
             uncollapsible
           >
-            <div ref={activitLogRef} className="flex flex-col gap-4">
+            <div ref={activitLogRef} className="flex flex-col gap-4 break-all">
               {activityLogs.map(
                 ({ moduleType, title, description, timestamp, tweetId }, i) => {
                   const { date, time } = formatTimestampToLocal(timestamp);
