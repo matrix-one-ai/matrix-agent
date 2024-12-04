@@ -86,7 +86,12 @@ const ClientPage = () => {
             </div>
           </Card>
           {/* Placeholder cards */}
-          <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Card
+            className="hidden md:flex"
+            title="<placeholder>"
+            level={1}
+            maxLevel={5}
+          >
             <Image
               className="w-full"
               src="/images/placeholder_01.png"
@@ -95,7 +100,12 @@ const ClientPage = () => {
               height={256}
             />
           </Card>
-          <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Card
+            className="hidden md:flex"
+            title="<placeholder>"
+            level={1}
+            maxLevel={5}
+          >
             <Image
               className="w-full"
               src="/images/placeholder_02.png"
@@ -105,6 +115,7 @@ const ClientPage = () => {
             />
           </Card>
           <Card
+            className="hidden md:flex"
             contentClassName="flex flex-col gap-2.5"
             title="<placeholder>"
             level={1}
@@ -132,7 +143,12 @@ const ClientPage = () => {
               height={256}
             />
           </Card>
-          <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Card
+            className="hidden md:flex"
+            title="<placeholder>"
+            level={1}
+            maxLevel={5}
+          >
             <Image
               className="w-full"
               src="/images/placeholder_05.png"
@@ -168,14 +184,14 @@ const ClientPage = () => {
             </div>
           </Card>
           <Card
-            className="h-0 flex-grow"
+            className="!h-[50vh] md:h-0 flex-grow"
             contentClassName="!h-0 flex-grow !overflow-auto"
             title="activity log"
             level={2}
             maxLevel={5}
             uncollapsible
           >
-            <div ref={activitLogRef} className="flex flex-col gap-4">
+            <div ref={activitLogRef} className="flex flex-col gap-4 break-all">
               {activityLogs.map(
                 ({ moduleType, title, description, timestamp, tweetId }, i) => {
                   const { date, time } = formatTimestampToLocal(timestamp);
@@ -274,7 +290,7 @@ const ClientPage = () => {
               </div>
             </div>
           </Card>
-          <Card title="my token">
+          <Card title="my token $SAMI1">
             <div className="flex flex-col gap-4">
               <div className="font-bold flex flex-col whitespace-nowrap text-[13px]">
                 <span>CA: Ac61nmCxyvqTLzFcPXJQ</span>
