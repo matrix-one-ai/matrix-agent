@@ -1,6 +1,9 @@
 import { Client, GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
-import { discordChannelReplyPrompt } from "./prompts";
+import {
+  discordChannelReplyPrompt,
+  discordJudgeIfShouldReply,
+} from "./prompts";
 import sami from "../characters/sami";
 import { generateTextFromPrompt } from "../ai";
 
@@ -30,7 +33,7 @@ export const discordAgentInit = () => {
   client.on("messageCreate", async (message) => {
     console.log(message.content);
 
-    if (!message.author.bot && message.mentions.has(client.user!)) {
+    if (!message.author.bot) {
       const messages = await message.channel.messages.fetch({ limit: 25 });
       const sortedMessages = messages
         .filter((msg) => !msg.author.bot)
@@ -38,21 +41,43 @@ export const discordAgentInit = () => {
         .map((msg) => `${msg.author.username}: ${msg.content}`)
         .join("\n");
 
-      const prompt = discordChannelReplyPrompt(
+      const judgeIfShouldReplyPrompt = discordJudgeIfShouldReply(
         sami,
         message.content,
-        message.author.displayName,
         sortedMessages
       );
 
-      const reply = await generateTextFromPrompt(prompt, "gpt-4o", {
-        temperature: 0.8,
-        frequencyPenalty: 1,
-        presencePenalty: 1,
-      });
+      const shouldReply = await generateTextFromPrompt(
+        judgeIfShouldReplyPrompt,
+        "gpt-4o",
+        {
+          temperature: 0.1,
+          frequencyPenalty: 0.2,
+          presencePenalty: 0.2,
+        }
+      );
 
-      if (reply?.text) {
-        message.channel.send(reply?.text);
+      if (shouldReply?.text === "TRUE") {
+        console.log("Should reply");
+        const prompt = discordChannelReplyPrompt(
+          sami,
+          message.content,
+          message.author.displayName,
+          sortedMessages
+        );
+
+        const reply = await generateTextFromPrompt(prompt, "gpt-4o", {
+          temperature: 0.5,
+          frequencyPenalty: 0.5,
+          presencePenalty: 0.5,
+        });
+
+        if (reply?.text) {
+          message.channel.send(reply?.text);
+        }
+      } else {
+        console.log("Should not reply");
+        return;
       }
     }
   });
