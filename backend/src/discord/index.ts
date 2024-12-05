@@ -34,7 +34,7 @@ export const discordAgentInit = () => {
     console.log(message.content);
 
     if (!message.author.bot) {
-      const messages = await message.channel.messages.fetch({ limit: 25 });
+      const messages = await message.channel.messages.fetch({ limit: 100 });
       const sortedMessages = messages
         .filter((msg) => !msg.author.bot)
         .sort((a, b) => a.createdTimestamp - b.createdTimestamp)
