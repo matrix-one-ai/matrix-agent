@@ -30,7 +30,7 @@ export const discordAgentInit = () => {
   client.on("messageCreate", async (message) => {
     console.log(message.content);
 
-    if (!message.author.bot) {
+    if (!message.author.bot && message.mentions.has(client.user!)) {
       const messages = await message.channel.messages.fetch({ limit: 25 });
       const sortedMessages = messages
         .filter((msg) => !msg.author.bot)
