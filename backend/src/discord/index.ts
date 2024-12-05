@@ -31,10 +31,18 @@ export const discordAgentInit = () => {
     console.log(message.content);
 
     if (!message.author.bot) {
+      const messages = await message.channel.messages.fetch({ limit: 25 });
+      const sortedMessages = messages
+        .filter((msg) => !msg.author.bot)
+        .sort((a, b) => a.createdTimestamp - b.createdTimestamp)
+        .map((msg) => `${msg.author.username}: ${msg.content}`)
+        .join("\n");
+
       const prompt = discordChannelReplyPrompt(
         sami,
         message.content,
-        message.author.username
+        message.author.displayName,
+        sortedMessages
       );
 
       const reply = await generateTextFromPrompt(prompt, "gpt-4o", {
