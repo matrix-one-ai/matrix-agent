@@ -8,6 +8,7 @@ import {
 } from "./prompts";
 import sami from "../characters/sami";
 import { generateTextFromPrompt } from "../ai";
+import { pushActivityLog } from "../logs";
 
 dotenv.config();
 
@@ -108,11 +109,13 @@ export const discordAgentInit = async () => {
           discordJudgeIsCryptoTalk(message.content),
           "gpt-4o-mini",
           {
-            temperature: 0.2,
-            frequencyPenalty: 0.2,
-            presencePenalty: 0.2,
+            temperature: 0,
+            frequencyPenalty: 0,
+            presencePenalty: 0,
           }
         );
+
+        console.log("Is crpyto talk:", judgeIsCryptoTalk?.text);
 
         if (judgeIsCryptoTalk?.text !== "FALSE") {
           const tokenTicker = judgeIsCryptoTalk?.text;
@@ -123,7 +126,13 @@ export const discordAgentInit = async () => {
               token.symbol.toLowerCase() === tokenTicker?.toLocaleLowerCase()
           );
 
-          console.log("Search tokens response", searchTokensResponse);
+          let tokenId = searchTokensResponse?.id;
+
+          if (tokenTicker === "matrix" || tokenTicker === "MATRIX") {
+            tokenId = "matrix-one";
+          }
+
+          console.log("Search tokens response", tokenId);
 
           if (!searchTokensResponse) {
             message.channel.send(
@@ -133,7 +142,7 @@ export const discordAgentInit = async () => {
           }
 
           const tokenInfoResp = await fetch(
-            `https://api.coingecko.com/api/v3/coins/${searchTokensResponse.id}`,
+            `https://api.coingecko.com/api/v3/coins/${tokenId}`,
             {
               headers: {
                 "x-cg-pro-api-key": process.env.COINGECKO_API_KEY!,
@@ -167,6 +176,11 @@ export const discordAgentInit = async () => {
 
           if (tokenAnalysis?.text) {
             message.channel.send(tokenAnalysis.text);
+            pushActivityLog({
+              moduleType: "discord",
+              title: "Crypto analysis",
+              description: tokenAnalysis.text,
+            });
           } else {
             message.channel.send(
               "I'm sorry, I don't have realtime data on that coin."
@@ -189,6 +203,12 @@ export const discordAgentInit = async () => {
 
           if (reply?.text) {
             message.channel.send(reply?.text);
+
+            pushActivityLog({
+              moduleType: "discord",
+              title: "Reply to message",
+              description: reply?.text,
+            });
           }
         }
       } else {

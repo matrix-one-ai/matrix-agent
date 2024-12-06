@@ -38,8 +38,7 @@ export const discordJudgeIfShouldReply = (
 ) => {
   return `
 Judge the recent message and decide if you should reply.
-You should only reply if context of convo is directed at ${character.name} or referncing a response to your previous messages.
-If the most recent message is right after your message, reply.
+You should only reply if context of convo is directed at ${character.name}.
 
 Most recent message:
 
@@ -50,7 +49,6 @@ Previous channel conversation messages for context:
 ${previousChannelMessages}
 
 Output only TRUE or FALSE.
-This is used to decide if the AI should reply.
   `;
 };
 

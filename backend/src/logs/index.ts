@@ -2,7 +2,7 @@ import { put } from "@vercel/blob";
 import { activityTimeout } from "..";
 
 interface ActivityLog {
-  moduleType: "twitter";
+  moduleType: "twitter" | "discord";
   title: string;
   description: string;
   timestamp: string;

@@ -619,8 +619,6 @@ const startChainNewsArticles = async (twitterAgent: TwitterAgent) => {
     }
   };
 
-  await main();
-
   const interval = setInterval(async () => {
     await main();
   }, intervalTimeout);
@@ -678,8 +676,6 @@ const startTrendingTokenAnalysis = async (twitterAgent: TwitterAgent) => {
       console.error("Error in news article loop:", error);
     }
   };
-
-  await main();
 
   const interval = setInterval(async () => {
     await main();
