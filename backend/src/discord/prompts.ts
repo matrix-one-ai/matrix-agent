@@ -57,6 +57,9 @@ This is used to decide if the AI should reply.
 export const discordJudgeIsCryptoTalk = (message: string) => {
   return `
 Judge the message and decide if the user is asking about a crypto token.
+Token tickers are usually in the format $TOKEN. 
+Only respond if using a $ in front of token name.
+If they are asking about SAMI token, output FALSE.
 
 Message:
 

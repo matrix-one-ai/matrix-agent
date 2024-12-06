@@ -29,10 +29,10 @@ const cacheCoinGeckoTokenList = async () => {
     });
   });
 
-  console.log("Cached CoinGecko token list", tokenList);
+  console.log("Cached CoinGecko token list");
 };
 
-export const discordAgentInit = () => {
+export const discordAgentInit = async () => {
   cacheCoinGeckoTokenList();
 
   setInterval(() => {
@@ -49,14 +49,6 @@ export const discordAgentInit = () => {
 
   client.on("ready", () => {
     console.log(`Logged in as ${client?.user?.tag}!`);
-
-    // List server channels
-    client.guilds.cache.forEach((guild) => {
-      console.log(`Guild: ${guild.name}`);
-      guild.channels.cache.forEach((channel) => {
-        console.log(` - ${channel.name} (${channel.type})`);
-      });
-    });
   });
 
   client.on("messageCreate", async (message) => {
@@ -78,7 +70,7 @@ export const discordAgentInit = () => {
 
       const shouldReply = await generateTextFromPrompt(
         judgeIfShouldReplyPrompt,
-        "gpt-4o",
+        "gpt-40-mini",
         {
           temperature: 0.1,
           frequencyPenalty: 0.2,
@@ -91,7 +83,7 @@ export const discordAgentInit = () => {
 
         const judgeIsCryptoTalk = await generateTextFromPrompt(
           discordJudgeIsCryptoTalk(message.content),
-          "gpt-4o",
+          "gpt-40-mini",
           {
             temperature: 0.2,
             frequencyPenalty: 0.2,
@@ -142,7 +134,7 @@ export const discordAgentInit = () => {
               message.content,
               message.author.displayName
             ),
-            "gpt-4o",
+            "gpt-40-mini",
             {
               temperature: 0.5,
               frequencyPenalty: 0.5,
@@ -166,7 +158,7 @@ export const discordAgentInit = () => {
             sortedMessages
           );
 
-          const reply = await generateTextFromPrompt(prompt, "gpt-4o", {
+          const reply = await generateTextFromPrompt(prompt, "gpt-40-mini", {
             temperature: 0.5,
             frequencyPenalty: 0.5,
             presencePenalty: 0.5,
