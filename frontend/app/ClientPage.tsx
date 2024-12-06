@@ -9,6 +9,7 @@ import AutonomyLevel from "@/app/components/AutonomyLevel";
 import MarkdownComponents from "@/app/components/MarkdownComponents";
 import TwitterBirdIcon from "@/app/components/Icons/TwitterBirdIcon";
 import TelegramIcon from "@/app/components/Icons/TelegramIcon";
+import DiscordIcon from "@/app/components/Icons/DiscordIcon";
 import DexIcon from "@/app/components/Icons/DexIcon";
 import UpRightArrowIcon from "@/app/components/Icons/UpRightArrowIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
@@ -26,6 +27,7 @@ const AUTONOMY_LEVELS = [
 
 const ACTIVITY_LOG_ICON: Record<EActivityLogModuleType, React.ReactNode> = {
   [EActivityLogModuleType.Twitter]: <TwitterBirdIcon />,
+  [EActivityLogModuleType.Discord]: <DiscordIcon />,
 };
 
 const ClientPage = () => {
@@ -219,7 +221,7 @@ const ClientPage = () => {
                         </>
                       )}
                       <div className="flex gap-2 justify-between">
-                        <div className="flex gap-2 w-0 flex-grow">
+                        <div className="flex gap-2 w-0 flex-grow items-center">
                           {ACTIVITY_LOG_ICON[moduleType] ? (
                             ACTIVITY_LOG_ICON[moduleType]
                           ) : (
