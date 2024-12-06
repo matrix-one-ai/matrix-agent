@@ -2,14 +2,43 @@ import { Client, GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
 import {
   discordChannelReplyPrompt,
+  discordCryptoAnalysis,
   discordJudgeIfShouldReply,
+  discordJudgeIsCryptoTalk,
 } from "./prompts";
 import sami from "../characters/sami";
 import { generateTextFromPrompt } from "../ai";
 
 dotenv.config();
 
+let tokenList: { id: string; symbol: string }[] = [];
+
+const cacheCoinGeckoTokenList = async () => {
+  const resp = await fetch("https://api.coingecko.com/api/v3/coins/list", {
+    headers: {
+      "x-cg-pro-api-key": process.env.COINGECKO_API_KEY!,
+    },
+  });
+
+  const data = await resp.json();
+
+  data.forEach((token: { id: string; symbol: string }) => {
+    tokenList.push({
+      id: token.id,
+      symbol: token.symbol,
+    });
+  });
+
+  console.log("Cached CoinGecko token list", tokenList);
+};
+
 export const discordAgentInit = () => {
+  cacheCoinGeckoTokenList();
+
+  setInterval(() => {
+    cacheCoinGeckoTokenList();
+  }, 1000 * 60 * 60 * 12); // 24 hours
+
   const client = new Client({
     intents: [
       GatewayIntentBits.Guilds,
@@ -59,21 +88,93 @@ export const discordAgentInit = () => {
 
       if (shouldReply?.text === "TRUE") {
         console.log("Should reply");
-        const prompt = discordChannelReplyPrompt(
-          sami,
-          message.content,
-          message.author.displayName,
-          sortedMessages
+
+        const judgeIsCryptoTalk = await generateTextFromPrompt(
+          discordJudgeIsCryptoTalk(message.content),
+          "gpt-4o",
+          {
+            temperature: 0.2,
+            frequencyPenalty: 0.2,
+            presencePenalty: 0.2,
+          }
         );
 
-        const reply = await generateTextFromPrompt(prompt, "gpt-4o", {
-          temperature: 0.5,
-          frequencyPenalty: 0.5,
-          presencePenalty: 0.5,
-        });
+        if (judgeIsCryptoTalk?.text !== "FALSE") {
+          const tokenTicker = judgeIsCryptoTalk?.text;
+          console.log("Token ticker", tokenTicker);
 
-        if (reply?.text) {
-          message.channel.send(reply?.text);
+          const searchTokensResponse = tokenList.find(
+            (token) =>
+              token.symbol.toLowerCase() === tokenTicker?.toLocaleLowerCase()
+          );
+
+          console.log("Search tokens response", searchTokensResponse);
+
+          if (!searchTokensResponse) {
+            message.channel.send(
+              "I'm sorry, I don't have realtime data on that coin."
+            );
+            return;
+          }
+
+          const tokenInfoResp = await fetch(
+            `https://api.coingecko.com/api/v3/coins/${searchTokensResponse.id}`,
+            {
+              headers: {
+                "x-cg-pro-api-key": process.env.COINGECKO_API_KEY!,
+              },
+            }
+          );
+
+          if (!tokenInfoResp.ok) {
+            message.channel.send(
+              "I'm sorry, I don't have realtime data on that coin."
+            );
+            return;
+          }
+
+          const tokenInfo = await tokenInfoResp.json();
+
+          const tokenAnalysis = await generateTextFromPrompt(
+            discordCryptoAnalysis(
+              sami,
+              tokenInfo,
+              message.content,
+              message.author.displayName
+            ),
+            "gpt-4o",
+            {
+              temperature: 0.5,
+              frequencyPenalty: 0.5,
+              presencePenalty: 0.5,
+            }
+          );
+
+          if (tokenAnalysis?.text) {
+            message.channel.send(tokenAnalysis.text);
+          } else {
+            message.channel.send(
+              "I'm sorry, I don't have realtime data on that coin."
+            );
+          }
+        } else {
+          // not a crypto talk
+          const prompt = discordChannelReplyPrompt(
+            sami,
+            message.content,
+            message.author.displayName,
+            sortedMessages
+          );
+
+          const reply = await generateTextFromPrompt(prompt, "gpt-4o", {
+            temperature: 0.5,
+            frequencyPenalty: 0.5,
+            presencePenalty: 0.5,
+          });
+
+          if (reply?.text) {
+            message.channel.send(reply?.text);
+          }
         }
       } else {
         console.log("Should not reply");
