@@ -1,5 +1,6 @@
 export enum EActivityLogModuleType {
   Twitter = "twitter",
+  Discord = "discord",
 }
 
 export interface IActivityLog {
