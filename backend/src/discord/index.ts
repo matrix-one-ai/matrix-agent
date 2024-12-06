@@ -32,6 +32,13 @@ const cacheCoinGeckoTokenList = async () => {
   console.log("Cached CoinGecko token list");
 };
 
+const messageCounts: Map<string, number> = new Map();
+const MATRIX_ONE_GUILD_ID = "914170422382194719";
+
+setInterval(() => {
+  messageCounts.clear();
+}, 1000 * 60 * 60 * 24); // 24 hours
+
 export const discordAgentInit = async () => {
   cacheCoinGeckoTokenList();
 
@@ -55,6 +62,22 @@ export const discordAgentInit = async () => {
     console.log(message.content);
 
     if (!message.author.bot) {
+      const guildId = message.guild?.id;
+      if (guildId && guildId !== MATRIX_ONE_GUILD_ID) {
+        const count = messageCounts.get(guildId) || 0;
+        if (count >= 100) {
+          console.log("Message limit reached");
+          message.channel.send(
+            "I'm sorry, I can only process 100 messages per server per day. Contact Matrix One to unlock fully."
+          );
+          return;
+        }
+      }
+
+      if (guildId && guildId !== MATRIX_ONE_GUILD_ID) {
+        messageCounts.set(guildId, (messageCounts.get(guildId) || 0) + 1);
+      }
+
       const messages = await message.channel.messages.fetch({ limit: 100 });
       const sortedMessages = messages
         .filter((msg) => !msg.author.bot)

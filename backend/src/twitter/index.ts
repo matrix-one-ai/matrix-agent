@@ -322,11 +322,15 @@ const startCommentResponseLoop = async (twitterAgent: TwitterAgent) => {
             user.biography!
           );
 
-          const replyTweet = await generateTextFromPrompt(prompt, "gpt-4o-mini", {
-            temperature: 0.8,
-            frequencyPenalty: 1,
-            presencePenalty: 1,
-          });
+          const replyTweet = await generateTextFromPrompt(
+            prompt,
+            "gpt-4o-mini",
+            {
+              temperature: 0.8,
+              frequencyPenalty: 1,
+              presencePenalty: 1,
+            }
+          );
 
           if (!replyTweet?.text) {
             console.error("Error generating reply tweet");
@@ -643,12 +647,12 @@ const startTrendingTokenAnalysis = async (twitterAgent: TwitterAgent) => {
       const topItem =
         json.coins[Math.floor(Math.random() * json.coins.length)].item;
 
-      const tweets = await twitterAgent.getTrendingTweets(topItem.name);
+      // const tweets = await twitterAgent.getTrendingTweets(topItem.name);
 
-      const tweetTexts = tweets.data.data.map((tweet) => tweet.text);
+      // const tweetTexts = tweets.data.data.map((tweet) => tweet.text);
 
       const tweetResponse = await generateTextFromPrompt(
-        trendingTokenAnalysisPrompt(sami, topItem, tweetTexts),
+        trendingTokenAnalysisPrompt(sami, topItem, []),
         "gpt-4o-mini",
         {
           temperature: 0.5,
@@ -689,8 +693,8 @@ async function twitterAgentInit() {
   await twitterAgent.login();
   console.log("Twitter agent initialized");
 
-  await startCommentResponseLoop(twitterAgent);
-  await startFollowingTweetResponses(twitterAgent);
+  // await startCommentResponseLoop(twitterAgent);
+  // await startFollowingTweetResponses(twitterAgent);
   await startChainNewsArticles(twitterAgent);
   await startTrendingTokenAnalysis(twitterAgent);
 }

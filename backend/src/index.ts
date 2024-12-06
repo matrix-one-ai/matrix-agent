@@ -35,6 +35,6 @@ io.on("connection", (socket) => {
 server.listen(port, () => {
   console.log(`Matrix agent listening on port ${port}`);
 
-  // twitterAgentInit();
+  twitterAgentInit();
   discordAgentInit();
 });
