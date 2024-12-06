@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "start": "node dist/bundle.js"
+    "start": "node dist/bundle.js",
+    "dev": "npx ts-node src/index.ts"
   },
   "keywords": [],
   "author": "",
