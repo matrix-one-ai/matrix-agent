@@ -322,7 +322,7 @@ const startCommentResponseLoop = async (twitterAgent: TwitterAgent) => {
             user.biography!
           );
 
-          const replyTweet = await generateTextFromPrompt(prompt, "gpt-40-mini", {
+          const replyTweet = await generateTextFromPrompt(prompt, "gpt-4o-mini", {
             temperature: 0.8,
             frequencyPenalty: 1,
             presencePenalty: 1,
@@ -459,7 +459,7 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
 
             const like = await generateTextFromPrompt(
               likeJudgementPrompt,
-              "gpt-40-mini",
+              "gpt-4o-mini",
               {
                 temperature: 0.4,
                 frequencyPenalty: 0,
@@ -492,7 +492,7 @@ const startFollowingTweetResponses = async (twitterAgent: TwitterAgent) => {
 
             const responseTweet = await generateTextFromPrompt(
               tweetResponsePrompt,
-              "gpt-40-mini",
+              "gpt-4o-mini",
               {
                 temperature: 0.8,
                 frequencyPenalty: 1,
@@ -581,7 +581,7 @@ const startChainNewsArticles = async (twitterAgent: TwitterAgent) => {
           article.title,
           article.slug
         ),
-        "gpt-40-mini",
+        "gpt-4o-mini",
         {
           temperature: 0.8,
           frequencyPenalty: 1,
@@ -649,7 +649,7 @@ const startTrendingTokenAnalysis = async (twitterAgent: TwitterAgent) => {
 
       const tweetResponse = await generateTextFromPrompt(
         trendingTokenAnalysisPrompt(sami, topItem, tweetTexts),
-        "gpt-40-mini",
+        "gpt-4o-mini",
         {
           temperature: 0.5,
           frequencyPenalty: 1,

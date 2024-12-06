@@ -70,7 +70,7 @@ export const discordAgentInit = async () => {
 
       const shouldReply = await generateTextFromPrompt(
         judgeIfShouldReplyPrompt,
-        "gpt-40-mini",
+        "gpt-4o-mini",
         {
           temperature: 0.1,
           frequencyPenalty: 0.2,
@@ -83,7 +83,7 @@ export const discordAgentInit = async () => {
 
         const judgeIsCryptoTalk = await generateTextFromPrompt(
           discordJudgeIsCryptoTalk(message.content),
-          "gpt-40-mini",
+          "gpt-4o-mini",
           {
             temperature: 0.2,
             frequencyPenalty: 0.2,
@@ -134,7 +134,7 @@ export const discordAgentInit = async () => {
               message.content,
               message.author.displayName
             ),
-            "gpt-40-mini",
+            "gpt-4o-mini",
             {
               temperature: 0.5,
               frequencyPenalty: 0.5,
@@ -158,7 +158,7 @@ export const discordAgentInit = async () => {
             sortedMessages
           );
 
-          const reply = await generateTextFromPrompt(prompt, "gpt-40-mini", {
+          const reply = await generateTextFromPrompt(prompt, "gpt-4o-mini", {
             temperature: 0.5,
             frequencyPenalty: 0.5,
             presencePenalty: 0.5,
