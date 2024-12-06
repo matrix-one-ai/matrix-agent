@@ -163,6 +163,20 @@ const ClientPage = () => {
               height={256}
             />
           </Card>
+          <Card
+            className="hidden md:flex"
+            title="<placeholder>"
+            level={1}
+            maxLevel={5}
+          >
+            <Image
+              className="w-full"
+              src="/images/placeholder_05.png"
+              alt=""
+              width={256}
+              height={256}
+            />
+          </Card>
         </div>
         {/* Center board */}
         <div className="flex flex-col gap-6 flex-1 order-1 md:order-2">
@@ -332,6 +346,24 @@ const ClientPage = () => {
                   jup
                 </Link>
               </div>
+            </div>
+          </Card>
+          <Card
+            contentClassName="!overflow-auto !px-0 !py-0 !h-full"
+            className="twitter-card h-[400px]"
+            title="twitter"
+            level={1}
+            maxLevel={5}
+          >
+            <div className="flex flex-col !h-full w-full gap-3">
+              <a
+                className="twitter-timeline"
+                data-theme="light"
+                data-chrome="noheader nofooter noborders transparent"
+                href="https://twitter.com/OnlyOneSami?ref_src=twsrc%5Etfw"
+              >
+                Tweets by @OnlyOneSami
+              </a>
             </div>
           </Card>
           {/* Placeholder cards */}
