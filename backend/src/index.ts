@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import sequelize from "./db/db";
 import twitterAgentInit from "./twitter";
 import { discordAgentInit } from "./discord";
+import { telegramAgentInit } from "./telegram";
 
 dotenv.config();
 
@@ -37,4 +38,5 @@ server.listen(port, () => {
 
   twitterAgentInit();
   discordAgentInit();
+  telegramAgentInit();
 });
