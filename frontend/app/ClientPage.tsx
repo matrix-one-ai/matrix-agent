@@ -275,7 +275,7 @@ const ClientPage = () => {
           </Card>
         </div>
         {/* Right board */}
-        <div className="flex flex-col gap-[29px] flex-1 max-w-none order-3 md:order-3 md:max-w-64">
+        <div className="flex flex-col gap-[25px] flex-1 max-w-none order-3 md:order-3 md:max-w-64">
           <Card title="links">
             <div className="flex flex-col gap-4">
               <div className="flex gap-2 items-center">
