@@ -14,13 +14,10 @@ const helioConfig: HelioEmbedConfig = {
 interface GiftCardModalProps {
   onClose: () => void;
   onPurchase: () => void;
-  giftCard: any;
 }
 
 const GiftCardModal = ({
   onClose,
-  onPurchase,
-  giftCard,
 }: GiftCardModalProps) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">

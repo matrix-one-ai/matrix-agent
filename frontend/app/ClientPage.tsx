@@ -414,7 +414,6 @@ const ClientPage = () => {
         <GiftCardModal
           onClose={() => setIsGiftCardModalOpen(false)}
           onPurchase={() => {}}
-          giftCard={{}}
         />
       )}
     </div>
