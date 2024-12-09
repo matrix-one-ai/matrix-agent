@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -16,6 +16,7 @@ import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import { useActivityLog } from "./hooks/useActivityLog";
 import { convertToLinks, formatTimestampToLocal } from "./utils/string";
 import { EActivityLogModuleType } from "./types";
+import GiftCardModal from "./components/GiftCardModal";
 
 const AUTONOMY_LEVELS = [
   "No Autonomy",
@@ -34,6 +35,8 @@ const ClientPage = () => {
   const activityLogs = useActivityLog();
   const timeRef = useRef<string | null>(null);
   const activitLogRef = useRef<HTMLDivElement | null>(null);
+
+  const [isGiftCardModalOpen, setIsGiftCardModalOpen] = useState(false);
 
   // Open hello world page
   const handleOpenHelloPage = useCallback(() => {
@@ -251,7 +254,7 @@ const ClientPage = () => {
                       <hr className="border-gray-400" />
                     </div>
                   );
-                },
+                }
               )}
             </div>
           </Card>
@@ -321,10 +324,15 @@ const ClientPage = () => {
             </div>
           </Card>
           {/* Placeholder cards */}
-          <Card title="<placeholder>" level={1} maxLevel={5}>
+          <Card
+            title="Gift Cards"
+            level={1}
+            maxLevel={5}
+            onClick={() => setIsGiftCardModalOpen(true)}
+          >
             <Image
               className="w-full"
-              src="/images/placeholder_06.png"
+              src="/images/gift-card.svg"
               alt=""
               width={256}
               height={256}
@@ -401,6 +409,14 @@ const ClientPage = () => {
       <a className="underline text-center" href="/disclaimer">
         [disclaimer]
       </a>
+
+      {isGiftCardModalOpen && (
+        <GiftCardModal
+          onClose={() => setIsGiftCardModalOpen(false)}
+          onPurchase={() => {}}
+          giftCard={{}}
+        />
+      )}
     </div>
   );
 };
