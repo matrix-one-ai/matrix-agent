@@ -11,6 +11,7 @@ import TwitterBirdIcon from "@/app/components/Icons/TwitterBirdIcon";
 import TelegramIcon from "@/app/components/Icons/TelegramIcon";
 import DiscordIcon from "@/app/components/Icons/DiscordIcon";
 import DexIcon from "@/app/components/Icons/DexIcon";
+import JupiterIcon from "@/app/components/Icons/JupiterIcon";
 import UpRightArrowIcon from "@/app/components/Icons/UpRightArrowIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import { useActivityLog } from "./hooks/useActivityLog";
@@ -254,7 +255,7 @@ const ClientPage = () => {
                       <hr className="border-gray-400" />
                     </div>
                   );
-                }
+                },
               )}
             </div>
           </Card>
@@ -308,7 +309,7 @@ const ClientPage = () => {
                   href="https://pump.fun/coin/Ac61nmCxyvqTLzFcPXJQjLsJYFXYRVKkyxWN4kiqcDmF"
                   target="_blank"
                 >
-                  Pump.Fun
+                  pump.Fun
                 </Link>
               </div>
               <div className="flex gap-2 items-center">
@@ -318,7 +319,17 @@ const ClientPage = () => {
                   href="https://dexscreener.com/solana/b2myduq9eqve325vve2441dozf6y1b4znarv65fbtuu8"
                   target="_blank"
                 >
-                  Dexscreener
+                  dexscreener
+                </Link>
+              </div>
+              <div className="flex gap-2 items-center">
+                <JupiterIcon />
+                <Link
+                  className="underline"
+                  href="https://jup.ag/swap/USDC-Ac61nmCxyvqTLzFcPXJQjLsJYFXYRVKkyxWN4kiqcDmF"
+                  target="_blank"
+                >
+                  jup
                 </Link>
               </div>
             </div>
