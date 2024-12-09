@@ -294,6 +294,16 @@ const ClientPage = () => {
                   @Only_One_Sami
                 </Link>
               </div>
+              <div className="flex gap-2 items-center">
+                <DiscordIcon />
+                <Link
+                  className="underline"
+                  href="https://discord.gg/W9JP6PNK"
+                  target="_blank"
+                >
+                  Sami discord
+                </Link>
+              </div>
             </div>
           </Card>
           <Card title="my token $SAMI1">
