@@ -3,6 +3,8 @@ import { Character } from "../characters";
 export enum DiscordAction {
   simpleReply = "simpleReply",
   contractAnalysis = "contractAnalysis",
+  walletAnalysis = "walletAnalysis",
+  ignore = "ignore",
 }
 
 export const discordJudgementPrompt = (
@@ -17,6 +19,7 @@ Latest Message: ${message}
 Options:
 - simpleReply
 - contractAnalysis
+- walletAnalysis
 - ignore
 
 Output only 1 of the action options.
@@ -57,6 +60,24 @@ Output:
 
 --- OR ---
 
+Message: Hey tell me about this wallet 0xfc9928F6590D853752824B0B403A6AE36785e535
+
+Output:
+
+{ "type": "walletAnalysis", "wallet": "0xfc9928F6590D853752824B0B403A6AE36785e535" }
+
+Message: What tokens does this wallet hold: 0xfc9928F6590D853752824B0B403A6AE36785e535
+
+Output:
+
+{ "type": "walletAnalysis", "wallet": "0xfc9928F6590D853752824B0B403A6AE36785e535" }
+
+Message: What is the balance of this wallet: 0xfc9928F6590D853752824B0B403A6AE36785e535
+
+{ "type": "walletAnalysis", "wallet": "0xfc9928F6590D853752824B0B403A6AE36785e535" }
+
+--- OR ---
+
 Message: hi Mark
 
 Output:
@@ -81,7 +102,7 @@ Reply if follow up question or reply to previousMessage context.
 Previous messages for conversation context:
 ${previousMessages.join("\n")}
 
-Only output the JSON.
+Only output the JSON. Do not wrap JSON in triple quotes, just output the JSON object raw as shown in examples.
 `;
 };
 
@@ -99,7 +120,7 @@ Generate a unique discord channel reply in the voice and style of ${
 - Name ${character.name}
 - Age: ${character.age}
 - Bio: ${character.bio}
-- Info: ${character.info}
+- knowledge: ${character.knowledge}
 - Appearance: ${character.appearance}
 - Personality: ${character.personality}
 
@@ -212,7 +233,7 @@ Generate a discord reply in the voice and style of ${character.name}, aka @${
   }
 - Age: ${character.age}
 - Bio: ${character.bio}
-- Info: ${character.info}
+- knowledge: ${character.knowledge}
 - Appearance: ${character.appearance}
 - Personality: ${character.personality}
 
@@ -229,6 +250,40 @@ Do not mention emails or phone numbers. No hashtags. Use $TOKEN when saying toke
 Do not intro or outro the response, just the response.
 
 User message to reply to:
+${userMessage}
+
+Username to reply to: ${username}
+`;
+};
+
+export const discordWalletAnalysis = (
+  character: Character,
+  walletInfo: any,
+  userMessage: string,
+  username: string
+) => {
+  return `
+Analyze the wallet. Provide a response to the wallet request.
+Make it informational.
+Generate a discord reply in the voice and style of ${character.name}, aka @${
+    character.twitterUsername
+  }
+- Age: ${character.age}
+- Bio: ${character.bio}
+- knowledge: ${character.knowledge}
+- Appearance: ${character.appearance}
+- Personality: ${character.personality}
+
+Wallet Info JSON info dump:
+
+${JSON.stringify(walletInfo, null, 2)}
+
+Do not add commentary or acknowledge this request, just write the reply.
+Your response should not contain any questions. Brief, concise statements only. No emojis.
+Do not mention emails or phone numbers. No hashtags. Use $TOKEN when saying token names.
+Do not intro or outro the response, just the response.
+
+User message request about wallet to reply to:
 ${userMessage}
 
 Username to reply to: ${username}

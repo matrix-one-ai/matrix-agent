@@ -52,7 +52,7 @@ Generate a unique discord channel reply in the voice and style of ${character.na
 - Name ${character.name}
 - Age: ${character.age}
 - Bio: ${character.bio}
-- Info: ${character.info}
+- knowledge: ${character.knowledge}
 - Appearance: ${character.appearance}
 - Personality: ${character.personality}
 
@@ -83,7 +83,7 @@ Act like a crypto investor expert. Make it informational.
 Generate a discord reply in the voice and style of ${character.name}.
 - Age: ${character.age}
 - Bio: ${character.bio}
-- Info: ${character.info}
+- knowledge: ${character.knowledge}
 - Appearance: ${character.appearance}
 - Personality: ${character.personality}
 

@@ -5,10 +5,13 @@ import {
   discordChannelReplyPrompt,
   discordCryptoAnalysis,
   discordJudgementPrompt,
+  discordWalletAnalysis,
 } from "./prompts";
 import sami from "../characters/sami";
 import { generateTextFromPrompt } from "../ai";
 import { pushActivityLog } from "../logs";
+import { moralisWalletAnalysis } from "../moralis";
+import { detectBlockchain } from "../helpers/crypto";
 
 dotenv.config();
 
@@ -105,9 +108,11 @@ export const discordAgentInit = async () => {
         return;
       }
 
+      console.log("Judgement", judgement.text);
+
       const judgementJson = JSON.parse(judgement.text);
 
-      console.log("Judgement", judgementJson);
+      console.log("JudgementJSON", judgementJson);
 
       if (judgementJson.type === DiscordAction.simpleReply) {
         const prompt = discordChannelReplyPrompt(
@@ -241,6 +246,47 @@ export const discordAgentInit = async () => {
         } else {
           message.channel.send(
             "I'm sorry, I don't have realtime data on that coin."
+          );
+        }
+      } else if (judgementJson.type === DiscordAction.walletAnalysis) {
+        const wallet = judgementJson.wallet;
+
+        const chain = detectBlockchain(wallet);
+
+        if (chain === "unknown") {
+          message.channel.send(
+            "I'm sorry, I don't recognize that address chain."
+          );
+          return;
+        }
+
+        const moralisAnalysis = await moralisWalletAnalysis(wallet, chain);
+
+        const walletAnalysis = await generateTextFromPrompt(
+          discordWalletAnalysis(
+            sami,
+            moralisAnalysis,
+            message.content,
+            message.author.displayName
+          ),
+          "gpt-4o-mini",
+          {
+            temperature: 0.2,
+            frequencyPenalty: 0.2,
+            presencePenalty: 0.2,
+          }
+        );
+
+        if (walletAnalysis?.text) {
+          message.channel.send(walletAnalysis.text);
+          pushActivityLog({
+            moduleType: "discord",
+            title: "Wallet analysis",
+            description: walletAnalysis.text,
+          });
+        } else {
+          message.channel.send(
+            "I'm sorry, I don't have realtime data on that wallet."
           );
         }
       } else {

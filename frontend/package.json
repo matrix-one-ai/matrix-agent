@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/azure": "^1.0.9",
     "@heliofi/checkout-react": "^2.3.1",
     "@vercel/analytics": "^1.4.1",
+    "ai": "^4.0.13",
     "clsx": "^2.1.1",
     "next": "14.2.18",
     "react": "^18",

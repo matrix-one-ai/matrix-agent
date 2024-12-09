@@ -11,7 +11,7 @@ Generate a unique and new post in the voice and style of ${character.name}, aka 
 - Name ${character.name} (@${character.twitterUsername}):
 - Age: ${character.age}
 - Bio: ${character.bio}
-- Info: ${character.info}
+- knowledge: ${character.knowledge}
 - Appearance: ${character.appearance}
 - Personality: ${character.personality}
 
@@ -43,7 +43,7 @@ Your character:
 - Name ${character.name} (@${character.twitterUsername}):
 - Age: ${character.age}
 - Bio: ${character.bio}
-- Info: ${character.info}
+- knowledge: ${character.knowledge}
 - Appearance: ${character.appearance}
 - Personality: ${character.personality}
 
@@ -108,7 +108,7 @@ Generate a tweet in the voice and style of ${character.name}, aka @${
   }
 - Age: ${character.age}
 - Bio: ${character.bio}
-- Info: ${character.info}
+- knowledge: ${character.knowledge}
 - Appearance: ${character.appearance}
 - Personality: ${character.personality}
 
@@ -194,7 +194,7 @@ Generate a tweet in the voice and style of ${character.name}, aka @${
   }
 - Age: ${character.age}
 - Bio: ${character.bio}
-- Info: ${character.info}
+- knowledge: ${character.knowledge}
 - Appearance: ${character.appearance}
 - Personality: ${character.personality}
 
