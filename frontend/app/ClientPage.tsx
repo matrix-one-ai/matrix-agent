@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -17,7 +17,6 @@ import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import { useActivityLog } from "./hooks/useActivityLog";
 import { convertToLinks, formatTimestampToLocal } from "./utils/string";
 import { EActivityLogModuleType } from "./types";
-import GiftCardModal from "./components/GiftCardModal";
 
 const AUTONOMY_LEVELS = [
   "No Autonomy",
@@ -36,8 +35,6 @@ const ClientPage = () => {
   const activityLogs = useActivityLog();
   const timeRef = useRef<string | null>(null);
   const activitLogRef = useRef<HTMLDivElement | null>(null);
-
-  const [isGiftCardModalOpen, setIsGiftCardModalOpen] = useState(false);
 
   // Open hello world page
   const handleOpenHelloPage = useCallback(() => {
@@ -377,20 +374,15 @@ const ClientPage = () => {
             </div>
           </Card>
           {/* Placeholder cards */}
-          <Card
-            title="Gift Cards"
-            level={1}
-            maxLevel={5}
-            onClick={() => setIsGiftCardModalOpen(true)}
-          >
+          <Link href="/gift-card">
             <Image
               className="w-full"
-              src="/images/gift-card.svg"
+              src="/images/gift_card.gif"
               alt=""
               width={256}
               height={256}
             />
-          </Card>
+          </Link>
           <Card title="<placeholder>" level={1} maxLevel={5}>
             <Image
               className="w-full"
@@ -462,13 +454,6 @@ const ClientPage = () => {
       <a className="underline text-center" href="/disclaimer">
         [disclaimer]
       </a>
-
-      {isGiftCardModalOpen && (
-        <GiftCardModal
-          onClose={() => setIsGiftCardModalOpen(false)}
-          onPurchase={() => {}}
-        />
-      )}
     </div>
   );
 };
