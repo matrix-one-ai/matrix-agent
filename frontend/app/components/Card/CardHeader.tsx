@@ -39,7 +39,7 @@ const CardHeader: React.FC<ICardHeaderProps> = ({
       {...rest}
     >
       {/* Title */}
-      <span>{title}</span>
+      <span className="truncate">{title}</span>
       <div className="flex gap-4 items-center">
         {/* Autonomy level dots */}
         <AutonomyLevel id={title} level={level} maxLevel={maxLevel} />
