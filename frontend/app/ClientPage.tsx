@@ -355,6 +355,15 @@ const ClientPage = () => {
               </div>
             </div>
           </Card>
+          <Link href="/gift-card">
+            <Image
+              className="w-full"
+              src="/images/gift_card.gif"
+              alt=""
+              width={256}
+              height={256}
+            />
+          </Link>
           <Card
             contentClassName="!overflow-auto !px-0 !py-0 !h-full"
             className="twitter-card h-[400px]"
@@ -374,15 +383,6 @@ const ClientPage = () => {
             </div>
           </Card>
           {/* Placeholder cards */}
-          <Link href="/gift-card">
-            <Image
-              className="w-full"
-              src="/images/gift_card.gif"
-              alt=""
-              width={256}
-              height={256}
-            />
-          </Link>
           <Card title="<placeholder>" level={1} maxLevel={5}>
             <Image
               className="w-full"
