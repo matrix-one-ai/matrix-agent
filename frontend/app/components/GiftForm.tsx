@@ -225,7 +225,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
           </div>
         </div>
         {/* Fee */}
-        <p>Sami royal cut? Just 5%. Consider it the Queen's Tax.</p>
+        <p>{`Sami royal cut? Just 5%. Consider it the Queen's Tax.`}</p>
       </form>
     </Card>
   );
