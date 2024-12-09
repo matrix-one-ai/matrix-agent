@@ -324,7 +324,7 @@ const ClientPage = () => {
             </div>
           </Card>
           {/* Placeholder cards */}
-          <Card
+          {/* <Card
             title="Gift Cards"
             level={1}
             maxLevel={5}
@@ -337,7 +337,7 @@ const ClientPage = () => {
               width={256}
               height={256}
             />
-          </Card>
+          </Card> */}
           <Card title="<placeholder>" level={1} maxLevel={5}>
             <Image
               className="w-full"
