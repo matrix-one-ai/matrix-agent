@@ -4,7 +4,7 @@ export interface Character {
   name: string;
   age: number;
   gender: string;
-  occupation: string;
+  info: string;
   bio: string;
   appearance: string;
   personality: string;

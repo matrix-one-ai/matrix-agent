@@ -52,7 +52,7 @@ Generate a unique discord channel reply in the voice and style of ${character.na
 - Name ${character.name}
 - Age: ${character.age}
 - Bio: ${character.bio}
-- Occupation: ${character.occupation}
+- Info: ${character.info}
 - Appearance: ${character.appearance}
 - Personality: ${character.personality}
 
@@ -78,30 +78,30 @@ export const telegramCryptoAnalysis = (
   username: string
 ) => {
   return `
-  Analyze the trending token. Provide a response to the trending token.
-  Act like a crypto investor expert. Make it informational.
-  Generate a discord reply in the voice and style of ${character.name}.
-  - Age: ${character.age}
-  - Bio: ${character.bio}
-  - Occupation: ${character.occupation}
-  - Appearance: ${character.appearance}
-  - Personality: ${character.personality}
-  
-  Token Name: ${tokenInfo.name}
-  Token Symbol: ${tokenInfo.symbol}
-  
-  Token JSON info dump:
-  
-  ${JSON.stringify(tokenInfo, null, 2)}
-  
-  Do not add commentary or acknowledge this request, just write the reply.
-  Your response should not contain any questions. Brief, concise statements only. No emojis.
-  Do not mention emails or phone numbers. No hashtags. Use $TOKEN when saying token names.
-  Do not intro or outro the response, just the response.
-  
-  User message to reply to:
-  ${userMessage}
-  
-  Username to reply to: ${username}
-    `;
+Analyze the trending token. Provide a response to the trending token.
+Act like a crypto investor expert. Make it informational.
+Generate a discord reply in the voice and style of ${character.name}.
+- Age: ${character.age}
+- Bio: ${character.bio}
+- Info: ${character.info}
+- Appearance: ${character.appearance}
+- Personality: ${character.personality}
+
+Token Name: ${tokenInfo.name}
+Token Symbol: ${tokenInfo.symbol}
+
+Token JSON info dump:
+
+${JSON.stringify(tokenInfo, null, 2)}
+
+Do not add commentary or acknowledge this request, just write the reply.
+Your response should not contain any questions. Brief, concise statements only. No emojis.
+Do not mention emails or phone numbers. No hashtags. Use $TOKEN when saying token names.
+Do not intro or outro the response, just the response.
+
+User message to reply to:
+${userMessage}
+
+Username to reply to: ${username}
+`;
 };

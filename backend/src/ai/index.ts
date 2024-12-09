@@ -12,7 +12,13 @@ const azure = createAzure({
 export async function generateTextFromPrompt(
   prompt: string,
   model: "gpt-4o-mini" | "gpt-4o" = "gpt-4o-mini",
-  { temperature = 0.4, frequencyPenalty = 0.5, presencePenalty = 0.5, topK = 0, topP = 0 } = {}
+  {
+    temperature = 0.4,
+    frequencyPenalty = 0.5,
+    presencePenalty = 0.5,
+    topK = 0,
+    topP = 0,
+  } = {}
 ) {
   console.log(model, temperature, frequencyPenalty, presencePenalty);
   try {

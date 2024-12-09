@@ -1,10 +1,10 @@
 import { Client, GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
 import {
+  DiscordAction,
   discordChannelReplyPrompt,
   discordCryptoAnalysis,
-  discordJudgeIfShouldReply,
-  discordJudgeIsCryptoTalk,
+  discordJudgementPrompt,
 } from "./prompts";
 import sami from "../characters/sami";
 import { generateTextFromPrompt } from "../ai";
@@ -79,21 +79,19 @@ export const discordAgentInit = async () => {
         messageCounts.set(guildId, (messageCounts.get(guildId) || 0) + 1);
       }
 
-      const messages = await message.channel.messages.fetch({ limit: 100 });
+      const messages = await message.channel.messages.fetch({ limit: 10 });
+      let index = 0;
       const sortedMessages = messages
-        .filter((msg) => !msg.author.bot)
         .sort((a, b) => a.createdTimestamp - b.createdTimestamp)
-        .map((msg) => `${msg.author.username}: ${msg.content}`)
-        .join("\n");
+        .map((msg) => {
+          index++;
+          return `${msg.author.username}: ${msg.content}`;
+        });
 
-      const judgeIfShouldReplyPrompt = discordJudgeIfShouldReply(
-        sami,
-        message.content,
-        sortedMessages
-      );
+      console.log(sortedMessages);
 
-      const shouldReply = await generateTextFromPrompt(
-        judgeIfShouldReplyPrompt,
+      const judgement = await generateTextFromPrompt(
+        discordJudgementPrompt(sami, message.content, sortedMessages),
         "gpt-4o-mini",
         {
           temperature: 0.1,
@@ -102,25 +100,47 @@ export const discordAgentInit = async () => {
         }
       );
 
-      if (shouldReply?.text === "TRUE") {
-        console.log("Should reply");
+      if (!judgement?.text) {
+        console.log("No judgement generated.");
+        return;
+      }
 
-        const judgeIsCryptoTalk = await generateTextFromPrompt(
-          discordJudgeIsCryptoTalk(message.content),
-          "gpt-4o-mini",
-          {
-            temperature: 0,
-            frequencyPenalty: 0,
-            presencePenalty: 0,
-          }
+      const judgementJson = JSON.parse(judgement.text);
+
+      console.log("Judgement", judgementJson);
+
+      if (judgementJson.type === DiscordAction.simpleReply) {
+        const prompt = discordChannelReplyPrompt(
+          sami,
+          message.content,
+          message.author.displayName,
+          sortedMessages
         );
 
-        console.log("Is crpyto talk:", judgeIsCryptoTalk?.text);
+        const reply = await generateTextFromPrompt(prompt, "gpt-4o-mini", {
+          temperature: 0.2,
+          frequencyPenalty: 0.2,
+          presencePenalty: 0.2,
+        });
 
-        if (judgeIsCryptoTalk?.text !== "FALSE") {
-          const tokenTicker = judgeIsCryptoTalk?.text;
-          console.log("Token ticker", tokenTicker);
+        if (reply?.text) {
+          message.channel.send(reply?.text);
 
+          pushActivityLog({
+            moduleType: "discord",
+            title: "Reply to message",
+            description: reply?.text,
+          });
+        }
+      } else if (judgementJson.type === DiscordAction.contractAnalysis) {
+        const tokenTicker = judgementJson.ticker;
+        const contractAddress = judgementJson.contract;
+
+        console.log("Contract analysis", tokenTicker, contractAddress);
+
+        let tokenInfo = null;
+
+        if (tokenTicker) {
           const searchTokensResponse = tokenList.find(
             (token) =>
               token.symbol.toLowerCase() === tokenTicker?.toLocaleLowerCase()
@@ -157,59 +177,71 @@ export const discordAgentInit = async () => {
             return;
           }
 
-          const tokenInfo = await tokenInfoResp.json();
+          tokenInfo = await tokenInfoResp.json();
+        } else if (contractAddress) {
+          const platforms = [
+            "ethereum",
+            "polkadot",
+            "flow",
+            "avalanche",
+            "optimistic-ethereum",
+            "stellar",
+            "near-protocol",
+            "hedera-hashgraph",
+            "zksync",
+            "tron",
+            "celo",
+            "arbitrum-one",
+            "base",
+            "polygon-pos",
+            "solana",
+          ];
 
-          const tokenAnalysis = await generateTextFromPrompt(
-            discordCryptoAnalysis(
-              sami,
-              tokenInfo,
-              message.content,
-              message.author.displayName
-            ),
-            "gpt-4o-mini",
-            {
-              temperature: 0.5,
-              frequencyPenalty: 0.5,
-              presencePenalty: 0.5,
-            }
-          );
-
-          if (tokenAnalysis?.text) {
-            message.channel.send(tokenAnalysis.text);
-            pushActivityLog({
-              moduleType: "discord",
-              title: "Crypto analysis",
-              description: tokenAnalysis.text,
-            });
-          } else {
-            message.channel.send(
-              "I'm sorry, I don't have realtime data on that coin."
+          for (const platform of platforms) {
+            const resp = await fetch(
+              `https://pro-api.coingecko.com/api/v3/coins/${platform}/contract/${judgementJson.contract}`,
+              {
+                headers: {
+                  "x-cg-pro-api-key": process.env.COINGECKO_API_KEY!,
+                },
+              }
             );
+
+            if (resp.ok) {
+              tokenInfo = await resp.json();
+              break;
+            } else {
+              continue;
+            }
           }
-        } else {
-          // not a crypto talk
-          const prompt = discordChannelReplyPrompt(
+        }
+
+        const tokenAnalysis = await generateTextFromPrompt(
+          discordCryptoAnalysis(
             sami,
+            tokenInfo,
             message.content,
-            message.author.displayName,
-            sortedMessages
-          );
-
-          const reply = await generateTextFromPrompt(prompt, "gpt-4o-mini", {
-            temperature: 0.5,
-            frequencyPenalty: 0.5,
-            presencePenalty: 0.5,
-          });
-
-          if (reply?.text) {
-            message.channel.send(reply?.text);
-
-            pushActivityLog({
-              moduleType: "discord",
-              title: "Reply to message",
-              description: reply?.text,
-            });
+            message.author.displayName
+          ),
+          "gpt-4o-mini",
+          {
+            temperature: 0.2,
+            frequencyPenalty: 0.2,
+            presencePenalty: 0.2,
           }
+        );
+
+        if (tokenAnalysis?.text) {
+          message.channel.send(tokenAnalysis.text);
+          pushActivityLog({
+            moduleType: "discord",
+            title: "Crypto analysis",
+            description: tokenAnalysis.text,
+          });
+        } else {
+          message.channel.send(
+            "I'm sorry, I don't have realtime data on that coin."
+          );
         }
       } else {
         console.log("Should not reply");

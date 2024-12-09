@@ -11,7 +11,7 @@ Generate a unique and new post in the voice and style of ${character.name}, aka 
 - Name ${character.name} (@${character.twitterUsername}):
 - Age: ${character.age}
 - Bio: ${character.bio}
-- Occupation: ${character.occupation}
+- Info: ${character.info}
 - Appearance: ${character.appearance}
 - Personality: ${character.personality}
 
@@ -43,7 +43,7 @@ Your character:
 - Name ${character.name} (@${character.twitterUsername}):
 - Age: ${character.age}
 - Bio: ${character.bio}
-- Occupation: ${character.occupation}
+- Info: ${character.info}
 - Appearance: ${character.appearance}
 - Personality: ${character.personality}
 
@@ -108,7 +108,7 @@ Generate a tweet in the voice and style of ${character.name}, aka @${
   }
 - Age: ${character.age}
 - Bio: ${character.bio}
-- Occupation: ${character.occupation}
+- Info: ${character.info}
 - Appearance: ${character.appearance}
 - Personality: ${character.personality}
 
@@ -173,9 +173,9 @@ Do not say Darling too much.
 ${
   userSpecificResponses
     ? `Tune your response specific to given attidue and use example response to get theme of style of writing. 
-    Attitude: ${userSpecificResponses.attitudes.join(
-      ", "
-    )}, Example Responses: ${userSpecificResponses.responses.join(", ")}`
+  Attitude: ${userSpecificResponses.attitudes.join(
+    ", "
+  )}, Example Responses: ${userSpecificResponses.responses.join(", ")}`
     : ""
 }
 `;
@@ -194,7 +194,7 @@ Generate a tweet in the voice and style of ${character.name}, aka @${
   }
 - Age: ${character.age}
 - Bio: ${character.bio}
-- Occupation: ${character.occupation}
+- Info: ${character.info}
 - Appearance: ${character.appearance}
 - Personality: ${character.personality}
 
