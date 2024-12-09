@@ -4,6 +4,7 @@ export enum DiscordAction {
   simpleReply = "simpleReply",
   contractAnalysis = "contractAnalysis",
   walletAnalysis = "walletAnalysis",
+  help = "help",
   ignore = "ignore",
 }
 
@@ -17,12 +18,25 @@ Judge the message and decide the function action to take.
 Latest Message: ${message}
 
 Options:
-- simpleReply
-- contractAnalysis
-- walletAnalysis
-- ignore
+${Object.values(DiscordAction).join("\n")}
 
 Output only 1 of the action options.
+
+Example:
+
+Message: Sami, what can you do?
+
+Output: { type: "help" }
+
+Message: What actions can you perform?
+
+Output: { type: "help" }
+
+Message: how to use this bot?
+
+Output: { type: "help" }
+
+--- OR ---
 
 Example:
 
@@ -284,6 +298,41 @@ Do not mention emails or phone numbers. No hashtags. Use $TOKEN when saying toke
 Do not intro or outro the response, just the response.
 
 User message request about wallet to reply to:
+${userMessage}
+
+Username to reply to: ${username}
+`;
+};
+
+export const discordHelpPrompt = (
+  character: Character,
+  userMessage: string,
+  username: string
+) => {
+  return `
+User is asking for help or what actions you can take.
+Make it informational.
+Generate a discord reply in the voice and style of ${character.name}, aka @${
+    character.twitterUsername
+  }
+- Age: ${character.age}
+- Bio: ${character.bio}
+- knowledge: ${character.knowledge}
+- Appearance: ${character.appearance}
+- Personality: ${character.personality}
+
+Your actions you have are:
+
+${Object.values(DiscordAction).join("\n")}
+
+Provide some examples of using your actions.
+
+Do not add commentary or acknowledge this request, just write the reply.
+Your response should not contain any questions. Brief, concise statements only. No emojis.
+Do not mention emails or phone numbers. No hashtags. Use $TOKEN when saying token names.
+Do not intro or outro the response, just the response.
+
+User message request about help to reply to:
 ${userMessage}
 
 Username to reply to: ${username}

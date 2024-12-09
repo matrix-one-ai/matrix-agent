@@ -4,6 +4,7 @@ import {
   DiscordAction,
   discordChannelReplyPrompt,
   discordCryptoAnalysis,
+  discordHelpPrompt,
   discordJudgementPrompt,
   discordWalletAnalysis,
 } from "./prompts";
@@ -288,6 +289,27 @@ export const discordAgentInit = async () => {
           message.channel.send(
             "I'm sorry, I don't have realtime data on that wallet."
           );
+        }
+      } else if (judgementJson.type === DiscordAction.help) {
+        const helpResponse = await generateTextFromPrompt(
+          discordHelpPrompt(sami, message.content, message.author.displayName),
+          "gpt-4o-mini",
+          {
+            temperature: 0.2,
+            frequencyPenalty: 0.2,
+            presencePenalty: 0.2,
+          }
+        );
+
+        if (helpResponse?.text) {
+          message.channel.send(helpResponse.text);
+          pushActivityLog({
+            moduleType: "discord",
+            title: "Help response",
+            description: helpResponse.text,
+          });
+        } else {
+          message.channel.send("I'm sorry, I didn't understand that request.");
         }
       } else {
         console.log("Should not reply");
