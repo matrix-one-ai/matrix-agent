@@ -55,7 +55,7 @@ export async function POST(res: Request) {
       console.log(recipientEmail);
 
       const productResp = await fetch(
-        "https://api-qa.skyfire.xyz/v1/receivers/reloadly/product-info/amazon",
+        "https://api.skyfire.xyz/v1/receivers/reloadly/product-info/amazon",
         {
           method: "GET",
           headers: {
@@ -81,7 +81,7 @@ export async function POST(res: Request) {
 
       // Call the Skyfire gift card API
       const response = await fetch(
-        "https://api-qa.skyfire.xyz/v1/receivers/reloadly/gift-card",
+        "https://api.skyfire.xyz/v1/receivers/reloadly/gift-card",
         {
           method: "POST",
           headers: {
