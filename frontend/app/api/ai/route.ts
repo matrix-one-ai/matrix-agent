@@ -1,13 +1,13 @@
 import { CoreMessage, streamText } from "ai";
-import { createAzure } from "@ai-sdk/azure";
+import { createOpenAI } from "@ai-sdk/openai";
 import { NextResponse } from "next/server";
 
 export const maxDuration = 30;
 export const revalidate = 0;
 
-const azure = createAzure({
-  resourceName: process.env.AZURE_OPENAI_RESOURCE!,
-  apiKey: process.env.AZURE_OPENAI_KEY!,
+const openai = createOpenAI({
+  baseURL: process.env.OPENAI_LLAMA_ENDPOINT!,
+  apiKey: process.env.OPENAI_LLAMA_API_KEY!,
 });
 
 export async function POST(req: Request) {
@@ -15,11 +15,11 @@ export async function POST(req: Request) {
     const { messages }: { messages: CoreMessage[] } = await req.json();
 
     const stream = streamText({
-      model: azure("gpt-4o-mini"),
+      model: openai("huihui-ai/Llama-3.2-3B-Instruct-abliterated"),
       messages,
-      frequencyPenalty: 0.5,
-      presencePenalty: 0.5,
-      temperature: 0.2,
+      frequencyPenalty: 1,
+      presencePenalty: 1,
+      temperature: 0.8,
     });
 
     return stream.toDataStreamResponse();
