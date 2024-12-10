@@ -54,7 +54,7 @@ export async function POST(res: Request) {
             amount: Number(additionalJSON.amount),
           }),
         }
-      );  
+      );
 
       const skyfireData = await response.json();
       console.log("Skyfire API Response", skyfireData);
