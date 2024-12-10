@@ -70,7 +70,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
         console.log("success");
       },
     }),
-    []
+    [],
   );
 
   const onGenerateFinish = useCallback((message: Message) => {
@@ -114,15 +114,15 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             Object.entries(fieldErrors).map(([key, error]) => [
               key,
               Array.isArray(error) ? error[0] : error?._errors[0] || "Invalid",
-            ])
-          )
+            ]),
+          ),
         );
       } else {
         setErrors({});
         setStep(GiftFormSteps.PAYMENT);
       }
     },
-    [formInfo]
+    [formInfo],
   );
 
   const handleSamiMessageGenerate = useCallback(() => {
@@ -132,7 +132,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
         formInfo?.name || "",
         formInfo?.relationship || ERelationship.Friend,
         formInfo?.country || ECountries.USA,
-        formInfo?.amount || EAmount.TEN
+        formInfo?.amount || EAmount.TEN,
       ),
     });
   }, [
@@ -145,7 +145,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
 
   const assistantMessages = useMemo(
     () => messages.filter((message) => message.role === "assistant"),
-    [messages]
+    [messages],
   );
 
   return (
@@ -171,7 +171,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             <input
               className={clsx(
                 "w-full h-9 bg-transparent outline-none border border-black px-1",
-                errors.name && "border-red-500"
+                errors.name && "border-red-500",
               )}
               type="text"
               name="name"
@@ -194,7 +194,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             <input
               className={clsx(
                 "w-full h-9 bg-transparent outline-none border border-black px-1",
-                errors.email && "border-red-500"
+                errors.email && "border-red-500",
               )}
               type="text"
               name="email"
@@ -223,7 +223,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             <textarea
               className={clsx(
                 "w-full bg-transparent outline-none border border-black px-1",
-                errors.message && "border-red-500"
+                errors.message && "border-red-500",
               )}
               value={
                 assistantMessages[assistantMessages.length - 1]?.content || ""
@@ -246,6 +246,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             [purchase]
           </button>
           {/* Available coins */}
+          <p>pay with:</p>
           <div className="flex justify-center gap-3 -mt-0.5 md:-mt-2 flex-wrap">
             <div className="flex items-center gap-1">
               <Sami1Icon />
@@ -269,7 +270,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             </div>
           </div>
           {/* Fee */}
-          <p>{`Sami royal cut? Just 5%. Consider it the Queen's Tax.`}</p>
+          <p className="text-center">{`Sami royal cut? Just 5%. Consider it the Queen's Tax.`}</p>
         </form>
       )}
 
