@@ -46,6 +46,13 @@ const ClientPage = () => {
     activitLogRef.current?.scrollTo({ top: 0, behavior: "smooth" });
   }, [activityLogs]);
 
+  // Re-load twitter widget whenever this page is mounted.
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    window?.twttr?.widgets?.load();
+  }, []);
+
   return (
     <div className="flex flex-col gap-6 pb-10">
       <div className="flex gap-6 flex-col md:flex-row max-w-[1024px]">

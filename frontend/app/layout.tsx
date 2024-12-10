@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "SAMI",
@@ -18,11 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script
+        <Script
           async
           src="https://platform.twitter.com/widgets.js"
-          charSet="utf-8"
-        ></script>
+          strategy="lazyOnload"
+        ></Script>
       </head>
       <body>
         <main className="flex flex-col p-6 pt-10 pb-16 h-full items-center">
