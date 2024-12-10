@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import clsx from "clsx";
 import { z } from "zod";
 import Card from "@/app/components/Card/Card";
@@ -83,12 +89,13 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
   const [formInfo, setFormInfo] = useState<Partial<IGiftFormInfo>>({});
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [step, setStep] = useState<GiftFormSteps>(GiftFormSteps.FORM);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const helioConfig: HelioEmbedConfig = useMemo(
     () => ({
       paylinkId: mapCountryToPaylink(
         formInfo.country || ECountries.USA,
-        formInfo.amount || EAmount.TEN
+        formInfo.amount || EAmount.TEN,
       ),
       theme: { themeMode: "dark" },
       primaryColor: "#AD7BFF",
@@ -182,6 +189,15 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
     () => messages.filter((message) => message.role === "assistant"),
     [messages],
   );
+
+  const assistantMessage = useMemo(() => {
+    // Adjust textarea height to fit content
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+    return assistantMessages[assistantMessages.length - 1]?.content || "";
+  }, [assistantMessages]);
 
   // Re-load twitter widget whenever step is changed.
   // Since the content of this component is rendered dynamically, the widget needs to be loaded again.
@@ -280,14 +296,12 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
               </button>
             </div>
             <textarea
+              ref={textareaRef}
               className={clsx(
-                "w-full bg-transparent outline-none border border-black p-4",
+                "w-full bg-transparent outline-none border border-black p-4 overflow-hidden resize-none",
                 errors.message && "border-red-500",
               )}
-              value={
-                assistantMessages[assistantMessages.length - 1]?.content || ""
-              }
-              rows={8}
+              value={assistantMessage}
               onChange={(e) => handleInfoChange("message", e.target.value)}
             />
           </div>
