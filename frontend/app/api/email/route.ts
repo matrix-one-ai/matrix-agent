@@ -1,4 +1,3 @@
-import EmailTemplate from "../../components/EmailTemplate";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
@@ -7,7 +6,12 @@ export const revalidate = 0;
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-function generateEmailTemplate(giftMessage, amount, currency, redeemCode) {
+function generateEmailTemplate(
+  giftMessage: string,
+  amount: string,
+  currency: string,
+  redeemCode: string,
+): string {
   return `<!doctype html>
 <html lang="en">
   <head>
