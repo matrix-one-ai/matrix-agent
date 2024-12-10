@@ -148,6 +148,14 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
     [messages],
   );
 
+  // Re-load twitter widget whenever step is changed.
+  // Since the content of this component is rendered dynamically, the widget needs to be loaded again.
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    window?.twttr?.widgets?.load();
+  }, [step]);
+
   return (
     <Card
       className={clsx("!w-[80vw] !max-w-[549px] max-h-[80vh]", className)}
