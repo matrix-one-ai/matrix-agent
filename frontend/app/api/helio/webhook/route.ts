@@ -8,8 +8,8 @@ const mapCountryToCurrency = (country: ECountries) => {
       return "USD";
     case ECountries.CANADA:
       return "CAD";
-    case ECountries.EUROPE:
-      return "EUR";
+    // case ECountries.EUROPE:
+    //   return "EUR";
     case ECountries.UNITED_KINGDOM:
       return "GBP";
     default:
@@ -23,8 +23,8 @@ const mapCountryToCountryCode = (country: ECountries) => {
       return "US";
     case ECountries.CANADA:
       return "CA";
-    case ECountries.EUROPE:
-      return "EU";
+    // case ECountries.EUROPE:
+    //   return "EU";
     case ECountries.UNITED_KINGDOM:
       return "GB";
     default:

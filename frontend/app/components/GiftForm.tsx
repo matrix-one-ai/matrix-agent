@@ -63,10 +63,10 @@ const mapCountryToPaylink = (country: ECountries, amount: string) => {
       return amount === EAmount.TEN
         ? process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK_10_CAD!
         : process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK_50_CAD!;
-    case ECountries.EUROPE:
-      return amount === EAmount.TEN
-        ? process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK_10_EUR!
-        : process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK_50_EUR!;
+    // case ECountries.EUROPE:
+    //   return amount === EAmount.TEN
+    //     ? process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK_10_EUR!
+    //     : process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK_50_EUR!;
     case ECountries.UNITED_KINGDOM:
       return amount === EAmount.TEN
         ? process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK_10_GBP!

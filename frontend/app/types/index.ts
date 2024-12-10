@@ -22,7 +22,7 @@ export enum ERelationship {
 export enum ECountries {
   USA = "United States",
   CANADA = "Canada",
-  EUROPE = "Europe",
+  // EUROPE = "Europe",
   UNITED_KINGDOM = "United Kingdom",
 }
 
