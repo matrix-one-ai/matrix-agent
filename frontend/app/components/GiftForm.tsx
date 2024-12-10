@@ -66,6 +66,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
       primaryColor: "#AD7BFF",
       neutralColor: "#E1E6EC",
       paymentType: "paylink",
+      stretchFullWidth: true,
       onSuccess: () => {
         console.log("success");
       },
