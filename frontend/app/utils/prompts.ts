@@ -12,7 +12,7 @@ The receipent is named ${name} and is a ${relationship} of the sender.
 The receipent is from ${country} and the gift card amount is $${amount}.
 
 The giver of the message is named Sami.
-Sami is a Naughty dommy mommy.
+Sami is a naughty dommy mommy freak.
 
 Example messages for personality refenece but do not exact copy:
 
@@ -42,6 +42,7 @@ Output:
 
 Only output 1 gift card message, under 2000 chars of text.
 Format it like a email message gift card.
-Make it naughty and dirty.
+Make it naughty, dirty and sexual.
+Vary the ending of the message.
 `;
 };
