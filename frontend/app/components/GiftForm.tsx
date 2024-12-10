@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import clsx from "clsx";
 import { z } from "zod";
 import Card from "@/app/components/Card/Card";
@@ -12,31 +12,12 @@ import Sami1Icon from "@/app/components/Icons/Sami1Icon";
 import SolanaIcon from "@/app/components/Icons/SolanaIcon";
 import { useRouter } from "next/navigation";
 import Dropdown from "./Dropdown";
+import { Message, useChat } from "ai/react";
+import { EAmount, ECountries, ERelationship } from "../types";
+import { generateGiftMessage } from "../utils/prompts";
 
 interface IGiftFormProps extends React.HTMLAttributes<HTMLDivElement> {
   onPurchase?: () => void;
-}
-
-enum ERelationship {
-  Friend = "Friend",
-  Family = "Family",
-  Partner = "Partner",
-  Colleague = "Colleague",
-  Other = "Other",
-}
-
-enum ECountries {
-  USA = "United States",
-  CANADA = "Canada",
-  EUROPE = "Europe",
-  UNITED_KINGDOM = "United Kingdom",
-}
-
-enum EAmount {
-  FIVE = "5",
-  TWENTY = "20",
-  FIFTY = "50",
-  HUNDRED = "100",
 }
 
 interface IGiftFormInfo {
@@ -70,6 +51,21 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
   const [formInfo, setFormInfo] = useState<Partial<IGiftFormInfo>>({});
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
+  const onGenerateFinish = useCallback((message: Message) => {
+    console.log(message);
+    setFormInfo((prev) => ({ ...prev, message: message.content }));
+  }, []);
+
+  const onGenerateError = useCallback((error: Error) => {
+    console.log(error.cause, error.message, error.name, error.stack);
+  }, []);
+
+  const { messages, isLoading, append } = useChat({
+    api: "/api/ai",
+    onFinish: onGenerateFinish,
+    onError: onGenerateError,
+  });
+
   // Handler for closing modal
   const handleClose = useCallback(() => {
     router.push("/");
@@ -96,21 +92,39 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             Object.entries(fieldErrors).map(([key, error]) => [
               key,
               Array.isArray(error) ? error[0] : error?._errors[0] || "Invalid",
-            ]),
-          ),
+            ])
+          )
         );
       } else {
         setErrors({});
         // TODO: Submit
       }
     },
-    [formInfo],
+    [formInfo]
   );
 
-  // Handler for generating sami message
   const handleSamiMessageGenerate = useCallback(() => {
-    // TODO: generate sami message
-  }, []);
+    append({
+      role: "user",
+      content: generateGiftMessage(
+        formInfo?.name || "",
+        formInfo?.relationship || ERelationship.Friend,
+        formInfo?.country || ECountries.USA,
+        formInfo?.amount || EAmount.TEN
+      ),
+    });
+  }, [
+    append,
+    formInfo?.amount,
+    formInfo?.country,
+    formInfo?.name,
+    formInfo?.relationship,
+  ]);
+
+  const assistantMessages = useMemo(
+    () => messages.filter((message) => message.role === "assistant"),
+    [messages]
+  );
 
   return (
     <Card
@@ -134,7 +148,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
           <input
             className={clsx(
               "w-full h-9 bg-transparent outline-none border border-black px-1",
-              errors.name && "border-red-500",
+              errors.name && "border-red-500"
             )}
             type="text"
             name="name"
@@ -155,7 +169,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
           <input
             className={clsx(
               "w-full h-9 bg-transparent outline-none border border-black px-1",
-              errors.email && "border-red-500",
+              errors.email && "border-red-500"
             )}
             type="text"
             name="email"
@@ -184,10 +198,12 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
           <textarea
             className={clsx(
               "w-full bg-transparent outline-none border border-black px-1",
-              errors.message && "border-red-500",
+              errors.message && "border-red-500"
             )}
-            value={formInfo?.message || ""}
-            rows={4}
+            value={
+              assistantMessages[assistantMessages.length - 1]?.content || ""
+            }
+            rows={8}
             onChange={(e) => handleInfoChange("message", e.target.value)}
           />
         </div>
@@ -195,8 +211,11 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
           type="button"
           className="underline w-auto"
           onClick={handleSamiMessageGenerate}
+          disabled={isLoading}
         >
-          [generate sami message]
+          {isLoading
+            ? "[sami writing a message...]"
+            : "[generate sami message]"}
         </button>
         <button type="submit" className="h-9 bg-black text-white w-full">
           [purchase]
