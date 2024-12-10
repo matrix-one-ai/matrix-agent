@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import clsx from "clsx";
 import { useToggle } from "@/app/hooks/useToggle";
+import { useOutsideClick } from "@/app/hooks/useOutsideClick";
 
 interface IDropdownProps extends React.HTMLAttributes<HTMLDivElement> {
   options: string[];
@@ -18,6 +19,7 @@ const Dropdown: React.FC<IDropdownProps> = ({
   const [isOpen, { toggle: toggleIsOpen, toggleOff: toggleOffIsOpen }] =
     useToggle(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const dropdownContentRef = useOutsideClick<HTMLUListElement>(toggleOffIsOpen);
 
   // Handler for opening dropdown
   const handleOpen = useCallback(
@@ -51,7 +53,10 @@ const Dropdown: React.FC<IDropdownProps> = ({
       </button>
 
       {isOpen && (
-        <ul className="absolute w-full border bg-main border-inherit max-h-60 overflow-y-auto z-10">
+        <ul
+          ref={dropdownContentRef}
+          className="absolute w-full border bg-main border-inherit max-h-60 overflow-y-auto z-10"
+        >
           {options.map((option) => (
             <li
               key={option}
