@@ -53,6 +53,31 @@ const FormValidationSchema = z.object({
     .min(1, { message: "Amount is required and cannot be empty" }),
 });
 
+const mapCountryToPaylink = (country: ECountries, amount: string) => {
+  switch (country) {
+    case ECountries.USA:
+      return amount === EAmount.TEN
+        ? process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK_10_USD!
+        : process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK_50_USD!;
+    case ECountries.CANADA:
+      return amount === EAmount.TEN
+        ? process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK_10_CAD!
+        : process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK_50_CAD!;
+    case ECountries.EUROPE:
+      return amount === EAmount.TEN
+        ? process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK_10_EUR!
+        : process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK_50_EUR!;
+    case ECountries.UNITED_KINGDOM:
+      return amount === EAmount.TEN
+        ? process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK_10_GBP!
+        : process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK_50_GBP!;
+    default:
+      return amount === EAmount.TEN
+        ? process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK_10_USA!
+        : process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK_50_USA!;
+  }
+};
+
 const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
   const router = useRouter();
   const [formInfo, setFormInfo] = useState<Partial<IGiftFormInfo>>({});
@@ -61,7 +86,10 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
 
   const helioConfig: HelioEmbedConfig = useMemo(
     () => ({
-      paylinkId: process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK!,
+      paylinkId: mapCountryToPaylink(
+        formInfo.country || ECountries.USA,
+        formInfo.amount || EAmount.TEN
+      ),
       theme: { themeMode: "dark" },
       primaryColor: "#AD7BFF",
       neutralColor: "#E1E6EC",
