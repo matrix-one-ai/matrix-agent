@@ -19,7 +19,7 @@ export async function POST(req: Request) {
       messages,
       frequencyPenalty: 1,
       presencePenalty: 1,
-      temperature: 0.8,
+      temperature: 1,
     });
 
     return stream.toDataStreamResponse();
