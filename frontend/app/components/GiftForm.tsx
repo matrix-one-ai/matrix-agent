@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import clsx from "clsx";
 import { z } from "zod";
 import Card from "@/app/components/Card/Card";
@@ -83,12 +89,13 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
   const [formInfo, setFormInfo] = useState<Partial<IGiftFormInfo>>({});
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [step, setStep] = useState<GiftFormSteps>(GiftFormSteps.FORM);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const helioConfig: HelioEmbedConfig = useMemo(
     () => ({
       paylinkId: mapCountryToPaylink(
         formInfo.country || ECountries.USA,
-        formInfo.amount || EAmount.TEN
+        formInfo.amount || EAmount.TEN,
       ),
       theme: { themeMode: "dark" },
       primaryColor: "#AD7BFF",
@@ -105,7 +112,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
         setStep(GiftFormSteps.THANKS);
       },
     }),
-    [formInfo.amount, formInfo.country, formInfo.email, formInfo.message]
+    [formInfo.amount, formInfo.country, formInfo.email, formInfo.message],
   );
 
   const onGenerateFinish = useCallback((message: Message) => {
@@ -149,15 +156,15 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             Object.entries(fieldErrors).map(([key, error]) => [
               key,
               Array.isArray(error) ? error[0] : error?._errors[0] || "Invalid",
-            ])
-          )
+            ]),
+          ),
         );
       } else {
         setErrors({});
         setStep(GiftFormSteps.PAYMENT);
       }
     },
-    [formInfo]
+    [formInfo],
   );
 
   const handleSamiMessageGenerate = useCallback(() => {
@@ -167,7 +174,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
         formInfo?.name || "",
         formInfo?.relationship || ERelationship.Friend,
         formInfo?.country || ECountries.USA,
-        formInfo?.amount || EAmount.TEN
+        formInfo?.amount || EAmount.TEN,
       ),
     });
   }, [
@@ -180,8 +187,17 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
 
   const assistantMessages = useMemo(
     () => messages.filter((message) => message.role === "assistant"),
-    [messages]
+    [messages],
   );
+
+  const assistantMessage = useMemo(() => {
+    // Adjust textarea height to fit content
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+    return assistantMessages[assistantMessages.length - 1]?.content || "";
+  }, [assistantMessages]);
 
   // Re-load twitter widget whenever step is changed.
   // Since the content of this component is rendered dynamically, the widget needs to be loaded again.
@@ -193,8 +209,8 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
 
   return (
     <Card
-      className={clsx("!w-[80vw] !max-w-[549px] max-h-[80vh]", className)}
-      contentClassName="w-full h-full overflow-y-auto"
+      className={clsx("!w-[80vw] !max-w-[549px]", className)}
+      contentClassName="w-full h-full overflow-y-auto mb-8"
       title={
         step === GiftFormSteps.THANKS
           ? "thank you"
@@ -217,8 +233,8 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             <p>name *</p>
             <input
               className={clsx(
-                "w-full h-9 bg-transparent outline-none border border-black px-1",
-                errors.name && "border-red-500"
+                "w-full h-9 bg-transparent outline-none border border-black px-4",
+                errors.name && "border-red-500",
               )}
               type="text"
               name="name"
@@ -240,8 +256,8 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             <p>email *</p>
             <input
               className={clsx(
-                "w-full h-9 bg-transparent outline-none border border-black px-1",
-                errors.email && "border-red-500"
+                "w-full h-9 bg-transparent outline-none border border-black px-4",
+                errors.email && "border-red-500",
               )}
               type="text"
               name="email"
@@ -265,8 +281,8 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
               onSelectOption={(value) => handleInfoChange("amount", value)}
             />
           </div>
-          <div className="flex flex-col w-full gap-0.5 md:gap-2">
-            <div className="flex gap-1">
+          <div className="flex flex-col w-full gap-0.5 md:gap-2 mt-1 md:mt-3">
+            <div className="flex justify-between">
               <h6 className="font-semibold">gift card message</h6>
               <button
                 type="button"
@@ -280,22 +296,17 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
               </button>
             </div>
             <textarea
+              ref={textareaRef}
               className={clsx(
-                "w-full bg-transparent outline-none border border-black px-1",
-                errors.message && "border-red-500"
+                "w-full bg-transparent outline-none border border-black p-4 overflow-hidden resize-none",
+                errors.message && "border-red-500",
               )}
-              value={
-                assistantMessages[assistantMessages.length - 1]?.content || ""
-              }
-              rows={8}
+              value={assistantMessage}
               onChange={(e) => handleInfoChange("message", e.target.value)}
             />
           </div>
-          <button type="submit" className="h-9 bg-black text-white w-full">
-            [purchase]
-          </button>
           {/* Available coins */}
-          <p>pay with:</p>
+          <p className="mt-1">pay with:</p>
           <div className="flex justify-center gap-3 -mt-0.5 md:-mt-2 flex-wrap">
             <div className="flex items-center gap-1">
               <Sami1Icon />
@@ -318,6 +329,9 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
               <span>$SOL</span>
             </div>
           </div>
+          <button type="submit" className="h-9 bg-black text-white w-full mt-3">
+            [purchase]
+          </button>
           {/* Fee */}
           <p className="text-center">{`Sami royal cut? Just 5%. Consider it the Queen's Tax.`}</p>
         </form>
