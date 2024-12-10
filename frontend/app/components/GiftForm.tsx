@@ -232,7 +232,19 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             />
           </div>
           <div className="flex flex-col w-full gap-0.5 md:gap-2">
-            <h6 className="font-semibold">gift card message</h6>
+            <div className="flex gap-1">
+              <h6 className="font-semibold">gift card message</h6>
+              <button
+                type="button"
+                className="underline w-auto"
+                onClick={handleSamiMessageGenerate}
+                disabled={isLoading}
+              >
+                {isLoading
+                  ? "[sami writing a message...]"
+                  : "[generate sami message]"}
+              </button>
+            </div>
             <textarea
               className={clsx(
                 "w-full bg-transparent outline-none border border-black px-1",
@@ -245,16 +257,6 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
               onChange={(e) => handleInfoChange("message", e.target.value)}
             />
           </div>
-          <button
-            type="button"
-            className="underline w-auto"
-            onClick={handleSamiMessageGenerate}
-            disabled={isLoading}
-          >
-            {isLoading
-              ? "[sami writing a message...]"
-              : "[generate sami message]"}
-          </button>
           <button type="submit" className="h-9 bg-black text-white w-full">
             [purchase]
           </button>
@@ -263,11 +265,11 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
           <div className="flex justify-center gap-3 -mt-0.5 md:-mt-2 flex-wrap">
             <div className="flex items-center gap-1">
               <Sami1Icon />
-              <span>$Sami1</span>
+              <span>$SAMI1</span>
             </div>
             <div className="flex items-center gap-1">
               <M1Icon />
-              <span>$Matrix1</span>
+              <span>$MATRIX1</span>
             </div>
             <div className="flex items-center gap-1">
               <EthereumIcon />
@@ -279,7 +281,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             </div>
             <div className="flex items-center gap-1">
               <SolanaIcon />
-              <span>$Sol</span>
+              <span>$SOL</span>
             </div>
           </div>
           {/* Fee */}
