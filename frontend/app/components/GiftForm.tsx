@@ -281,8 +281,8 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
               onSelectOption={(value) => handleInfoChange("amount", value)}
             />
           </div>
-          <div className="flex flex-col w-full gap-0.5 md:gap-2">
-            <div className="flex gap-1">
+          <div className="flex flex-col w-full gap-0.5 md:gap-2 mt-1 md:mt-3">
+            <div className="flex justify-between">
               <h6 className="font-semibold">gift card message</h6>
               <button
                 type="button"
@@ -305,11 +305,8 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
               onChange={(e) => handleInfoChange("message", e.target.value)}
             />
           </div>
-          <button type="submit" className="h-9 bg-black text-white w-full">
-            [purchase]
-          </button>
           {/* Available coins */}
-          <p>pay with:</p>
+          <p className="mt-1">pay with:</p>
           <div className="flex justify-center gap-3 -mt-0.5 md:-mt-2 flex-wrap">
             <div className="flex items-center gap-1">
               <Sami1Icon />
@@ -332,6 +329,9 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
               <span>$SOL</span>
             </div>
           </div>
+          <button type="submit" className="h-9 bg-black text-white w-full mt-3">
+            [purchase]
+          </button>
           {/* Fee */}
           <p className="text-center">{`Sami royal cut? Just 5%. Consider it the Queen's Tax.`}</p>
         </form>
