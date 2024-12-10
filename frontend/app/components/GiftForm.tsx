@@ -15,9 +15,16 @@ import Dropdown from "./Dropdown";
 import { Message, useChat } from "ai/react";
 import { EAmount, ECountries, ERelationship } from "../types";
 import { generateGiftMessage } from "../utils/prompts";
+import { HelioCheckout, HelioEmbedConfig } from "@heliofi/checkout-react";
 
 interface IGiftFormProps extends React.HTMLAttributes<HTMLDivElement> {
   onPurchase?: () => void;
+}
+
+enum GiftFormSteps {
+  FORM = "form",
+  PAYMENT = "payment",
+  THANKS = "thanks",
 }
 
 interface IGiftFormInfo {
@@ -50,6 +57,21 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
   const router = useRouter();
   const [formInfo, setFormInfo] = useState<Partial<IGiftFormInfo>>({});
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [step, setStep] = useState<GiftFormSteps>(GiftFormSteps.FORM);
+
+  const helioConfig: HelioEmbedConfig = useMemo(
+    () => ({
+      paylinkId: process.env.NEXT_PUBLIC_HELIO_GIFTCARD_PAYLINK!,
+      theme: { themeMode: "dark" },
+      primaryColor: "#AD7BFF",
+      neutralColor: "#E1E6EC",
+      paymentType: "paylink",
+      onSuccess: () => {
+        console.log("success");
+      },
+    }),
+    []
+  );
 
   const onGenerateFinish = useCallback((message: Message) => {
     console.log(message);
@@ -97,7 +119,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
         );
       } else {
         setErrors({});
-        // TODO: Submit
+        setStep(GiftFormSteps.PAYMENT);
       }
     },
     [formInfo]
@@ -136,116 +158,122 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
       uncollapsible
       {...rest}
     >
-      <form
-        className="relative flex flex-col gap-1 md:gap-3 items-center"
-        onSubmit={handleSubmit}
-      >
-        <h6 className="font-semibold text-left w-full">
-          who are you sending this to?
-        </h6>
-        <div className="flex flex-col w-full gap-0.5 md:gap-2">
-          <p>name *</p>
-          <input
-            className={clsx(
-              "w-full h-9 bg-transparent outline-none border border-black px-1",
-              errors.name && "border-red-500"
-            )}
-            type="text"
-            name="name"
-            value={formInfo?.name || ""}
-            onChange={(e) => handleInfoChange("name", e.target.value)}
-          />
-        </div>
-        <div className="flex flex-col w-full gap-0.5 md:gap-2">
-          <p>relationship *</p>
-          <Dropdown
-            className={clsx(errors.relationship && "border-red-500")}
-            options={Object.values(ERelationship)}
-            onSelectOption={(value) => handleInfoChange("relationship", value)}
-          />
-        </div>
-        <div className="flex flex-col w-full gap-0.5 md:gap-2">
-          <p>email *</p>
-          <input
-            className={clsx(
-              "w-full h-9 bg-transparent outline-none border border-black px-1",
-              errors.email && "border-red-500"
-            )}
-            type="text"
-            name="email"
-            value={formInfo?.email || ""}
-            onChange={(e) => handleInfoChange("email", e.target.value)}
-          />
-        </div>
-        <div className="flex flex-col w-full gap-0.5 md:gap-2">
-          <p>country for amazon *</p>
-          <Dropdown
-            className={clsx(errors.country && "border-red-500")}
-            options={Object.values(ECountries)}
-            onSelectOption={(value) => handleInfoChange("country", value)}
-          />
-        </div>
-        <div className="flex flex-col w-full gap-0.5 md:gap-2">
-          <p>amount *</p>
-          <Dropdown
-            className={clsx(errors.amount && "border-red-500")}
-            options={Object.values(EAmount)}
-            onSelectOption={(value) => handleInfoChange("amount", value)}
-          />
-        </div>
-        <div className="flex flex-col w-full gap-0.5 md:gap-2">
-          <h6 className="font-semibold">gift card message</h6>
-          <textarea
-            className={clsx(
-              "w-full bg-transparent outline-none border border-black px-1",
-              errors.message && "border-red-500"
-            )}
-            value={
-              assistantMessages[assistantMessages.length - 1]?.content || ""
-            }
-            rows={8}
-            onChange={(e) => handleInfoChange("message", e.target.value)}
-          />
-        </div>
-        <button
-          type="button"
-          className="underline w-auto"
-          onClick={handleSamiMessageGenerate}
-          disabled={isLoading}
+      {step === GiftFormSteps.FORM && (
+        <form
+          className="relative flex flex-col gap-1 md:gap-3 items-center"
+          onSubmit={handleSubmit}
         >
-          {isLoading
-            ? "[sami writing a message...]"
-            : "[generate sami message]"}
-        </button>
-        <button type="submit" className="h-9 bg-black text-white w-full">
-          [purchase]
-        </button>
-        {/* Available coins */}
-        <div className="flex justify-center gap-3 -mt-0.5 md:-mt-2 flex-wrap">
-          <div className="flex items-center gap-1">
-            <Sami1Icon />
-            <span>$Sami1</span>
+          <h6 className="font-semibold text-left w-full">
+            who are you sending this to?
+          </h6>
+          <div className="flex flex-col w-full gap-0.5 md:gap-2">
+            <p>name *</p>
+            <input
+              className={clsx(
+                "w-full h-9 bg-transparent outline-none border border-black px-1",
+                errors.name && "border-red-500"
+              )}
+              type="text"
+              name="name"
+              value={formInfo?.name || ""}
+              onChange={(e) => handleInfoChange("name", e.target.value)}
+            />
           </div>
-          <div className="flex items-center gap-1">
-            <M1Icon />
-            <span>$Matrix1</span>
+          <div className="flex flex-col w-full gap-0.5 md:gap-2">
+            <p>relationship *</p>
+            <Dropdown
+              className={clsx(errors.relationship && "border-red-500")}
+              options={Object.values(ERelationship)}
+              onSelectOption={(value) =>
+                handleInfoChange("relationship", value)
+              }
+            />
           </div>
-          <div className="flex items-center gap-1">
-            <EthereumIcon />
-            <span>$ETH</span>
+          <div className="flex flex-col w-full gap-0.5 md:gap-2">
+            <p>email *</p>
+            <input
+              className={clsx(
+                "w-full h-9 bg-transparent outline-none border border-black px-1",
+                errors.email && "border-red-500"
+              )}
+              type="text"
+              name="email"
+              value={formInfo?.email || ""}
+              onChange={(e) => handleInfoChange("email", e.target.value)}
+            />
           </div>
-          <div className="flex items-center gap-1">
-            <BitcoinIcon />
-            <span>$BTC</span>
+          <div className="flex flex-col w-full gap-0.5 md:gap-2">
+            <p>country for amazon *</p>
+            <Dropdown
+              className={clsx(errors.country && "border-red-500")}
+              options={Object.values(ECountries)}
+              onSelectOption={(value) => handleInfoChange("country", value)}
+            />
           </div>
-          <div className="flex items-center gap-1">
-            <SolanaIcon />
-            <span>$Sol</span>
+          <div className="flex flex-col w-full gap-0.5 md:gap-2">
+            <p>amount *</p>
+            <Dropdown
+              className={clsx(errors.amount && "border-red-500")}
+              options={Object.values(EAmount)}
+              onSelectOption={(value) => handleInfoChange("amount", value)}
+            />
           </div>
-        </div>
-        {/* Fee */}
-        <p>{`Sami royal cut? Just 5%. Consider it the Queen's Tax.`}</p>
-      </form>
+          <div className="flex flex-col w-full gap-0.5 md:gap-2">
+            <h6 className="font-semibold">gift card message</h6>
+            <textarea
+              className={clsx(
+                "w-full bg-transparent outline-none border border-black px-1",
+                errors.message && "border-red-500"
+              )}
+              value={
+                assistantMessages[assistantMessages.length - 1]?.content || ""
+              }
+              rows={8}
+              onChange={(e) => handleInfoChange("message", e.target.value)}
+            />
+          </div>
+          <button
+            type="button"
+            className="underline w-auto"
+            onClick={handleSamiMessageGenerate}
+            disabled={isLoading}
+          >
+            {isLoading
+              ? "[sami writing a message...]"
+              : "[generate sami message]"}
+          </button>
+          <button type="submit" className="h-9 bg-black text-white w-full">
+            [purchase]
+          </button>
+          {/* Available coins */}
+          <div className="flex justify-center gap-3 -mt-0.5 md:-mt-2 flex-wrap">
+            <div className="flex items-center gap-1">
+              <Sami1Icon />
+              <span>$Sami1</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <M1Icon />
+              <span>$Matrix1</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <EthereumIcon />
+              <span>$ETH</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <BitcoinIcon />
+              <span>$BTC</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <SolanaIcon />
+              <span>$Sol</span>
+            </div>
+          </div>
+          {/* Fee */}
+          <p>{`Sami royal cut? Just 5%. Consider it the Queen's Tax.`}</p>
+        </form>
+      )}
+
+      {step === GiftFormSteps.PAYMENT && <HelioCheckout config={helioConfig} />}
     </Card>
   );
 };
