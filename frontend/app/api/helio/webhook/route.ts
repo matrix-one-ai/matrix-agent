@@ -17,6 +17,21 @@ const mapCountryToCurrency = (country: ECountries) => {
   }
 };
 
+const mapCountryToCountryCode = (country: ECountries) => {
+  switch (country) {
+    case ECountries.USA:
+      return "US";
+    case ECountries.CANADA:
+      return "CA";
+    case ECountries.EUROPE:
+      return "EU";
+    case ECountries.UNITED_KINGDOM:
+      return "GB";
+    default:
+      return "US";
+  }
+};
+
 export async function POST(res: Request) {
   try {
     const event = await res.json();
@@ -39,6 +54,31 @@ export async function POST(res: Request) {
 
       console.log(recipientEmail);
 
+      const productResp = await fetch(
+        "https://api-qa.skyfire.xyz/v1/receivers/reloadly/product-info/amazon",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            "skyfire-api-key": process.env.SKYFIRE_API_KEY!,
+          },
+        }
+      );
+
+      const productData = await productResp.json();
+
+      console.log("Skyfire Product Info", productData);
+
+      const product = productData.find(
+        (product: any) =>
+          product.country === mapCountryToCountryCode(additionalJSON.country) &&
+          product.fixedRecipientDenominations.includes(
+            Number(additionalJSON.amount)
+          )
+      );
+
+      console.log(product);
+
       // Call the Skyfire gift card API
       const response = await fetch(
         "https://api-qa.skyfire.xyz/v1/receivers/reloadly/gift-card",
@@ -52,6 +92,8 @@ export async function POST(res: Request) {
             recipientEmail,
             sendEmail: false,
             amount: Number(additionalJSON.amount),
+            countryCode: mapCountryToCountryCode(additionalJSON.country),
+            productId: product.id,
           }),
         }
       );
