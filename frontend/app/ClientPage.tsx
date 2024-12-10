@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -17,7 +17,6 @@ import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import { useActivityLog } from "./hooks/useActivityLog";
 import { convertToLinks, formatTimestampToLocal } from "./utils/string";
 import { EActivityLogModuleType } from "./types";
-import GiftCardModal from "./components/GiftCardModal";
 
 const AUTONOMY_LEVELS = [
   "No Autonomy",
@@ -37,8 +36,6 @@ const ClientPage = () => {
   const timeRef = useRef<string | null>(null);
   const activitLogRef = useRef<HTMLDivElement | null>(null);
 
-  const [isGiftCardModalOpen, setIsGiftCardModalOpen] = useState(false);
-
   // Open hello world page
   const handleOpenHelloPage = useCallback(() => {
     window.open("hello", "_self");
@@ -48,6 +45,13 @@ const ClientPage = () => {
   useEffect(() => {
     activitLogRef.current?.scrollTo({ top: 0, behavior: "smooth" });
   }, [activityLogs]);
+
+  // Re-load twitter widget whenever this page is mounted.
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    window?.twttr?.widgets?.load();
+  }, []);
 
   return (
     <div className="flex flex-col gap-6 pb-10">
@@ -358,6 +362,15 @@ const ClientPage = () => {
               </div>
             </div>
           </Card>
+          <Link href="/gift-card">
+            <Image
+              className="w-full"
+              src="/images/gift_card.gif"
+              alt=""
+              width={256}
+              height={256}
+            />
+          </Link>
           <Card
             contentClassName="!overflow-auto !px-0 !py-0 !h-full"
             className="twitter-card h-[400px]"
@@ -377,20 +390,6 @@ const ClientPage = () => {
             </div>
           </Card>
           {/* Placeholder cards */}
-          {/* <Card
-            title="Gift Cards"
-            level={1}
-            maxLevel={5}
-            onClick={() => setIsGiftCardModalOpen(true)}
-          >
-            <Image
-              className="w-full"
-              src="/images/gift-card.svg"
-              alt=""
-              width={256}
-              height={256}
-            />
-          </Card> */}
           <Card title="<placeholder>" level={1} maxLevel={5}>
             <Image
               className="w-full"
@@ -462,13 +461,6 @@ const ClientPage = () => {
       <a className="underline text-center" href="/disclaimer">
         [disclaimer]
       </a>
-
-      {isGiftCardModalOpen && (
-        <GiftCardModal
-          onClose={() => setIsGiftCardModalOpen(false)}
-          onPurchase={() => {}}
-        />
-      )}
     </div>
   );
 };
