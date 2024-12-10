@@ -48,7 +48,11 @@ export async function POST(res: Request) {
             "content-type": "application/json",
             "skyfire-api-key": process.env.SKYFIRE_API_KEY!,
           },
-          body: JSON.stringify({ recipientEmail }),
+          body: JSON.stringify({
+            recipientEmail,
+            sendEmail: false,
+            amount: additionalJSON.amount,
+          }),
         }
       );
 
