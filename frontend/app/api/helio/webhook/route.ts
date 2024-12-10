@@ -65,7 +65,7 @@ export async function POST(res: Request) {
           subject: "Sami's Gift Card",
           giftMessage: additionalJSON.giftMessage,
           amount: additionalJSON.amount,
-          redeemCode: skyfireData.redeemInstructions.redeemCode.pinCode,
+          redeemCode: skyfireData.redeemCode.pinCode,
           currency: mapCountryToCurrency(additionalJSON.country),
         }),
       });
