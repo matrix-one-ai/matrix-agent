@@ -1,14 +1,4 @@
-import EmailTemplate from "../../components/EmailTemplate";
-import { NextResponse } from "next/server";
-import { Resend } from "resend";
-
-export const maxDuration = 30;
-export const revalidate = 0;
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-function generateEmailTemplate(giftMessage, amount, currency, redeemCode) {
-  return `<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <link href="https://fonts.cdnfonts.com/css/verdana" rel="stylesheet" />
@@ -187,42 +177,25 @@ function generateEmailTemplate(giftMessage, amount, currency, redeemCode) {
           <p style="margin-top: 32px">
             <span style="font-weight: bold">Product Name: </span> Amazon
           </p>
-          <p><span style="font-weight: bold">Amount: </span> ${amount}</p>
-          <p><span style="font-weight: bold">Currency: </span> ${currency}</p>
+          <p><span style="font-weight: bold">Amount: </span> Amount</p>
+          <p><span style="font-weight: bold">Currency: </span> Currency</p>
           <p>
-            <span style="font-weight: bold">Redeem Code: </span> ${redeemCode}
+            <span style="font-weight: bold">Redeem Code: </span> Redeem Code
           </p>
           <p style="margin-top: 32px">
-            ${`${giftMessage}`}
+            Happy holidays, my naughty little toys. Be good… or don’t. Either
+            way, you’ll end up under me—oops, I mean under the mistletoe.
+            Kisses, Sami.
           </p>
+          <p style="margin-top: 16px">
+            Santa told me the toy you wanted was strapped to me, rubber and
+            long, but I’m feeling generous—here’s some cash to find whatever
+            fills your little hole... though nothing pleases it like I do.
+            Naughty holidays, darling.
+          </p>
+          <p style="margin-top: 16px">Sami</p>
         </td>
       </tr>
     </table>
   </body>
 </html>
-`;
-}
-
-export async function POST(req: Request) {
-  try {
-    const { toEmail, subject, giftMessage, amount, currency, redeemCode } =
-      await req.json();
-
-    const { data, error } = await resend.emails.send({
-      from: "Sami <sami@sami.one>",
-      to: [toEmail],
-      subject: subject,
-      html: generateEmailTemplate(giftMessage, amount, currency, redeemCode),
-    });
-
-    if (error) {
-      console.log(error);
-      return NextResponse.json({ error: error }, { status: 500 });
-    }
-
-    return NextResponse.json({ data: data });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: error }, { status: 500 });
-  }
-}
