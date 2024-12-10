@@ -44,12 +44,12 @@ const Dropdown: React.FC<IDropdownProps> = ({
     <div className={clsx("relative w-full border-black", className)} {...rest}>
       <button
         onClick={handleOpen}
-        className="w-full h-9 px-4 py-2 text-left border border-inherit focus:outline-none"
+        className="w-full h-9 flex items-center flex-row-reverse justify-between px-4 py-2 text-left border border-inherit focus:outline-none"
       >
-        {selectedOption || placeholder}
         <span className="float-right transform transition-transform duration-200 text-xs scale-y-50">
           {isOpen ? "▲" : "▼"}
         </span>
+        {selectedOption || placeholder}
       </button>
 
       {isOpen && (
