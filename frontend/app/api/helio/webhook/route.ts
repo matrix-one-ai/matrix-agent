@@ -52,8 +52,8 @@ export async function POST(res: Request) {
         }
       );
 
-      const data = await response.json();
-      console.log("Skyfire API Response", data);
+      const skyfireData = await response.json();
+      console.log("Skyfire API Response", skyfireData);
 
       const emailResp = await fetch("/api/email", {
         method: "POST",
@@ -65,7 +65,7 @@ export async function POST(res: Request) {
           subject: "Sami's Gift Card",
           giftMessage: additionalJSON.giftMessage,
           amount: additionalJSON.amount,
-          redeemCode: additionalJSON.redeemCode,
+          redeemCode: skyfireData.redeemInstructions.redeemCode.pinCode,
           currency: mapCountryToCurrency(additionalJSON.country),
         }),
       });
