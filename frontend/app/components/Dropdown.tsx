@@ -55,7 +55,7 @@ const Dropdown: React.FC<IDropdownProps> = ({
       {isOpen && (
         <ul
           ref={dropdownContentRef}
-          className="absolute w-full border bg-main border-inherit max-h-60 overflow-y-auto z-10"
+          className="absolute w-full border bg-main border-inherit border-t-0 max-h-60 overflow-y-auto z-10"
         >
           {options.map((option) => (
             <li
