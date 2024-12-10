@@ -193,8 +193,8 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
 
   return (
     <Card
-      className={clsx("!w-[80vw] !max-w-[549px] max-h-[80vh]", className)}
-      contentClassName="w-full h-full overflow-y-auto"
+      className={clsx("!w-[80vw] !max-w-[549px]", className)}
+      contentClassName="w-full h-full overflow-y-auto mb-8"
       title={
         step === GiftFormSteps.THANKS
           ? "thank you"
