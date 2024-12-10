@@ -68,7 +68,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
       paymentType: "paylink",
       stretchFullWidth: true,
       onSuccess: () => {
-        console.log("success");
+        setStep(GiftFormSteps.THANKS);
       },
     }),
     [],
