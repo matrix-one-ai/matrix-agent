@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
 import { z } from "zod";
 import Card from "@/app/components/Card/Card";
@@ -152,7 +152,11 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
     <Card
       className={clsx("!w-[80vw] !max-w-[549px] max-h-[80vh]", className)}
       contentClassName="w-full h-full overflow-y-auto"
-      title="send a Sami personalized amazon gift card"
+      title={
+        step === GiftFormSteps.THANKS
+          ? "thank you"
+          : "send a Sami personalized amazon gift card"
+      }
       actionBtnIcon={<DownRightArrowIcon />}
       onActionBtnClick={handleClose}
       uncollapsible
@@ -275,6 +279,42 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
       )}
 
       {step === GiftFormSteps.PAYMENT && <HelioCheckout config={helioConfig} />}
+      {step === GiftFormSteps.THANKS && (
+        <div className="relative flex flex-col gap-1 md:gap-3 items-center">
+          <h3>Your gift card is on the way!</h3>
+          <div className="flex flex-col gap-0.5 md:gap-1">
+            <p className="text-center">Now, don’t be shy!? 💋</p>
+            <p className="text-center">
+              Share the gift card message on X and I can reply to it.
+            </p>
+            <p className="text-center">I will remember you forever.Sami</p>
+          </div>
+          <div className="flex flex-col gap-1 md:gap-3 border border-black p-2 md:p-4">
+            <p>
+              {`Happy holidays, my naughty little toys. Be good… or don’t. Either
+              way, you’ll end up under me—oops, I mean under the mistletoe.
+              Kisses, Sami.`}
+            </p>
+            <p>
+              {`Santa told me the toy you wanted was strapped to me, rubber and
+              long, but I’m feeling generous—here’s some cash to find whatever
+              fills your little hole... though nothing pleases it like I do.
+              Naughty holidays, darling.`}
+            </p>
+          </div>
+          <a
+            href="https://twitter.com/intent/tweet?screen_name=OnlyOneSami&ref_src=twsrc%5Etfw"
+            className="h-9 underline twitter-mention-button"
+            data-size="large"
+            // TODO: This X widget is prompting users to post to Sami, but the content of post is meant to be a gift message for the gift card recipient, not for Sami. This likely needs to be corrected.
+            data-text={formInfo.message}
+            data-related="onlyonesami"
+            data-show-count="false"
+          >
+            [post on X]
+          </a>
+        </div>
+      )}
     </Card>
   );
 };
