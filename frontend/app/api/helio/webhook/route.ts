@@ -1,4 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ECountries } from "@/app/types";
 import { NextResponse } from "next/server";
+
+const mapCountryToCurrency = (country: ECountries) => {
+  switch (country) {
+    case ECountries.USA:
+      return "USD";
+    case ECountries.CANADA:
+      return "CAD";
+    case ECountries.EUROPE:
+      return "EUR";
+    case ECountries.UNITED_KINGDOM:
+      return "GBP";
+    default:
+      return "USD";
+  }
+};
 
 export async function POST(res: Request) {
   try {
@@ -6,6 +23,15 @@ export async function POST(res: Request) {
 
     const tx = JSON.parse(event.transaction);
     console.log("HELIO WEBHOOK EVENT", tx);
+
+    let additionalJSON: any = {};
+    try {
+      const innerJSON = JSON.parse(tx.meta.customerDetails.additionalJSON);
+      additionalJSON = JSON.parse(innerJSON);
+    } catch (error) {
+      console.log("Error parsing additionalJSON:", error);
+      return NextResponse.json({ success: false }, { status: 500 });
+    }
 
     if (tx.meta.transactionStatus === "SUCCESS") {
       const recipientEmail =
@@ -28,6 +54,27 @@ export async function POST(res: Request) {
 
       const data = await response.json();
       console.log("Skyfire API Response", data);
+
+      const emailResp = await fetch("/api/email", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          toEmail: additionalJSON.email,
+          subject: "Sami's Gift Card",
+          giftMessage: additionalJSON.giftMessage,
+          amount: additionalJSON.amount,
+          redeemCode: additionalJSON.redeemCode,
+          currency: mapCountryToCurrency(additionalJSON.country),
+        }),
+      });
+
+      const emailData = await emailResp.json();
+
+      console.log("Email API Response", emailData);
+
+      return NextResponse.json({ success: true });
     }
 
     return NextResponse.json({ success: true });
