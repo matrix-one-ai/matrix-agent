@@ -384,6 +384,7 @@ const ClientPage = () => {
                 data-theme="light"
                 data-chrome="noheader nofooter noborders transparent"
                 href="https://twitter.com/OnlyOneSami?ref_src=twsrc%5Etfw"
+                target="_blank"
               >
                 Tweets by @OnlyOneSami
               </a>

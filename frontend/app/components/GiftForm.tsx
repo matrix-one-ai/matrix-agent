@@ -95,7 +95,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
     () => ({
       paylinkId: mapCountryToPaylink(
         formInfo.country || ECountries.USA,
-        formInfo.amount || EAmount.TEN
+        formInfo.amount || EAmount.TEN,
       ),
       theme: { themeMode: "dark" },
       primaryColor: "#AD7BFF",
@@ -112,7 +112,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
         setStep(GiftFormSteps.THANKS);
       },
     }),
-    [formInfo.amount, formInfo.country, formInfo.email, formInfo.message]
+    [formInfo.amount, formInfo.country, formInfo.email, formInfo.message],
   );
 
   const onGenerateFinish = useCallback((message: Message) => {
@@ -124,7 +124,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
     console.log(error.cause, error.message, error.name, error.stack);
   }, []);
 
-  const { messages, isLoading, append } = useChat({
+  const { messages, setMessages, isLoading, append } = useChat({
     api: "/api/ai",
     onFinish: onGenerateFinish,
     onError: onGenerateError,
@@ -156,15 +156,15 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             Object.entries(fieldErrors).map(([key, error]) => [
               key,
               Array.isArray(error) ? error[0] : error?._errors[0] || "Invalid",
-            ])
-          )
+            ]),
+          ),
         );
       } else {
         setErrors({});
         setStep(GiftFormSteps.PAYMENT);
       }
     },
-    [formInfo]
+    [formInfo],
   );
 
   const handleSamiMessageGenerate = useCallback(() => {
@@ -174,7 +174,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
         formInfo?.name || "",
         formInfo?.relationship || ERelationship.Friend,
         formInfo?.country || ECountries.USA,
-        formInfo?.amount || EAmount.TEN
+        formInfo?.amount || EAmount.TEN,
       ),
     });
   }, [
@@ -185,19 +185,29 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
     formInfo?.relationship,
   ]);
 
-  const assistantMessages = useMemo(
-    () => messages.filter((message) => message.role === "assistant"),
-    [messages]
-  );
+  useEffect(() => {
+    if (messages.length === 0) return;
 
-  const assistantMessage = useMemo(() => {
-    // Adjust textarea height to fit content
+    const assistantMessages = messages.filter(
+      (message) => message.role === "assistant",
+    );
+
+    // Update local state
+    handleInfoChange(
+      "message",
+      assistantMessages[assistantMessages.length - 1]?.content || "",
+    );
+    // Reset ai-generated messages
+    setMessages([]);
+  }, [handleInfoChange, messages, setMessages]);
+
+  // Adjust textarea height to fit content
+  useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
-    return assistantMessages[assistantMessages.length - 1]?.content || "";
-  }, [assistantMessages]);
+  }, [formInfo.message]);
 
   // Re-load twitter widget whenever step is changed.
   // Since the content of this component is rendered dynamically, the widget needs to be loaded again.
@@ -234,7 +244,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             <input
               className={clsx(
                 "w-full h-9 bg-transparent outline-none border border-black px-4",
-                errors.name && "border-red-500"
+                errors.name && "border-red-500",
               )}
               type="text"
               name="name"
@@ -257,7 +267,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             <input
               className={clsx(
                 "w-full h-9 bg-transparent outline-none border border-black px-4",
-                errors.email && "border-red-500"
+                errors.email && "border-red-500",
               )}
               type="text"
               name="email"
@@ -292,16 +302,16 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
               >
                 {isLoading
                   ? "[sami writing a message...]"
-                  : "[generage a message from sami]"}
+                  : "[generate a message from sami]"}
               </button>
             </div>
             <textarea
               ref={textareaRef}
               className={clsx(
                 "w-full bg-transparent outline-none border border-black p-4 overflow-hidden resize-none",
-                errors.message && "border-red-500"
+                errors.message && "border-red-500",
               )}
-              value={assistantMessage}
+              value={formInfo?.message || ""}
               onChange={(e) => handleInfoChange("message", e.target.value)}
             />
           </div>
@@ -362,15 +372,15 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             </p>
           </div>
           <a
-            href="https://twitter.com/intent/tweet?screen_name=OnlyOneSami&ref_src=twsrc%5Etfw"
-            className="h-9 underline twitter-mention-button"
+            href="https://twitter.com/intent/tweet?screen_name=x&ref_src=twsrc%5Etfw"
+            className="twitter-mention-button"
             data-size="large"
-            // TODO: This X widget is prompting users to post to Sami, but the content of post is meant to be a gift message for the gift card recipient, not for Sami. This likely needs to be corrected.
             data-text={formInfo.message}
             data-related="onlyonesami"
             data-show-count="false"
+            target="_blank"
           >
-            [post on X]
+            Tweet to @x
           </a>
         </div>
       )}
