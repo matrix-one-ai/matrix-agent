@@ -99,7 +99,7 @@ export async function POST(res: Request) {
       const skyfireData = await response.json();
       console.log("Skyfire API Response", skyfireData);
 
-      const emailResp = await fetch("/api/email", {
+      const emailResp = await fetch("https://sami.one/api/email", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -109,7 +109,7 @@ export async function POST(res: Request) {
           subject: "Sami's Gift Card",
           giftMessage: additionalJSON.giftMessage,
           amount: additionalJSON.amount,
-          redeemCode: skyfireData.redeemCode.pinCode,
+          redeemCode: skyfireData.redeemCode.cardNumber,
           currency: mapCountryToCurrency(additionalJSON.country),
         }),
       });
