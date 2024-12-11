@@ -105,7 +105,7 @@ export async function POST(res: Request) {
           "content-type": "application/json",
         },
         body: JSON.stringify({
-          toEmail: additionalJSON.email,
+          toEmail: additionalJSON.toEmail,
           subject: "Sami's Gift Card",
           giftMessage: additionalJSON.giftMessage,
           amount: additionalJSON.amount,
