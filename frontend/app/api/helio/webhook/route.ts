@@ -71,10 +71,8 @@ export async function POST(res: Request) {
 
       const product = productData.find(
         (product: any) =>
-          product.country === mapCountryToCountryCode(additionalJSON.country) &&
-          product.fixedRecipientDenominations.includes(
-            Number(additionalJSON.amount)
-          )
+          product.country.isoName ===
+          mapCountryToCountryCode(additionalJSON.country)
       );
 
       console.log(product);
