@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import clsx from "clsx";
 import ReactMarkdown from "react-markdown";
 import Card from "@/app/components/Card/Card";
 import AutonomyLevel from "@/app/components/AutonomyLevel";
@@ -15,6 +16,7 @@ import JupiterIcon from "@/app/components/Icons/JupiterIcon";
 import UpRightArrowIcon from "@/app/components/Icons/UpRightArrowIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import { useActivityLog } from "./hooks/useActivityLog";
+import { useTweetWidget } from "./hooks/useTweetWidget";
 import { convertToLinks, formatTimestampToLocal } from "./utils/string";
 import { EActivityLogModuleType } from "./types";
 
@@ -33,6 +35,7 @@ const ACTIVITY_LOG_ICON: Record<EActivityLogModuleType, React.ReactNode> = {
 
 const ClientPage = () => {
   const activityLogs = useActivityLog();
+  const twttrWidgetLoading = useTweetWidget();
   const timeRef = useRef<string | null>(null);
   const activitLogRef = useRef<HTMLDivElement | null>(null);
 
@@ -45,13 +48,6 @@ const ClientPage = () => {
   useEffect(() => {
     activitLogRef.current?.scrollTo({ top: 0, behavior: "smooth" });
   }, [activityLogs]);
-
-  // Re-load twitter widget whenever this page is mounted.
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    window?.twttr?.widgets?.load();
-  }, []);
 
   return (
     <div className="flex flex-col gap-6 pb-10">
@@ -380,7 +376,10 @@ const ClientPage = () => {
           >
             <div className="flex flex-col !h-full w-full gap-3">
               <a
-                className="twitter-timeline"
+                className={clsx(
+                  "twitter-timeline",
+                  twttrWidgetLoading && "hidden",
+                )}
                 data-theme="light"
                 data-chrome="noheader nofooter noborders transparent"
                 href="https://twitter.com/OnlyOneSami?ref_src=twsrc%5Etfw"
@@ -388,6 +387,15 @@ const ClientPage = () => {
               >
                 Tweets by @OnlyOneSami
               </a>
+              {twttrWidgetLoading && (
+                <a
+                  className="text-center py-2 underline"
+                  href="https://twitter.com/intent/tweet?screen_name=x&ref_src=twsrc%5Etfw"
+                  target="_blank"
+                >
+                  [Tweet to @x]
+                </a>
+              )}
             </div>
           </Card>
           {/* Placeholder cards */}
