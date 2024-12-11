@@ -22,6 +22,7 @@ import { Message, useChat } from "ai/react";
 import { EAmount, ECountries, ERelationship } from "../types";
 import { generateGiftMessage } from "../utils/prompts";
 import { HelioCheckout, HelioEmbedConfig } from "@heliofi/checkout-react";
+import { useTweetWidget } from "@/app/hooks/useTweetWidget";
 
 interface IGiftFormProps extends React.HTMLAttributes<HTMLDivElement> {
   onPurchase?: () => void;
@@ -90,6 +91,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [step, setStep] = useState<GiftFormSteps>(GiftFormSteps.FORM);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  useTweetWidget([step]);
 
   const helioConfig: HelioEmbedConfig = useMemo(
     () => ({
@@ -208,14 +210,6 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   }, [formInfo.message]);
-
-  // Re-load twitter widget whenever step is changed.
-  // Since the content of this component is rendered dynamically, the widget needs to be loaded again.
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    window?.twttr?.widgets?.load();
-  }, [step]);
 
   return (
     <Card
@@ -379,9 +373,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             data-related="onlyonesami"
             data-show-count="false"
             target="_blank"
-          >
-            Tweet to @x
-          </a>
+          />
         </div>
       )}
     </Card>
