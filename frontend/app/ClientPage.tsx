@@ -375,7 +375,7 @@ const ClientPage = () => {
             contentClassName="!overflow-auto !px-0 !py-0 !h-full"
             className="twitter-card h-[400px]"
             title="twitter"
-            level={1}
+            level={3}
             maxLevel={5}
           >
             <div className="flex flex-col !h-full w-full gap-3">
