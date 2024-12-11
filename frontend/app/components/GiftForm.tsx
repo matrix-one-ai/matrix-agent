@@ -378,6 +378,7 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             data-text={formInfo.message}
             data-related="onlyonesami"
             data-show-count="false"
+            target="_blank"
           >
             Tweet to @x
           </a>
