@@ -199,13 +199,15 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
     );
     // Reset ai-generated messages
     setMessages([]);
+  }, [handleInfoChange, messages, setMessages]);
 
-    // Adjust textarea height to fit content
+  // Adjust textarea height to fit content
+  useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
-  }, [handleInfoChange, messages, setMessages]);
+  }, [formInfo.message]);
 
   // Re-load twitter widget whenever step is changed.
   // Since the content of this component is rendered dynamically, the widget needs to be loaded again.
