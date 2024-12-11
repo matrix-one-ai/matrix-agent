@@ -45,7 +45,7 @@ export async function POST(res: Request) {
       additionalJSON = JSON.parse(innerJSON);
     } catch (error) {
       console.log("Error parsing additionalJSON:", error);
-      return NextResponse.json({ success: false }, { status: 500 });
+      return NextResponse.json({ success: false }, { status: 200 });
     }
 
     if (tx.meta.transactionStatus === "SUCCESS") {
@@ -124,6 +124,6 @@ export async function POST(res: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ success: false }, { status: 500 });
+    return NextResponse.json({ success: false }, { status: 200 });
   }
 }
