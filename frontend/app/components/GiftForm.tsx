@@ -370,15 +370,14 @@ const GiftForm: React.FC<IGiftFormProps> = ({ className, ...rest }) => {
             </p>
           </div>
           <a
-            href="https://twitter.com/intent/tweet?screen_name=OnlyOneSami&ref_src=twsrc%5Etfw"
-            className="h-9 underline twitter-mention-button"
+            href="https://twitter.com/intent/tweet?screen_name=x&ref_src=twsrc%5Etfw"
+            className="twitter-mention-button"
             data-size="large"
-            // TODO: This X widget is prompting users to post to Sami, but the content of post is meant to be a gift message for the gift card recipient, not for Sami. This likely needs to be corrected.
             data-text={formInfo.message}
             data-related="onlyonesami"
             data-show-count="false"
           >
-            [post on X]
+            Tweet to @x
           </a>
         </div>
       )}
