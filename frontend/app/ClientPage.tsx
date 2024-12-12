@@ -3,7 +3,6 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import clsx from "clsx";
 import ReactMarkdown from "react-markdown";
 import Card from "@/app/components/Card/Card";
 import AutonomyLevel from "@/app/components/AutonomyLevel";
@@ -16,7 +15,6 @@ import JupiterIcon from "@/app/components/Icons/JupiterIcon";
 import UpRightArrowIcon from "@/app/components/Icons/UpRightArrowIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import { useActivityLog } from "./hooks/useActivityLog";
-import { useTweetWidget } from "./hooks/useTweetWidget";
 import { convertToLinks, formatTimestampToLocal } from "./utils/string";
 import { EActivityLogModuleType } from "./types";
 
@@ -35,7 +33,7 @@ const ACTIVITY_LOG_ICON: Record<EActivityLogModuleType, React.ReactNode> = {
 
 const ClientPage = () => {
   const activityLogs = useActivityLog();
-  const twttrWidgetLoading = useTweetWidget();
+  // const twttrWidgetLoading = useTweetWidget();
   const timeRef = useRef<string | null>(null);
   const activitLogRef = useRef<HTMLDivElement | null>(null);
 
