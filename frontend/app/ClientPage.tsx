@@ -3,7 +3,6 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import clsx from "clsx";
 import ReactMarkdown from "react-markdown";
 import Card from "@/app/components/Card/Card";
 import AutonomyLevel from "@/app/components/AutonomyLevel";
@@ -16,7 +15,6 @@ import JupiterIcon from "@/app/components/Icons/JupiterIcon";
 import UpRightArrowIcon from "@/app/components/Icons/UpRightArrowIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import { useActivityLog } from "./hooks/useActivityLog";
-import { useTweetWidget } from "./hooks/useTweetWidget";
 import { convertToLinks, formatTimestampToLocal } from "./utils/string";
 import { EActivityLogModuleType } from "./types";
 
@@ -35,7 +33,7 @@ const ACTIVITY_LOG_ICON: Record<EActivityLogModuleType, React.ReactNode> = {
 
 const ClientPage = () => {
   const activityLogs = useActivityLog();
-  const twttrWidgetLoading = useTweetWidget();
+  // const twttrWidgetLoading = useTweetWidget();
   const timeRef = useRef<string | null>(null);
   const activitLogRef = useRef<HTMLDivElement | null>(null);
 
@@ -367,7 +365,7 @@ const ClientPage = () => {
               height={256}
             />
           </Link> */}
-          <Card
+          {/* <Card
             contentClassName="!overflow-auto !px-0 !py-0 !h-full"
             className="twitter-card h-[400px]"
             title="twitter"
@@ -397,7 +395,7 @@ const ClientPage = () => {
                 </a>
               )}
             </div>
-          </Card>
+          </Card> */}
           {/* Placeholder cards */}
           <Card title="<placeholder>" level={1} maxLevel={5}>
             <Image
@@ -442,6 +440,24 @@ const ClientPage = () => {
             <Image
               className="w-full"
               src="/images/placeholder_10.png"
+              alt=""
+              width={256}
+              height={256}
+            />
+          </Card>
+          <Card title="<placeholder>" level={1} maxLevel={5}>
+            <Image
+              className="w-full"
+              src="/images/placeholder_11.png"
+              alt=""
+              width={256}
+              height={256}
+            />
+          </Card>
+          <Card title="<placeholder>" level={1} maxLevel={5}>
+            <Image
+              className="w-full"
+              src="/images/placeholder_12.png"
               alt=""
               width={256}
               height={256}
