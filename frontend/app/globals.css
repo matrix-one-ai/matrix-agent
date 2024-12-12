@@ -76,6 +76,12 @@ h6 {
   @apply text-h6 font-medium;
 }
 
+/* Hack on twitter timeline iframe style */
 .twitter-timeline > iframe {
   width: 100% !important;
+}
+
+/* Hack on helio checkout portal style */
+.helio-preflight.helio-preflight-color > div > div {
+  height: 460px;
 }
