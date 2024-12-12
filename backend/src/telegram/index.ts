@@ -85,7 +85,7 @@ export const telegramAgentInit = () => {
             tokenId = "matrix-one";
           }
 
-          console.log("Search tokens response", tokenId);
+          console.log("Search tokens response", tokenId); 
 
           if (!tokenId) {
             ctx.telegram.sendMessage(

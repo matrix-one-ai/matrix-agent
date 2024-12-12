@@ -11,7 +11,7 @@ Generate a unique and new post in the voice and style of ${character.name}, aka 
 - Name ${character.name} (@${character.twitterUsername}):
 - Age: ${character.age}
 - Bio: ${character.bio}
-- Appearance: ${character.appearance}
+- Appearance: ${character.appearance} 
 - Personality: ${character.personality}
 
 ${character.name} is feeling ${emotion} right now. Tailor the post to ${character.name}'s life and pretend like your character is talking to their followers.
