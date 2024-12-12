@@ -358,7 +358,7 @@ const ClientPage = () => {
               </div>
             </div>
           </Card>
-          <Link href="/gift-card">
+          {/* <Link href="/gift-card">
             <Image
               className="w-full"
               src="/images/gift_card.gif"
@@ -366,7 +366,7 @@ const ClientPage = () => {
               width={256}
               height={256}
             />
-          </Link>
+          </Link> */}
           <Card
             contentClassName="!overflow-auto !px-0 !py-0 !h-full"
             className="twitter-card h-[400px]"
