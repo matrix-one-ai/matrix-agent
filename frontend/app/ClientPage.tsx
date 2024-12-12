@@ -357,13 +357,13 @@ const ClientPage = () => {
             </div>
           </Card>
           {/* Avatarone banner */}
-          <Image
+          {/* <Image
             className="w-full"
             src="/images/avatarone_banner.gif"
             alt=""
             width={512}
             height={512}
-          />
+          /> */}
           {/* Gift card */}
           {/* <Link href="/gift-card">
             <Image
