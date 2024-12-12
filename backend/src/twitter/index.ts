@@ -689,8 +689,8 @@ async function twitterAgentInit() {
   await twitterAgent.login();
   console.log("Twitter agent initialized");
 
-  // await startCommentResponseLoop(twitterAgent);
-  // await startFollowingTweetResponses(twitterAgent);
+  await startCommentResponseLoop(twitterAgent);
+  await startFollowingTweetResponses(twitterAgent);
   await startChainNewsArticles(twitterAgent);
   await startTrendingTokenAnalysis(twitterAgent);
 }
