@@ -48,10 +48,10 @@ const ClientPage = () => {
   }, [activityLogs]);
 
   return (
-    <div className="flex flex-col gap-6 pb-10">
+    <div className="flex w-full flex-col gap-6 pb-10">
       <div className="flex gap-6 flex-col md:flex-row max-w-[1024px]">
         {/* Left board */}
-        <div className="flex flex-col gap-6 flex-1 max-w-none order-2 md:order-1 md:max-w-64">
+        <div className="flex flex-col gap-6 w-full order-2 md:order-1 lg:w-64 md:w-60">
           <Card title="photo">
             <Image
               className="w-full grayscale"
@@ -177,7 +177,7 @@ const ClientPage = () => {
           </Card>
         </div>
         {/* Center board */}
-        <div className="flex flex-col gap-6 flex-1 order-1 md:order-2">
+        <div className="flex flex-col gap-6 order-1 md:order-2 w-full md:w-0 md:flex-grow">
           <Card
             title="hello world!"
             actionBtnIcon={<UpRightArrowIcon />}
@@ -273,7 +273,7 @@ const ClientPage = () => {
           </Card>
         </div>
         {/* Right board */}
-        <div className="flex flex-col gap-[25px] flex-1 max-w-none order-3 md:order-3 md:max-w-64">
+        <div className="flex flex-col gap-[25px] w-full order-3 md:order-3 lg:w-64 md:w-60">
           <Card title="links">
             <div className="flex flex-col gap-4">
               <div className="flex gap-2 items-center">
