@@ -367,7 +367,7 @@ const ClientPage = () => {
               height={256}
             />
           </Link> */}
-          <Card
+          {/* <Card
             contentClassName="!overflow-auto !px-0 !py-0 !h-full"
             className="twitter-card h-[400px]"
             title="twitter"
@@ -397,7 +397,7 @@ const ClientPage = () => {
                 </a>
               )}
             </div>
-          </Card>
+          </Card> */}
           {/* Placeholder cards */}
           <Card title="<placeholder>" level={1} maxLevel={5}>
             <Image
