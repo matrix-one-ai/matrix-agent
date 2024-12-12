@@ -11,8 +11,7 @@ Judge the message and decide the function action to take.
 Message: ${message}
 
 Options:
-- simpleReply
-- contractAnalysis
+${Object.values(TelegramAction).join("\n")}
 
 Output only 1 of the action options.
 
@@ -36,7 +35,21 @@ Output:
 
 { "type": "contractAnalysis", "contract": "1337" }
 
-Only output the JSON.
+--- OR ---
+
+Message: Hey what is $MATRIX price?
+
+Output:
+
+{ "type": "contractAnalysis", "ticker": "MATRIX" }
+
+Message: Hey what is $ETH price?
+
+Output:
+
+{ "type": "contractAnalysis", "ticker": "ETH" }
+
+Only output the JSON. Do not wrap JSON in triple quotes, just output the JSON object raw as shown in examples.
 `;
 };
 

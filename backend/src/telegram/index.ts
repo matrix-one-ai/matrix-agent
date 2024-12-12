@@ -8,12 +8,40 @@ import {
 } from "./prompt";
 import sami from "../characters/sami";
 import { generateTextFromPrompt } from "../ai";
+import { pushActivityLog } from "../logs";
 
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN!);
 
 const previousMessages: any[] = [];
 
+let tokenList: { id: string; symbol: string }[] = [];
+
+const cacheCoinGeckoTokenList = async () => {
+  const resp = await fetch("https://api.coingecko.com/api/v3/coins/list", {
+    headers: {
+      "x-cg-pro-api-key": process.env.COINGECKO_API_KEY!,
+    },
+  });
+
+  const data = await resp.json();
+
+  data.forEach((token: { id: string; symbol: string }) => {
+    tokenList.push({
+      id: token.id,
+      symbol: token.symbol,
+    });
+  });
+
+  console.log("Cached CoinGecko token list");
+};
+
 export const telegramAgentInit = () => {
+  cacheCoinGeckoTokenList();
+
+  setInterval(() => {
+    cacheCoinGeckoTokenList();
+  }, 1000 * 60 * 60 * 12); // 24 hours
+
   bot.launch();
 
   bot.on(message("text"), async (ctx) => {
@@ -38,56 +66,93 @@ export const telegramAgentInit = () => {
       console.log(judgementJson);
 
       if (judgementJson.type === TelegramAction.contractAnalysis) {
-        console.log("Contract analysis requested.");
+        const tokenTicker = judgementJson.ticker;
+        const contractAddress = judgementJson.contract;
 
-        const platforms = [
-          "ethereum",
-          "polkadot",
-          "flow",
-          "avalanche",
-          "optimistic-ethereum",
-          "stellar",
-          "near-protocol",
-          "hedera-hashgraph",
-          "zksync",
-          "tron",
-          "celo",
-          "arbitrum-one",
-          "base",
-          "polygon-pos",
-          "solana",
-        ];
+        console.log("Contract analysis", tokenTicker, contractAddress);
 
-        let tokenInfoResp = null;
+        let tokenInfo = null;
 
-        for (const platform of platforms) {
-          const resp = await fetch(
-            `https://pro-api.coingecko.com/api/v3/coins/${platform}/contract/${judgementJson.contract}`,
+        if (tokenTicker) {
+          const searchTokensResponse = tokenList.find(
+            (token) =>
+              token.symbol.toLowerCase() === tokenTicker?.toLocaleLowerCase()
+          );
+
+          let tokenId = searchTokensResponse?.id;
+
+          if (tokenTicker === "matrix" || tokenTicker === "MATRIX") {
+            tokenId = "matrix-one";
+          }
+
+          console.log("Search tokens response", tokenId);
+
+          if (!tokenId) {
+            ctx.telegram.sendMessage(
+              ctx.message.chat.id,
+              "I'm sorry, I don't have realtime data on that coin."
+            );
+            return;
+          }
+
+          const tokenInfoResp = await fetch(
+            `https://api.coingecko.com/api/v3/coins/${tokenId}`,
             {
               headers: {
                 "x-cg-pro-api-key": process.env.COINGECKO_API_KEY!,
+                cache: "no-cache",
               },
             }
           );
 
-          if (resp.ok) {
-            tokenInfoResp = resp;
-            break;
-          } else {
-            continue;
+          if (!tokenInfoResp.ok) {
+            ctx.telegram.sendMessage(
+              ctx.message.chat.id,
+              "I'm sorry, I don't have realtime data on that coin."
+            );
+            return;
+          }
+
+          tokenInfo = await tokenInfoResp.json();
+        } else if (contractAddress) {
+          const platforms = [
+            "ethereum",
+            "polkadot",
+            "flow",
+            "avalanche",
+            "optimistic-ethereum",
+            "stellar",
+            "near-protocol",
+            "hedera-hashgraph",
+            "zksync",
+            "tron",
+            "celo",
+            "arbitrum-one",
+            "base",
+            "polygon-pos",
+            "solana",
+          ];
+
+          for (const platform of platforms) {
+            const resp = await fetch(
+              `https://pro-api.coingecko.com/api/v3/coins/${platform}/contract/${judgementJson.contract}`,
+              {
+                headers: {
+                  "x-cg-pro-api-key": process.env.COINGECKO_API_KEY!,
+                },
+              }
+            );
+
+            if (resp.ok) {
+              tokenInfo = await resp.json();
+              break;
+            } else {
+              continue;
+            }
           }
         }
 
-        if (!tokenInfoResp) {
-          return await ctx.telegram.sendMessage(
-            ctx.message.chat.id,
-            "I'm sorry, I don't have realtime data on that contract."
-          );
-        }
-
-        const tokenInfo = await tokenInfoResp.json();
-
-        const reply = await generateTextFromPrompt(
+        const tokenAnalysis = await generateTextFromPrompt(
           telegramCryptoAnalysis(
             sami,
             tokenInfo,
@@ -96,20 +161,31 @@ export const telegramAgentInit = () => {
           ),
           "gpt-4o-mini",
           {
-            temperature: 0.3,
-            frequencyPenalty: 0.3,
-            presencePenalty: 0.3,
+            temperature: 0.2,
+            frequencyPenalty: 0.2,
+            presencePenalty: 0.2,
           }
         );
 
-        if (!reply?.text) {
-          console.log("No reply generated.");
-          return;
+        if (tokenAnalysis?.text) {
+          previousMessages.push(ctx.message.text);
+
+          await ctx.telegram.sendMessage(
+            ctx.message.chat.id,
+            tokenAnalysis.text
+          );
+
+          return pushActivityLog({
+            moduleType: "telegram",
+            title: "Crypto analysis",
+            description: tokenAnalysis.text,
+          });
+        } else {
+          ctx.telegram.sendMessage(
+            ctx.message.chat.id,
+            "I'm sorry, I don't have realtime data on that coin."
+          );
         }
-
-        previousMessages.push(ctx.message.text);
-
-        return await ctx.telegram.sendMessage(ctx.message.chat.id, reply.text);
       }
 
       if (judgementJson.type === TelegramAction.simpleReply) {
