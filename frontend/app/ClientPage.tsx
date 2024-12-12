@@ -48,8 +48,8 @@ const ClientPage = () => {
   }, [activityLogs]);
 
   return (
-    <div className="flex w-full flex-col gap-6 pb-10">
-      <div className="flex gap-6 flex-col md:flex-row max-w-[1024px]">
+    <div className="flex w-full max-w-[1024px] flex-col gap-6 pb-10">
+      <div className="flex gap-6 flex-col md:flex-row">
         {/* Left board */}
         <div className="flex flex-col gap-6 w-full order-2 md:order-1 lg:w-64 md:w-60">
           <Card title="photo">
