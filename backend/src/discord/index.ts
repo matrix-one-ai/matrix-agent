@@ -64,6 +64,8 @@ export const discordAgentInit = async () => {
   });
 
   client.on("messageCreate", async (message) => {
+    if (message.channel.id !== '1314183332875079730') return;
+
     console.log(message.content);
 
     if (!message.author.bot) {

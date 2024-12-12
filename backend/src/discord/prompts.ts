@@ -40,9 +40,21 @@ Output: { type: "help" }
 
 Example:
 
-Message: Hey, how are you doing?
+Message: Hey, how are you doing sami?
 
 Output: { type: "simpleReply" }
+
+Example:
+
+Message: sami, what you doing?
+
+Output: { type: "simpleReply" }
+
+Example:
+
+Message: sami, what's up?
+
+Only simpleReply if the message is directed at Sami.
 
 --- OR ---
 
