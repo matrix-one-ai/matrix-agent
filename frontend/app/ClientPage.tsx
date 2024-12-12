@@ -465,6 +465,24 @@ const ClientPage = () => {
               height={256}
             />
           </Card>
+          <Card title="<placeholder>" level={1} maxLevel={5}>
+            <Image
+              className="w-full"
+              src="/images/placeholder_11.png"
+              alt=""
+              width={256}
+              height={256}
+            />
+          </Card>
+          <Card title="<placeholder>" level={1} maxLevel={5}>
+            <Image
+              className="w-full"
+              src="/images/placeholder_12.png"
+              alt=""
+              width={256}
+              height={256}
+            />
+          </Card>
         </div>
       </div>
       <a className="underline text-center" href="/disclaimer">
