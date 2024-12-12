@@ -356,6 +356,15 @@ const ClientPage = () => {
               </div>
             </div>
           </Card>
+          {/* Avatarone banner */}
+          <Image
+            className="w-full"
+            src="/images/avatarone_banner.gif"
+            alt=""
+            width={512}
+            height={512}
+          />
+          {/* Gift card */}
           {/* <Link href="/gift-card">
             <Image
               className="w-full"
@@ -449,15 +458,6 @@ const ClientPage = () => {
             <Image
               className="w-full"
               src="/images/placeholder_11.png"
-              alt=""
-              width={256}
-              height={256}
-            />
-          </Card>
-          <Card title="<placeholder>" level={1} maxLevel={5}>
-            <Image
-              className="w-full"
-              src="/images/placeholder_12.png"
               alt=""
               width={256}
               height={256}
