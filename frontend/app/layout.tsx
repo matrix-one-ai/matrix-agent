@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main className="flex flex-col p-6 pt-10 pb-16 items-center">
+        <main className="flex flex-col p-6 pt-10 pb-16 h-full items-center">
           <Link className="text-6xl font-normal text-center mb-10" href="/">
             Sami
           </Link>
