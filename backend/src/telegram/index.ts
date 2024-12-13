@@ -46,6 +46,10 @@ export const telegramAgentInit = () => {
 
   bot.on(message("text"), async (ctx) => {
     try {
+      if (!ctx.message.text.includes("@SamitheQueen_bot")) {
+        return;
+      }
+
       const judgement = await generateTextFromPrompt(
         telegramJudgementPrompt(ctx.message.text),
         "gpt-4o",
@@ -85,7 +89,7 @@ export const telegramAgentInit = () => {
             tokenId = "matrix-one";
           }
 
-          console.log("Search tokens response", tokenId); 
+          console.log("Search tokens response", tokenId);
 
           if (!tokenId) {
             ctx.telegram.sendMessage(
@@ -200,9 +204,9 @@ export const telegramAgentInit = () => {
           ),
           "gpt-4o-mini",
           {
-            temperature: 0.5,
-            frequencyPenalty: 0.5,
-            presencePenalty: 0.5,
+            temperature: 0.3,
+            frequencyPenalty: 0.7,
+            presencePenalty: 0.7,
           }
         );
 

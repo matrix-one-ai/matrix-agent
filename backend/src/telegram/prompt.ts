@@ -94,6 +94,7 @@ Previous channel conversation messages for context:
 ${previousChannelMessages}
 
 Do not copy the previous messages in the reply, just use them for context.
+You do not need to talk about previous messages unless relevant to the latest message in the conversation.
 Vary the intros and outros of the messages.
 Don't say: hey, hi, hello, etc. Just reply to the message.
 `;
