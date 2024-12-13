@@ -1,0 +1,37 @@
+{
+  "name": "matrix-agent-plant",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@ai-sdk/azure": "^1.0.9",
+    "@ai-sdk/openai": "^1.0.7",
+    "@heliofi/checkout-react": "^2.3.1",
+    "@react-email/components": "^0.0.31",
+    "@vercel/analytics": "^1.4.1",
+    "ai": "^4.0.13",
+    "clsx": "^2.1.1",
+    "next": "14.2.18",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-markdown": "^9.0.1",
+    "resend": "^4.0.1",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.9",
+    "@types/react": "^18.3.14",
+    "@types/react-dom": "^18.3.3",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.18",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16",
+    "typescript": "^5.7.2"
+  }
+}
