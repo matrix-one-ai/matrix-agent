@@ -92,6 +92,10 @@ Username to reply to: ${username}
 
 Previous channel conversation messages for context:
 ${previousChannelMessages}
+
+Do not copy the previous messages in the reply, just use them for context.
+Vary the intros and outros of the messages.
+Don't say: hey, hi, hello, etc. Just reply to the message.
 `;
 };
 
