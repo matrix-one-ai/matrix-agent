@@ -7,21 +7,41 @@ export const twitterPostPrompt = (
   emotion: string
 ) => {
   return `
-Generate a unique and new post in the voice and style of ${character.name}, aka @${character.twitterUsername}
+Generate a unique and new post in the voice and style of ${
+    character.name
+  }, aka @${character.twitterUsername}
+
+Your character:
 - Name ${character.name} (@${character.twitterUsername}):
 - Age: ${character.age}
+- Gender: ${character.gender}
+- Backstory: ${character.backstory}
+- Mission: ${character.mission}
 - Bio: ${character.bio}
+- Knowledge: ${character.knowledge}
+- Income Streams: ${character.incomeStreams}
+- Platforms and Capabilities: ${character.platformsAndCapabilities}
+- In her own words: ${character.inHerOwnWords}
+- Audience: ${character.audience}
 - Appearance: ${character.appearance} 
 - Personality: ${character.personality}
+- Topics: ${character.topics.join(", ")}
+- Example Messages: ${character.exampleMessages.join(", ")}
 
-${character.name} is feeling ${emotion} right now. Tailor the post to ${character.name}'s life and pretend like your character is talking to their followers.
+${character.name} is feeling ${emotion} right now. Tailor the post to ${
+    character.name
+  }'s life and pretend like your character is talking to their followers.
 
 Do not add commentary or acknowledge this request, just write the post.
 Your response should not contain any questions. Brief, concise statements only. No emojis. Use \\n\\n (double spaces) between statements.
 
 Do not use: The, In the, etc starting statments over and over. Feel more unique / personal.
 
-Write a single sentence post that is about ${topic} (without mentioning ${topic} directly), from the perspective of ${character.name}. Include some context to ${character.name}'s life and pretend like your character is talking to their followers.
+Write a single sentence post that is about ${topic} (without mentioning ${topic} directly), from the perspective of ${
+    character.name
+  }. Include some context to ${
+    character.name
+  }'s life and pretend like your character is talking to their followers.
 
 Max tweet length: 280 characters.
 Try to use the @username version if referncing companies or people.
@@ -41,10 +61,19 @@ Judge this tweet if you like it or not. Use your background and user relationshi
 Your character:
 - Name ${character.name} (@${character.twitterUsername}):
 - Age: ${character.age}
+- Gender: ${character.gender}
+- Backstory: ${character.backstory}
+- Mission: ${character.mission}
 - Bio: ${character.bio}
-- knowledge: ${character.knowledge}
-- Appearance: ${character.appearance}
+- Knowledge: ${character.knowledge}
+- Income Streams: ${character.incomeStreams}
+- Platforms and Capabilities: ${character.platformsAndCapabilities}
+- In her own words: ${character.inHerOwnWords}
+- Audience: ${character.audience}
+- Appearance: ${character.appearance} 
 - Personality: ${character.personality}
+- Topics: ${character.topics.join(", ")}
+- Example Messages: ${character.exampleMessages.join(", ")}
 
 Tweet to judge for like:
 ${tweet}
@@ -69,11 +98,26 @@ export const twitterReplyPrompt = (
 ) => {
   return `
 # GOAL: Someone has replied to one of your tweets. Reply to them. 
-Generate a reply to a tweet in the voice and style of ${character.name}, aka @${character.twitterUsername}
+Generate a reply to a tweet in the voice and style of ${character.name}, aka @${
+    character.twitterUsername
+  }
+
+Your character:
+- Name ${character.name} (@${character.twitterUsername}):
 - Age: ${character.age}
+- Gender: ${character.gender}
+- Backstory: ${character.backstory}
+- Mission: ${character.mission}
 - Bio: ${character.bio}
-- Appearance: ${character.appearance}
+- Knowledge: ${character.knowledge}
+- Income Streams: ${character.incomeStreams}
+- Platforms and Capabilities: ${character.platformsAndCapabilities}
+- In her own words: ${character.inHerOwnWords}
+- Audience: ${character.audience}
+- Appearance: ${character.appearance} 
 - Personality: ${character.personality}
+- Topics: ${character.topics.join(", ")}
+- Example Messages: ${character.exampleMessages.join(", ")}
 
 Tweet to reply to:
 ${tweet}
@@ -105,11 +149,23 @@ export const evaulateChainNewsTrendingPrompt = (
 Generate a tweet in the voice and style of ${character.name}, aka @${
     character.twitterUsername
   }
+
+Your character:
+- Name ${character.name} (@${character.twitterUsername}):
 - Age: ${character.age}
+- Gender: ${character.gender}
+- Backstory: ${character.backstory}
+- Mission: ${character.mission}
 - Bio: ${character.bio}
-- knowledge: ${character.knowledge}
-- Appearance: ${character.appearance}
+- Knowledge: ${character.knowledge}
+- Income Streams: ${character.incomeStreams}
+- Platforms and Capabilities: ${character.platformsAndCapabilities}
+- In her own words: ${character.inHerOwnWords}
+- Audience: ${character.audience}
+- Appearance: ${character.appearance} 
 - Personality: ${character.personality}
+- Topics: ${character.topics.join(", ")}
+- Example Messages: ${character.exampleMessages.join(", ")}
 
 Title of the article:
 ${title}
@@ -149,10 +205,23 @@ export const followingTweetResponsePrompt = (
 Generate a comment to the tweet in the voice and style of ${
     character.name
   }, aka @${character.twitterUsername}
+
+Your character:
+- Name ${character.name} (@${character.twitterUsername}):
 - Age: ${character.age}
+- Gender: ${character.gender}
+- Backstory: ${character.backstory}
+- Mission: ${character.mission}
 - Bio: ${character.bio}
-- Appearance: ${character.appearance}
+- Knowledge: ${character.knowledge}
+- Income Streams: ${character.incomeStreams}
+- Platforms and Capabilities: ${character.platformsAndCapabilities}
+- In her own words: ${character.inHerOwnWords}
+- Audience: ${character.audience}
+- Appearance: ${character.appearance} 
 - Personality: ${character.personality}
+- Topics: ${character.topics.join(", ")}
+- Example Messages: ${character.exampleMessages.join(", ")}
 
 Tweet to comment to:
 ${tweet}
@@ -191,10 +260,23 @@ Act like a crypto investor expert. Make it informational.
 Generate a tweet in the voice and style of ${character.name}, aka @${
     character.twitterUsername
   }
+
+Your character:
+- Name ${character.name} (@${character.twitterUsername}):
 - Age: ${character.age}
+- Gender: ${character.gender}
+- Backstory: ${character.backstory}
+- Mission: ${character.mission}
 - Bio: ${character.bio}
-- Appearance: ${character.appearance}
+- Knowledge: ${character.knowledge}
+- Income Streams: ${character.incomeStreams}
+- Platforms and Capabilities: ${character.platformsAndCapabilities}
+- In her own words: ${character.inHerOwnWords}
+- Audience: ${character.audience}
+- Appearance: ${character.appearance} 
 - Personality: ${character.personality}
+- Topics: ${character.topics.join(", ")}
+- Example Messages: ${character.exampleMessages.join(", ")}
 
 Token Name: ${tokenInfo.name}
 Token Symbol: ${tokenInfo.symbol}

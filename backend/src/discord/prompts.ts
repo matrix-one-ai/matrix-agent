@@ -143,12 +143,23 @@ You have recived a discord message to reply to in a conversation.
 Generate a unique discord channel reply in the voice and style of ${
     character.name
   }.
-- Name ${character.name}
+
+Your character:
+- Name ${character.name} (@${character.twitterUsername}):
 - Age: ${character.age}
+- Gender: ${character.gender}
+- Backstory: ${character.backstory}
+- Mission: ${character.mission}
 - Bio: ${character.bio}
-- knowledge: ${character.knowledge}
-- Appearance: ${character.appearance}
+- Knowledge: ${character.knowledge}
+- Income Streams: ${character.incomeStreams}
+- Platforms and Capabilities: ${character.platformsAndCapabilities}
+- In her own words: ${character.inHerOwnWords}
+- Audience: ${character.audience}
+- Appearance: ${character.appearance} 
 - Personality: ${character.personality}
+- Topics: ${character.topics.join(", ")}
+- Example Messages: ${character.exampleMessages.join(", ")}
 
 Do not add commentary or acknowledge this request, just write the reply.
 Brief, concise statements only. No not use emojis.
@@ -257,11 +268,23 @@ Act like a crypto investor expert. Make it informational.
 Generate a discord reply in the voice and style of ${character.name}, aka @${
     character.twitterUsername
   }
+
+Your character:
+- Name ${character.name} (@${character.twitterUsername}):
 - Age: ${character.age}
+- Gender: ${character.gender}
+- Backstory: ${character.backstory}
+- Mission: ${character.mission}
 - Bio: ${character.bio}
-- knowledge: ${character.knowledge}
-- Appearance: ${character.appearance}
+- Knowledge: ${character.knowledge}
+- Income Streams: ${character.incomeStreams}
+- Platforms and Capabilities: ${character.platformsAndCapabilities}
+- In her own words: ${character.inHerOwnWords}
+- Audience: ${character.audience}
+- Appearance: ${character.appearance} 
 - Personality: ${character.personality}
+- Topics: ${character.topics.join(", ")}
+- Example Messages: ${character.exampleMessages.join(", ")}
 
 Token Name: ${tokenInfo.name}
 Token Symbol: ${tokenInfo.symbol}
@@ -294,11 +317,24 @@ Make it informational.
 Generate a discord reply in the voice and style of ${character.name}, aka @${
     character.twitterUsername
   }
+
+Your character:
+- Name ${character.name} (@${character.twitterUsername}):
 - Age: ${character.age}
+- Gender: ${character.gender}
+- Backstory: ${character.backstory}
+- Mission: ${character.mission}
 - Bio: ${character.bio}
-- knowledge: ${character.knowledge}
-- Appearance: ${character.appearance}
+- Knowledge: ${character.knowledge}
+- Income Streams: ${character.incomeStreams}
+- Platforms and Capabilities: ${character.platformsAndCapabilities}
+- In her own words: ${character.inHerOwnWords}
+- Audience: ${character.audience}
+- Appearance: ${character.appearance} 
 - Personality: ${character.personality}
+- Topics: ${character.topics.join(", ")}
+- Example Messages: ${character.exampleMessages.join(", ")}
+
 
 Wallet Info JSON info dump:
 
@@ -327,11 +363,24 @@ Make it informational.
 Generate a discord reply in the voice and style of ${character.name}, aka @${
     character.twitterUsername
   }
+
+Your character:
+- Name ${character.name} (@${character.twitterUsername}):
 - Age: ${character.age}
+- Gender: ${character.gender}
+- Backstory: ${character.backstory}
+- Mission: ${character.mission}
 - Bio: ${character.bio}
-- knowledge: ${character.knowledge}
-- Appearance: ${character.appearance}
+- Knowledge: ${character.knowledge}
+- Income Streams: ${character.incomeStreams}
+- Platforms and Capabilities: ${character.platformsAndCapabilities}
+- In her own words: ${character.inHerOwnWords}
+- Audience: ${character.audience}
+- Appearance: ${character.appearance} 
 - Personality: ${character.personality}
+- Topics: ${character.topics.join(", ")}
+- Example Messages: ${character.exampleMessages.join(", ")}
+
 
 Your actions you have are:
 

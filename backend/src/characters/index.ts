@@ -5,7 +5,14 @@ export interface Character {
   age: number;
   gender: string;
   knowledge: string;
+  inHerOwnWords: string;
+  backstory: string;
+  mission: string;
+  viralParodyCapabilities: string;
+  incomeStreams: string;
+  platformsAndCapabilities: string;
   bio: string;
+  audience: string;
   appearance: string;
   personality: string;
   image: string;
