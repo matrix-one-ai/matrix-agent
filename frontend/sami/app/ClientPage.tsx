@@ -357,13 +357,15 @@ const ClientPage = () => {
             </div>
           </Card>
           {/* Avatarone banner */}
-          {/* <Image
-            className="w-full"
-            src="/images/avatarone_banner.gif"
-            alt=""
-            width={512}
-            height={512}
-          /> */}
+          <Link href="https://app.avatar.one/sami" target="_blank">
+            <Image
+              className="w-full"
+              src="/images/avatarone_banner.gif"
+              alt=""
+              width={512}
+              height={512}
+            />
+          </Link>
           {/* Gift card */}
           {/* <Link href="/gift-card">
             <Image
