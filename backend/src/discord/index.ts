@@ -19,7 +19,7 @@ dotenv.config();
 let tokenList: { id: string; symbol: string }[] = [];
 
 const cacheCoinGeckoTokenList = async () => {
-  const resp = await fetch("https://api.coingecko.com/api/v3/coins/list", {
+  const resp = await fetch("https://pro-api.coingecko.com/api/v3/coins/list", {
     headers: {
       "x-cg-pro-api-key": process.env.COINGECKO_API_KEY!,
     },
@@ -159,6 +159,9 @@ export const discordAgentInit = async () => {
           if (tokenTicker === "matrix" || tokenTicker === "MATRIX") {
             tokenId = "matrix-one";
           }
+          if (tokenTicker === "sami" || tokenTicker === "SAMI") {
+            tokenId = "sami";
+          }
 
           console.log("Search tokens response", tokenId);
 
@@ -170,7 +173,7 @@ export const discordAgentInit = async () => {
           }
 
           const tokenInfoResp = await fetch(
-            `https://api.coingecko.com/api/v3/coins/${tokenId}`,
+            `https://pro-api.coingecko.com/api/v3/coins/${tokenId}`,
             {
               headers: {
                 "x-cg-pro-api-key": process.env.COINGECKO_API_KEY!,
@@ -207,7 +210,7 @@ export const discordAgentInit = async () => {
 
           for (const platform of platforms) {
             const resp = await fetch(
-              `https://pro-api.coingecko.com/api/v3/coins/${platform}/contract/${judgementJson.contract}`,
+              `https://pro-pro-api.coingecko.com/api/v3/coins/${platform}/contract/${judgementJson.contract}`,
               {
                 headers: {
                   "x-cg-pro-api-key": process.env.COINGECKO_API_KEY!,
