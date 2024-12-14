@@ -210,7 +210,7 @@ export const discordAgentInit = async () => {
 
           for (const platform of platforms) {
             const resp = await fetch(
-              `https://pro-pro-api.coingecko.com/api/v3/coins/${platform}/contract/${judgementJson.contract}`,
+              `https://pro-api.coingecko.com/api/v3/coins/${platform}/contract/${judgementJson.contract}`,
               {
                 headers: {
                   "x-cg-pro-api-key": process.env.COINGECKO_API_KEY!,

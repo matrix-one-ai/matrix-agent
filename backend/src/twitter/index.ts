@@ -632,7 +632,7 @@ const startTrendingTokenAnalysis = async (twitterAgent: TwitterAgent) => {
   const main = async () => {
     try {
       const resp = await fetch(
-        "https://pro-pro-api.coingecko.com/api/v3/search/trending",
+        "https://pro-api.coingecko.com/api/v3/search/trending",
         {
           headers: {
             "x-cg-pro-api-key": process.env.COINGECKO_API_KEY!,
@@ -689,10 +689,10 @@ async function twitterAgentInit() {
   await twitterAgent.login();
   console.log("Twitter agent initialized");
 
-  startCommentResponseLoop(twitterAgent);
-  startFollowingTweetResponses(twitterAgent);
-  startChainNewsArticles(twitterAgent);
-  startTrendingTokenAnalysis(twitterAgent);
+  await startCommentResponseLoop(twitterAgent);
+  await startFollowingTweetResponses(twitterAgent);
+  await startChainNewsArticles(twitterAgent);
+  await startTrendingTokenAnalysis(twitterAgent);
 }
 
 export default twitterAgentInit;
