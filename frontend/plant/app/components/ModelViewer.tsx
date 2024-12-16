@@ -1,4 +1,4 @@
-import { OrbitControls } from "@react-three/drei";
+import { Clouds, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import React from "react";
 
@@ -8,9 +8,11 @@ interface ModelViewerProps {
 
 const ModelViewer = ({ gltfComponent }: ModelViewerProps) => {
   return (
-    <Canvas style={{
-        height: "40rem"
-    }}>
+    <Canvas
+      style={{
+        height: "40rem",
+      }}
+    >
       <ambientLight intensity={1.25} />
       <spotLight
         position={[10, 10, 10]}
@@ -21,7 +23,11 @@ const ModelViewer = ({ gltfComponent }: ModelViewerProps) => {
       />
       <pointLight position={[-10, -10, -10]} decay={0} intensity={2} />
 
-      <OrbitControls maxDistance={1} minDistance={0.75}/>
+      <OrbitControls maxDistance={1} minDistance={0.75} />
+
+      <color attach="background" args={["#87CEEB"]} />
+
+      <Clouds />
 
       {gltfComponent}
     </Canvas>

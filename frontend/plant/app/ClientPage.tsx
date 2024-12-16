@@ -88,14 +88,30 @@ const ClientPage = () => {
 
   return (
     <div className="flex w-full max-w-[1024px] flex-col gap-6 pb-10">
-      <button
+      {/* <button
         className="bg-blue-500 text-white py-2 px-4"
         onClick={handleGenerateModel}
       >
         Generate
-      </button>
+      </button> */}
 
       <ModelViewer gltfComponent={<Cactus1 />} />
+
+      <button
+        style={{
+          backgroundColor: "#70C238",
+          color: "#fff",
+          padding: "0.5rem 1rem",
+          borderRadius: "2rem",
+          fontSize: "1.25rem",
+          cursor: "pointer",
+          width: "fit-content",
+          margin: "0 auto",
+        }}
+        onClick={handleGenerateModel}
+      >
+        Feed Me Words
+      </button>
     </div>
   );
 };
