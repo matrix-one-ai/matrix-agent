@@ -6,6 +6,8 @@ import {
   ITripoQueueReq,
   ITripoQueueRes,
 } from "./types";
+import ModelViewer from "./components/ModelViewer";
+import { Model as Cactus1 } from "./components/gltf/Cactus1";
 
 const ClientPage = () => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -92,6 +94,8 @@ const ClientPage = () => {
       >
         Generate
       </button>
+
+      <ModelViewer gltfComponent={<Cactus1 />} />
     </div>
   );
 };
