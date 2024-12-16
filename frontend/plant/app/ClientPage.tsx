@@ -1,56 +1,56 @@
 "use client";
 
 import React, { useCallback, useRef } from "react";
+import {
+  ITripoGetTaskResultRes,
+  ITripoQueueReq,
+  ITripoQueueRes,
+} from "./types";
 
 const ClientPage = () => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const generateModel = useCallback(async () => {
-    try {
-      const url = "https://api.tripo3d.ai/v2/openapi/task";
 
-      const data = {
+  // Queue Tripo task to generate 3d model from prompt
+  const queueTripoTask = useCallback(async () => {
+    try {
+      const data: ITripoQueueReq = {
         type: "text_to_model",
         model_version: "v2.0-20240919",
         prompt: "a small cactus",
         model_seed: 1,
         face_limit: 3000,
       };
-
-      const options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TRIPO_API_KEY}`,
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_TRIPO_SERVER_URL}/task`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(data),
-      };
+      );
 
-      const response = await fetch(url, options);
       if (!response.ok) {
         throw new Error(
           `HTTP error! status: ${response.status}, info: ${response.statusText}`,
         );
       }
-      const result = await response.json();
-      console.log(result);
+      const result: ITripoQueueRes = await response.json();
 
-      return result.data.task_id;
+      return result.taskId;
     } catch (error) {
       console.error(error);
     }
   }, []);
 
-  const getModel = useCallback(async (taskId: string) => {
+  // Get Tripo task progress
+  const getTripoTaskResult = useCallback(async (taskId: string) => {
     try {
-      const url = `https://api.tripo3d.ai/v2/openapi/task/${taskId}`;
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_TRIPO_SERVER_URL}/task/${taskId}`,
+      );
 
-      const options = {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TRIPO_API_KEY}`,
-        },
-      };
-
-      const response = await fetch(url, options);
       if (!response.ok) {
         throw new Error(
           `HTTP error! status: ${response.status},info : ${response.statusText}`,
@@ -58,7 +58,7 @@ const ClientPage = () => {
       }
       const result = await response.json();
 
-      return result;
+      return result.data as ITripoGetTaskResultRes;
     } catch (error) {
       console.error(error);
     }
@@ -66,20 +66,23 @@ const ClientPage = () => {
 
   // Open hello world page
   const handleGenerateModel = useCallback(async () => {
-    const tripoTaskId = await generateModel();
-    console.log("Tripo task id: ", tripoTaskId);
-    let modelData = await getModel(tripoTaskId);
+    const tripoTaskId = await queueTripoTask();
+
+    if (!tripoTaskId) return;
+
+    console.info("Tripo task id: ", tripoTaskId);
+    let modelData = await getTripoTaskResult(tripoTaskId);
 
     intervalRef.current = setInterval(async () => {
-      console.log("polling..");
-      modelData = await getModel(tripoTaskId);
+      console.info("Polling to check Tripo task progress...");
+      modelData = await getTripoTaskResult(tripoTaskId);
 
-      if (Object.keys(modelData?.data?.output).length > 0) {
-        console.warn("Generated output: ", modelData?.data?.output);
+      if (modelData?.status && modelData.status === "success") {
+        console.warn("Tripo model data: ", modelData);
         clearInterval(intervalRef.current as unknown as NodeJS.Timeout);
       }
     }, 2000);
-  }, [generateModel, getModel]);
+  }, [queueTripoTask, getTripoTaskResult]);
 
   return (
     <div className="flex w-full max-w-[1024px] flex-col gap-6 pb-10">
