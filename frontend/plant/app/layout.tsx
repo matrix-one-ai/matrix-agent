@@ -4,8 +4,8 @@ import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SAMI",
-  description: "SAMI - Matrix Agent",
+  title: "Just a Plant",
+  description: "Just a Plant.",
 };
 
 export default function RootLayout({
