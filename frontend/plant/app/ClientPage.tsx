@@ -21,19 +21,19 @@ const ClientPage = () => {
         face_limit: 3000,
       };
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_TRIPO_SERVER_URL}/task`,
+        `${process.env.NEXT_PUBLIC_TRIPO_SERVER_URL}/api/tripo/task`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
-        },
+        }
       );
 
       if (!response.ok) {
         throw new Error(
-          `HTTP error! status: ${response.status}, info: ${response.statusText}`,
+          `HTTP error! status: ${response.status}, info: ${response.statusText}`
         );
       }
       const result: ITripoQueueRes = await response.json();
@@ -48,12 +48,12 @@ const ClientPage = () => {
   const getTripoTaskResult = useCallback(async (taskId: string) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_TRIPO_SERVER_URL}/task/${taskId}`,
+        `${process.env.NEXT_PUBLIC_TRIPO_SERVER_URL}/api/tripo/task/${taskId}`
       );
 
       if (!response.ok) {
         throw new Error(
-          `HTTP error! status: ${response.status},info : ${response.statusText}`,
+          `HTTP error! status: ${response.status},info : ${response.statusText}`
         );
       }
       const result = await response.json();
