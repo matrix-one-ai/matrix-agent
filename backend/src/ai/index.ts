@@ -1,12 +1,12 @@
-import { createAzure } from "@ai-sdk/azure";
+import { createOpenAI } from "@ai-sdk/openai";
 import { generateText } from "ai";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const azure = createAzure({
-  resourceName: process.env.AZURE_OPENAI_RESOURCE!,
-  apiKey: process.env.AZURE_OPENAI_KEY!,
+const openai = createOpenAI({
+  baseURL: process.env.OPENAI_LLAMA_ENDPOINT!,
+  apiKey: process.env.OPENAI_LLAMA_API_KEY!,
 });
 
 export async function generateTextFromPrompt(
@@ -16,20 +16,16 @@ export async function generateTextFromPrompt(
     temperature = 0.4,
     frequencyPenalty = 0.5,
     presencePenalty = 0.5,
-    topK = 0,
-    topP = 0,
   } = {}
 ) {
   console.log(model, temperature, frequencyPenalty, presencePenalty);
   try {
     const result = await generateText({
-      model: azure(model),
+      model: openai("huihui-ai/Llama-3.2-3B-Instruct-abliterated"),
       prompt,
       frequencyPenalty,
       presencePenalty,
       temperature,
-      topK,
-      topP,
     });
     return result;
   } catch (error) {
