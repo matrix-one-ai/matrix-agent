@@ -109,7 +109,7 @@ const ClientPage = () => {
         Generate
       </button> */}
 
-      <ModelViewer gltfComponent={<Cactus1 />} />
+      <ModelViewer gltfComponent={<Cactus1 scale={[5, 5 ,5]} />} />
 
       <button
         className="bg-secondary w-64 h-16 rounded-[50px] text-black border-black border-2 font-bold text-2xl"
