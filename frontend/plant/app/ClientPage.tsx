@@ -145,7 +145,7 @@ const ClientPage = () => {
             )}
           </div>
         </Card>
-        <Card contentClassName="!overflow-auto" title="Top Farmers">
+        <Card contentClassName="!overflow-auto" title="My Gardeners">
           <table className="!h-[564px] w-full min-w-[750px] gap-3 overflow-x-auto font-bold border-collapse">
             <tbody>
               {MOCK_RANKING_DATA.map(
