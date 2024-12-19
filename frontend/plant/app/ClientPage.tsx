@@ -109,15 +109,14 @@ const ClientPage = () => {
         Generate
       </button> */}
 
-      <ModelViewer gltfComponent={<Cactus1 scale={[5, 5 ,5]} />} />
-
-      <button
-        className="bg-secondary w-64 h-16 rounded-[50px] text-black border-black border-2 font-bold text-2xl"
-        // TODO: Implement onClick
-        // onClick={handleGenerateModel}
+      <ModelViewer gltfComponent={<Cactus1 scale={[5, 5, 5]} />} />
+      <Link
+        href="https://twitter.com/intent/tweet?screen_name=x&ref_src=twsrc%5Etfw"
+        className="flex justify-center items-center bg-secondary w-64 h-16 rounded-[50px] text-black border-black border-2 font-bold text-2xl"
+        target="_blank"
       >
         💦 Feed Me Words 💦
-      </button>
+      </Link>
 
       {/* Leaderboard */}
       <div className="flex flex-col gap-6 w-full">
