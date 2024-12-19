@@ -5,8 +5,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const openai = createOpenAI({
-  baseURL: process.env.OPENAI_LLAMA_ENDPOINT!,
-  apiKey: process.env.OPENAI_LLAMA_API_KEY!,
+  baseURL: process.env.ASKAH_URL!,
+  apiKey: process.env.AKASH_API_KEY!,
 });
 
 export async function generateTextFromPrompt(
@@ -18,10 +18,9 @@ export async function generateTextFromPrompt(
     presencePenalty = 0.5,
   } = {}
 ) {
-  console.log(model, temperature, frequencyPenalty, presencePenalty);
   try {
     const result = await generateText({
-      model: openai("huihui-ai/Llama-3.2-3B-Instruct-abliterated"),
+      model: openai("Meta-Llama-3-3-70B-Instruct"),
       prompt,
       frequencyPenalty,
       presencePenalty,
