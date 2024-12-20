@@ -31,7 +31,7 @@ export default function RootLayout({
             className="text-6xl font-normal text-center mb-10 underline text-secondary [text-shadow:_1px_1px_0_#000,_-1px_-1px_0_#000,_-1px_1px_0_#000,_1px_-1px_0_#000]"
             href="/"
           >
-            Just a Plant
+            Plant
           </Link>
           {children}
           {modal}
