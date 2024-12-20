@@ -167,11 +167,11 @@ const ClientPage = () => {
             contentClassName="flex flex-col !p-0 !h-[750px]"
             title="My Gardeners"
           >
-            <div className="w-full h-0 flex-grow px-4 overflow-auto">
+            <div className="relative w-full h-0 flex-grow px-4 overflow-auto [clip-path:inset(0_16px_round_0)]">
               <table className="w-full min-w-[750px] table-fixed overflow-x-auto font-bold border-collapse">
-                <thead className="sticky top-0 bg-primary">
+                <thead className="sticky top-0 bg-primary z-10">
                   <tr className="text-left h-11">
-                    <th className="w-[15%]">User</th>
+                    <th className="w-[15%] sticky left-0 bg-primary">User</th>
                     <th className="w-[10%] text-center">
                       <Tooltip content="The number of Mentions and therefore memories saved by Plan in its Relationship database">
                         Mentions
@@ -225,13 +225,12 @@ const ClientPage = () => {
                     ) => (
                       <tr
                         key={`ranking-${i}`}
-                        className={clsx("h-9", i % 2 === 0 && "bg-black/10")}
+                        className={clsx("h-9", i % 2 === 0 && "bg-[#decca2]")}
                       >
                         <td
                           className={clsx(
-                            "px-2",
-                            i === 0 && "rounded-tl-[20px]",
-                            i === MOCK_DATA.length - 1 && "rounded-bl-[20px]",
+                            "sticky left-0 px-4",
+                            i % 2 === 0 ? "bg-[#decca2]" : "bg-primary",
                           )}
                         >
                           <div className="flex items-center">
@@ -284,12 +283,7 @@ const ClientPage = () => {
                             color="bg-[#F58634]"
                           />
                         </td>
-                        <td
-                          className={clsx(
-                            i === 0 && "rounded-tr-[20px]",
-                            i === MOCK_DATA.length - 1 && "rounded-br-[20px]",
-                          )}
-                        >
+                        <td>
                           <div className="flex items-center w-full justify-between pr-8">
                             <span>{score}</span>
                             <span>
