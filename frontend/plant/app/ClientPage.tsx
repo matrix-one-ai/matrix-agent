@@ -14,6 +14,7 @@ import { Model as Cactus1 } from "./components/gltf/Cactus1";
 import Card from "./components/Card/Card";
 import { useTweetWidget } from "./hooks/useTweetWidget";
 import Tooltip from "@/app/components/Tooltip";
+import AmmoProgress from "@/app/components/AmmoChart";
 import XIcon from "@/app/components/Icons/XIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import TelegramIcon from "@/app/components/Icons/TelegramIcon";
@@ -250,23 +251,37 @@ const ClientPage = () => {
                             </Link>
                           </div>
                         </td>
+                        <td>{mentions}</td>
                         <td>
-                          <span>{mentions}</span>
+                          <AmmoProgress id="engagement" value={engagement} />
                         </td>
                         <td>
-                          <span>{engagement}</span>
+                          <AmmoProgress
+                            id="relevance"
+                            value={relevance}
+                            color="bg-[#FFC107]"
+                          />
                         </td>
                         <td>
-                          <span>{relevance}</span>
+                          <AmmoProgress
+                            id="depth"
+                            value={depth}
+                            color="bg-[#8B5A2B]"
+                          />
                         </td>
                         <td>
-                          <span>{depth}</span>
+                          <AmmoProgress
+                            id="novelty"
+                            value={novelty}
+                            color="bg-[#4E944F]"
+                          />
                         </td>
                         <td>
-                          <span>{novelty}</span>
-                        </td>
-                        <td>
-                          <span>{sentiment}</span>
+                          <AmmoProgress
+                            id="sentiment"
+                            value={sentiment}
+                            color="bg-[#F58634]"
+                          />
                         </td>
                         <td
                           className={clsx(
