@@ -171,38 +171,38 @@ const ClientPage = () => {
               <table className="w-full min-w-[750px] table-fixed overflow-x-auto font-bold border-collapse">
                 <thead className="sticky top-0 bg-primary">
                   <tr className="text-left h-11">
-                    <th className="w-[18%]">User</th>
-                    <th className="w-[10%]">
+                    <th className="w-[15%]">User</th>
+                    <th className="w-[10%] text-center">
                       <Tooltip content="The number of Mentions and therefore memories saved by Plan in its Relationship database">
                         Mentions
                       </Tooltip>
                     </th>
-                    <th className="w-[12%]">
+                    <th className="text-center">
                       <Tooltip content="The total engagement (Replies, Retweets, Likes, Views) with your mentions with Plant">
                         Engagement
                       </Tooltip>
                     </th>
-                    <th className="w-[12%]">
+                    <th className="text-center">
                       <Tooltip content="Relevance of your Mention with Plant on X. It should be related to tokens or wallets or crypto projects.">
                         Relevance
                       </Tooltip>
                     </th>
-                    <th className="w-[12%]">
+                    <th className="text-center">
                       <Tooltip content="Depth in your Mention with Plant on X. The more information and words the more it learns.">
                         Depth
                       </Tooltip>
                     </th>
-                    <th className="w-[12%]">
+                    <th className="text-center">
                       <Tooltip content="Novelty in your Mentions with Plant on X. New tokens and projects are valued more. Tokens that have never been mentioned before.">
                         Novelty
                       </Tooltip>
                     </th>
-                    <th className="w-[12%]">
+                    <th className="text-center">
                       <Tooltip content="Sentiment in your mentions with Plant on X. Positive sentiment is valued more.">
                         Sentiment
                       </Tooltip>
                     </th>
-                    <th className="w-[12%]">Score</th>
+                    <th>Score</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -219,6 +219,7 @@ const ClientPage = () => {
                         novelty,
                         sentiment,
                         score,
+                        level,
                       },
                       i,
                     ) => (
@@ -251,7 +252,7 @@ const ClientPage = () => {
                             </Link>
                           </div>
                         </td>
-                        <td>{mentions}</td>
+                        <td className="text-center">{mentions}</td>
                         <td>
                           <AmmoProgress id="engagement" value={engagement} />
                         </td>
@@ -289,7 +290,20 @@ const ClientPage = () => {
                             i === MOCK_DATA.length - 1 && "rounded-br-[20px]",
                           )}
                         >
-                          <span>{`💦 ${score}`}</span>
+                          <div className="flex items-center w-full justify-between pr-8">
+                            <span>{score}</span>
+                            <span>
+                              {level < 20
+                                ? "🌱"
+                                : level < 40
+                                  ? "🪴"
+                                  : level < 60
+                                    ? "☀️"
+                                    : level < 80
+                                      ? "🌸"
+                                      : "👑"}
+                            </span>
+                          </div>
                         </td>
                       </tr>
                     ),

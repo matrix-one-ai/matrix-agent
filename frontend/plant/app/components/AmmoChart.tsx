@@ -17,7 +17,7 @@ const AmmoProgress: React.FC<IAmmoProgressProps> = ({
   ...rest
 }) => {
   return (
-    <div className={clsx("flex gap-1", className)} {...rest}>
+    <div className={clsx("flex gap-1 justify-center", className)} {...rest}>
       {[...Array(max)].map((_, i) => (
         <div
           key={`${id}-ammo-progress-${i}`}
