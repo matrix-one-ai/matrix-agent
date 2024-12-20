@@ -12,7 +12,7 @@ interface ModelViewerProps {
 
 const ModelViewer = ({ gltfComponent }: ModelViewerProps) => {
   return (
-    <Canvas className="max-h-[60vh] h-[520px] rounded-[20px] border-2 border-black">
+    <Canvas className="max-h-[60vh] !h-[520px] rounded-[20px] border-2 border-black">
       <ambientLight intensity={2} />
       <spotLight
         position={[10, 10, 10]}
