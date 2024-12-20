@@ -370,7 +370,7 @@ const ClientPage = () => {
                 xxxxxxxxxxxxxxxxxxxxxxxx
               </span>
             </div>
-            <div className="flex items-center justify-around font-bold w-full max-w-[600px]">
+            <div className="flex items-center justify-around font-bold w-full max-w-[600px] flex-col md:flex-row gap-6 md:gap-2">
               <div className="flex items-center gap-2">
                 <XIcon />
                 <Link href="/" className="underline text-black">
