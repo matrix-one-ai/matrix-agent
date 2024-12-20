@@ -44,10 +44,10 @@ const LeaderBoard = () => {
       title="My Gardeners"
     >
       <div className="relative w-full h-0 flex-grow px-4 overflow-auto [clip-path:inset(0_16px_round_0)]">
-        <table className="w-full min-w-[750px] table-fixed overflow-x-auto font-bold border-collapse">
+        <table className="w-full min-w-[900px] table-fixed overflow-x-auto font-bold border-collapse">
           <thead className="sticky top-0 bg-primary z-10">
             <tr className="text-left h-11">
-              <th className="w-[15%] sticky left-0 bg-primary pl-4">
+              <th className="w-[15%] sticky left-0 bg-primary pl-4 z-10">
                 <div className="flex items-center gap-1">
                   User
                   <SortButton
