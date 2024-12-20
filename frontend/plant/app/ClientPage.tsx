@@ -6,17 +6,18 @@ import React from "react";
 //   ITripoQueueReq,
 //   ITripoQueueRes,
 // } from "./types";
+import Image from "next/image";
+import Link from "next/link";
+import clsx from "clsx";
 import ModelViewer from "./components/ModelViewer";
 import { Model as Cactus1 } from "./components/gltf/Cactus1";
 import Card from "./components/Card/Card";
-import clsx from "clsx";
 import { useTweetWidget } from "./hooks/useTweetWidget";
-import { MOCK_DATA } from "./constants";
+import Tooltip from "@/app/components/Tooltip";
 import XIcon from "@/app/components/Icons/XIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import TelegramIcon from "@/app/components/Icons/TelegramIcon";
-import Image from "next/image";
-import Link from "next/link";
+import { MOCK_DATA } from "./constants";
 
 const ClientPage = () => {
   const twttrWidgetLoading = useTweetWidget();
@@ -170,12 +171,36 @@ const ClientPage = () => {
                 <thead className="sticky top-0 bg-primary">
                   <tr className="text-left h-11">
                     <th className="w-[18%]">User</th>
-                    <th className="w-[10%]">Mentions</th>
-                    <th className="w-[12%]">Engagement</th>
-                    <th className="w-[12%]">Relevance</th>
-                    <th className="w-[12%]">Depth</th>
-                    <th className="w-[12%]">Novelty</th>
-                    <th className="w-[12%]">Sentiment</th>
+                    <th className="w-[10%]">
+                      <Tooltip content="The number of Mentions and therefore memories saved by Plan in its Relationship database">
+                        Mentions
+                      </Tooltip>
+                    </th>
+                    <th className="w-[12%]">
+                      <Tooltip content="The total engagement (Replies, Retweets, Likes, Views) with your mentions with Plant">
+                        Engagement
+                      </Tooltip>
+                    </th>
+                    <th className="w-[12%]">
+                      <Tooltip content="Relevance of your Mention with Plant on X. It should be related to tokens or wallets or crypto projects.">
+                        Relevance
+                      </Tooltip>
+                    </th>
+                    <th className="w-[12%]">
+                      <Tooltip content="Depth in your Mention with Plant on X. The more information and words the more it learns.">
+                        Depth
+                      </Tooltip>
+                    </th>
+                    <th className="w-[12%]">
+                      <Tooltip content="Novelty in your Mentions with Plant on X. New tokens and projects are valued more. Tokens that have never been mentioned before.">
+                        Novelty
+                      </Tooltip>
+                    </th>
+                    <th className="w-[12%]">
+                      <Tooltip content="Sentiment in your mentions with Plant on X. Positive sentiment is valued more.">
+                        Sentiment
+                      </Tooltip>
+                    </th>
                     <th className="w-[12%]">Score</th>
                   </tr>
                 </thead>
@@ -258,26 +283,51 @@ const ClientPage = () => {
               </table>
             </div>
             <div className="flex justify-between items-center px-9 h-11 font-bold text-[10px]">
-              <div className="flex flex-col items-center">
-                <span className="text-xs">🌱 (0 - 20%)</span>
-                <span>Seed Planters</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-xs">🪴 (20 - 40%)</span>
-                <span>Soil Tenders</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-xs">☀️ (40 - 60%)</span>
-                <span>Sunlight Bringers</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-xs">🌸 (60 - 80%)</span>
-                <span>Blossom Cultivators</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-xs">👑 (80 - 100%)</span>
-                <span>Master Gardeners</span>
-              </div>
+              <Tooltip
+                content="Entry Level: New members who’ve just started contributing. They plant the seeds of engagement by mentioning the cactus occasionally. Requirements: Minimal contributions like basic mentions or interactions."
+                placement="bottom"
+              >
+                <div className="flex items-center gap-1">
+                  <span className="text-xs">🌱 (0 - 20%)</span>
+                  <span>Seed Planters</span>
+                </div>
+              </Tooltip>
+              <Tooltip
+                content="Intermediate Level: Members who consistently provide relevant and thoughtful mentions, helping the cactus grow strong roots. Requirements: Regular participation with more relevant and deeper mentions."
+                placement="bottom"
+              >
+                <div className="flex items-center gap-1">
+                  <span className="text-xs">🪴 (20 - 40%)</span>
+                  <span>Soil Tenders</span>
+                </div>
+              </Tooltip>
+              <Tooltip
+                content="Advanced Level: Highly active members whose mentions are consistently engaging, positive, and insightful, acting as the cactus's main source of growth. Requirements: High-quality mentions, positive sentiment, and creative contributions."
+                placement="bottom"
+              >
+                <div className="flex items-center gap-1">
+                  <span className="text-xs">☀️ (40 - 60%)</span>
+                  <span>Sunlight Bringers</span>
+                </div>
+              </Tooltip>
+              <Tooltip
+                content="Expert Level: Top-tier contributors who bring novelty, enthusiasm, and drive engagement across the community, making the cactus thrive. Requirements: Exceptional engagement, introducing novel ideas, and driving significant community activity."
+                placement="bottom"
+              >
+                <div className="flex items-center gap-1">
+                  <span className="text-xs">🌸 (60 - 80%)</span>
+                  <span>Blossom Cultivators</span>
+                </div>
+              </Tooltip>
+              <Tooltip
+                content="Elite Level: The most dedicated and impactful members who consistently lead the community, provide key insights, and help others contribute. They are the ultimate nurturers of the cactus’s growth. Requirements: Leadership in engagement, top-quality contributions, and recognition as community role models."
+                placement="bottom"
+              >
+                <div className="flex items-center gap-1">
+                  <span className="text-xs">👑 (80 - 100%)</span>
+                  <span>Master Gardeners</span>
+                </div>
+              </Tooltip>
             </div>
           </Card>
         </div>
