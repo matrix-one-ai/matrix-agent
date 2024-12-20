@@ -244,7 +244,7 @@ const ClientPage = () => {
                             />
                             @
                             <Link
-                              className="underline"
+                              className="underline truncate"
                               href={twitter_link}
                               target="_blank"
                             >
