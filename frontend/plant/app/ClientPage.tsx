@@ -165,6 +165,7 @@ const ClientPage = () => {
           </Card>
           <Card
             contentClassName="flex flex-col !p-0 !h-[750px]"
+            className="max-h-[90vh]"
             title="My Gardeners"
           >
             <div className="relative w-full h-0 flex-grow px-4 overflow-auto [clip-path:inset(0_16px_round_0)]">
@@ -305,12 +306,12 @@ const ClientPage = () => {
                 </tbody>
               </table>
             </div>
-            <div className="flex justify-between items-center px-9 h-11 font-bold text-[10px]">
+            <div className="flex justify-between gap-2 items-center px-9 h-8 font-bold text-[10px] overflow-x-auto bg-[#decca2] border-t-2 border-t-black">
               <Tooltip
                 content="Entry Level: New members who’ve just started contributing. They plant the seeds of engagement by mentioning the cactus occasionally. Requirements: Minimal contributions like basic mentions or interactions."
                 placement="bottom"
               >
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
                   <span className="text-xs">🌱 (0 - 20%)</span>
                   <span>Seed Planters</span>
                 </div>
@@ -319,7 +320,7 @@ const ClientPage = () => {
                 content="Intermediate Level: Members who consistently provide relevant and thoughtful mentions, helping the cactus grow strong roots. Requirements: Regular participation with more relevant and deeper mentions."
                 placement="bottom"
               >
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
                   <span className="text-xs">🪴 (20 - 40%)</span>
                   <span>Soil Tenders</span>
                 </div>
@@ -328,7 +329,7 @@ const ClientPage = () => {
                 content="Advanced Level: Highly active members whose mentions are consistently engaging, positive, and insightful, acting as the cactus's main source of growth. Requirements: High-quality mentions, positive sentiment, and creative contributions."
                 placement="bottom"
               >
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
                   <span className="text-xs">☀️ (40 - 60%)</span>
                   <span>Sunlight Bringers</span>
                 </div>
@@ -337,7 +338,7 @@ const ClientPage = () => {
                 content="Expert Level: Top-tier contributors who bring novelty, enthusiasm, and drive engagement across the community, making the cactus thrive. Requirements: Exceptional engagement, introducing novel ideas, and driving significant community activity."
                 placement="bottom"
               >
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
                   <span className="text-xs">🌸 (60 - 80%)</span>
                   <span>Blossom Cultivators</span>
                 </div>
@@ -346,7 +347,7 @@ const ClientPage = () => {
                 content="Elite Level: The most dedicated and impactful members who consistently lead the community, provide key insights, and help others contribute. They are the ultimate nurturers of the cactus’s growth. Requirements: Leadership in engagement, top-quality contributions, and recognition as community role models."
                 placement="bottom"
               >
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
                   <span className="text-xs">👑 (80 - 100%)</span>
                   <span>Master Gardeners</span>
                 </div>
