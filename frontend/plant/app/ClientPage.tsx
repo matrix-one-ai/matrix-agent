@@ -176,7 +176,9 @@ const ClientPage = () => {
               <table className="w-full min-w-[750px] table-fixed overflow-x-auto font-bold border-collapse">
                 <thead className="sticky top-0 bg-primary z-10">
                   <tr className="text-left h-11">
-                    <th className="w-[15%] sticky left-0 bg-primary">User</th>
+                    <th className="w-[15%] sticky left-0 bg-primary pl-4">
+                      User
+                    </th>
                     <th className="w-[10%] text-center">
                       <Tooltip content="The number of Mentions and therefore memories saved by Plan in its Relationship database">
                         Mentions
@@ -234,7 +236,7 @@ const ClientPage = () => {
                       >
                         <td
                           className={clsx(
-                            "sticky left-0 px-4",
+                            "sticky left-0 pl-4",
                             i % 2 === 0 ? "bg-[#decca2]" : "bg-primary",
                           )}
                         >
@@ -246,14 +248,16 @@ const ClientPage = () => {
                               height={128}
                               alt=""
                             />
-                            @
-                            <Link
-                              className="underline truncate"
-                              href={twitter_link}
-                              target="_blank"
-                            >
-                              {twitter_handler}
-                            </Link>
+                            <div className="flex w-0 flex-grow items-center">
+                              @
+                              <Link
+                                className="underline truncate"
+                                href={twitter_link}
+                                target="_blank"
+                              >
+                                {twitter_handler}
+                              </Link>
+                            </div>
                           </div>
                         </td>
                         <td className="text-center">{mentions}</td>
