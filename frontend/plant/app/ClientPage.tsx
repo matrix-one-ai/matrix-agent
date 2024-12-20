@@ -138,7 +138,11 @@ const ClientPage = () => {
 
         {/* Leaderboard */}
         <div className="flex flex-col gap-6 w-full">
-          <Card contentClassName="!overflow-auto" title="My Words">
+          <Card
+            contentClassName="!overflow-auto"
+            className="max-h-[90vh]"
+            title="My Words"
+          >
             <div className="flex flex-col !h-[564px] w-full gap-3">
               <a
                 className={clsx(
