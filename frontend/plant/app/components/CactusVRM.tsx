@@ -6,7 +6,6 @@ import React, { Suspense, useRef } from "react";
 import { MeshBasicMaterial } from "three";
 import Grass from "./Grass/Grass";
 import VrmAvatar from "./VrmAvatar";
-import { Model as Cactus1 } from "./gltf/Cactus1";
 
 const CactusVRM = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -67,11 +66,6 @@ const CactusVRM = () => {
             scale={[10, 10, 10]}
             onLoadingProgress={() => {}}
           />
-          {/* <Cactus1
-            scale={[5, 5, 5]}
-            position={[0, -0.5, 0]}
-            rotation={[0, Math.PI / 2, 0]}
-          /> */}
         </Suspense>
       </Canvas>
       <audio ref={audioRef} />
