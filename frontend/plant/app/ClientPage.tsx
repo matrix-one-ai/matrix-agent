@@ -8,14 +8,15 @@ import React from "react";
 // } from "./types";
 import Link from "next/link";
 import clsx from "clsx";
-import ModelViewer from "./components/ModelViewer";
-import { Model as Cactus1 } from "./components/gltf/Cactus1";
 import { useTweetWidget } from "./hooks/useTweetWidget";
 import LeaderBoard from "@/app/components/LeaderBoard";
 import Card from "@/app/components/Card/Card";
 import XIcon from "@/app/components/Icons/XIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import TelegramIcon from "@/app/components/Icons/TelegramIcon";
+import Image from "next/image";
+import Link from "next/link";
+import CactusVRM from "./components/CactusVRM";
 
 const ClientPage = () => {
   const twttrWidgetLoading = useTweetWidget();
@@ -108,7 +109,7 @@ const ClientPage = () => {
         Generate
       </button> */}
 
-      <ModelViewer gltfComponent={<Cactus1 scale={[5, 5, 5]} />} />
+      <CactusVRM />
 
       <div className="w-full flex flex-col items-center gap-10 pb-10 max-w-[1024px]">
         <Link

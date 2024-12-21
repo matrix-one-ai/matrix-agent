@@ -1,13 +1,13 @@
 // Based on https://codepen.io/al-ro/pen/jJJygQ by al-ro, but rewritten in react-three-fiber
 import * as THREE from "three";
 import React, { useRef, useMemo } from "react";
-import { createNoise2D } from "simplex-noise";
+// import { createNoise2D } from "simplex-noise";
 import { useFrame } from "@react-three/fiber";
 //These have been taken from "Realistic real-time grass rendering" by Eddie Lee, 2010
 import "./GrassMaterial";
 import { useTexture } from "@react-three/drei";
 
-const noise2d = createNoise2D(Math.random);
+// const noise2d = createNoise2D(Math.random);
 
 export default function Grass({
   options = { bW: 0.12, bH: 1, joints: 5 },
@@ -37,9 +37,10 @@ export default function Grass({
     geo.lookAt(new THREE.Vector3(0, 1, 0));
     const positionVectices = geo.attributes.position.array;
     for (let i = 0; i < positionVectices.length; i += 3) {
-      const x = positionVectices[i];
-      const z = positionVectices[i + 2];
-      positionVectices[i + 1] = getYPosition(x, z);
+      // const x = positionVectices[i];
+      // const z = positionVectices[i + 2];
+      // positionVectices[i + 1] = getYPosition(x, z);
+      positionVectices[i + 1] = 0;
     }
     geo.computeVertexNormals();
     return geo;
@@ -113,8 +114,8 @@ function getAttributeData(instances: number, width: number) {
     //Offset of the roots
     const offsetX = Math.random() * width - width / 2;
     const offsetZ = Math.random() * width - width / 2;
-    const offsetY = getYPosition(offsetX, offsetZ);
-    offsets.push(offsetX, offsetY, offsetZ);
+    // const offsetY = getYPosition(offsetX, offsetZ);
+    offsets.push(offsetX, 0, offsetZ);
 
     //Define random growth directions
     //Rotate around Y
@@ -162,7 +163,7 @@ function getAttributeData(instances: number, width: number) {
 
     //Define variety in height
     if (i < instances / 3) {
-      stretches.push(Math.random() * 1.8);
+      stretches.push(Math.random() * 1.2);
     } else {
       stretches.push(Math.random());
     }
@@ -185,9 +186,9 @@ function multiplyQuaternions(q1: THREE.Vector4, q2: THREE.Vector4) {
   return new THREE.Vector4(x, y, z, w);
 }
 
-function getYPosition(x: number, z: number) {
-  let y = 2 * noise2d(x / 50, z / 50);
-  y += 4 * noise2d(x / 1000, z / 1000);
-  y += 0.2 * noise2d(x / 10, z / 10);
-  return y;
-}
+// function getYPosition(x: number, z: number) {
+//   let y = 2 * noise2d(x / 50, z / 50);
+//   y += 4 * noise2d(x / 1000, z / 1000);
+//   y += 0.2 * noise2d(x / 10, z / 10);
+//   return y;
+// }
