@@ -18,15 +18,15 @@ const CactusVRM = () => {
           height: "40rem",
         }}
       >
-        <ambientLight intensity={2} />
+        <ambientLight intensity={1} />
         <spotLight
           position={[10, 10, 10]}
           angle={0.15}
           penumbra={1}
           decay={0}
-          intensity={3}
+          intensity={1}
         />
-        <pointLight position={[-10, -10, -20]} decay={0} intensity={2} />
+        <pointLight position={[-10, -10, -20]} decay={0} intensity={1} />
 
         <OrbitControls
           target={[0, 0, 0]}
@@ -58,7 +58,7 @@ const CactusVRM = () => {
 
         <Suspense fallback={null}>
           <VrmAvatar
-            avatarKey="cactus-face"
+            avatarKey="cactus_flat"
             audioRef={audioRef}
             audioBlob={null}
             blendShapes={[]}
@@ -67,11 +67,11 @@ const CactusVRM = () => {
             scale={[10, 10, 10]}
             onLoadingProgress={() => {}}
           />
-          <Cactus1
+          {/* <Cactus1
             scale={[5, 5, 5]}
             position={[0, -0.5, 0]}
             rotation={[0, Math.PI / 2, 0]}
-          />
+          /> */}
         </Suspense>
       </Canvas>
       <audio ref={audioRef} />
