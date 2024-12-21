@@ -14,8 +14,6 @@ import Card from "@/app/components/Card/Card";
 import XIcon from "@/app/components/Icons/XIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import TelegramIcon from "@/app/components/Icons/TelegramIcon";
-import Image from "next/image";
-import Link from "next/link";
 import CactusVRM from "./components/CactusVRM";
 
 const ClientPage = () => {
