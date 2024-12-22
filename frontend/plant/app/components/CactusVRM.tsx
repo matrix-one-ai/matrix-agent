@@ -12,11 +12,7 @@ const CactusVRM = () => {
 
   return (
     <>
-      <Canvas
-        style={{
-          height: "40rem",
-        }}
-      >
+      <Canvas className="max-h-[60vh] !h-[520px] rounded-[20px] border-2 border-black">
         <ambientLight intensity={1} />
         <spotLight
           position={[10, 10, 10]}
@@ -25,7 +21,6 @@ const CactusVRM = () => {
           decay={0}
           intensity={1}
         />
-        <pointLight position={[-10, -10, -20]} decay={0} intensity={1} />
 
         <OrbitControls
           target={[0, 0, 0]}
