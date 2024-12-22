@@ -11,11 +11,7 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { GLTF, GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { loadMixamoAnimation } from "../helpers/loadMixamoAnimation";
-import {
-  VRM,
-  VRMLoaderPlugin,
-  VRMUtils,
-} from "@pixiv/three-vrm";
+import { VRM, VRMLoaderPlugin, VRMUtils } from "@pixiv/three-vrm";
 import { azureToVrmBlendShapes } from "../helpers/azureToVrmBlendShapes";
 import { fetchWithProgress } from "../helpers/fetchWithProgress";
 import { throttle } from "../helpers/throttle";
@@ -223,6 +219,11 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
           async (loadedGltf) => {
             const vrm: VRM = loadedGltf.userData.vrm;
 
+            if (!vrm || !vrm.expressionManager) {
+              console.error("Error loading VRM model:", loadedGltf);
+              return;
+            }
+
             // Optimize VRM scene
             VRMUtils.removeUnnecessaryVertices(loadedGltf.scene);
             VRMUtils.removeUnnecessaryJoints(loadedGltf.scene, {
@@ -266,6 +267,112 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
               const idleClip = loadedIdleClips[0];
               newMixer.clipAction(idleClip).play();
             }
+
+            // blink loop
+            const blinkTrack =
+              vrm.expressionManager.getExpressionTrackName("Blink");
+
+            console.log(vrm.expressionManager.expressions);
+
+            const blinkKeys = new THREE.NumberKeyframeTrack(
+              blinkTrack as string,
+              [0.0, 0.2, 0.4, 6.0], // times
+              [0.0, 1.0, 0.0, 0.0] // values
+            );
+            const blinkClip = new THREE.AnimationClip(
+              blinkTrack as string,
+              6.8, // duration
+              [blinkKeys]
+            );
+            const action = newMixer.clipAction(blinkClip);
+            action.play();
+
+            //emotions
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const expressions: any = [];
+
+            const angryTrack =
+              vrm.expressionManager.getExpressionTrackName("Angry");
+            const angryKeys = new THREE.NumberKeyframeTrack(
+              angryTrack as string,
+              [0.0, 2.0, 4.0, 6.0], // times
+              [0.0, 1.0, 0.0, 0.0] // values
+            );
+            const angryClip = new THREE.AnimationClip(
+              angryTrack as string,
+              6.0, // duration
+              [angryKeys]
+            );
+            const angryAction = newMixer.clipAction(angryClip);
+            expressions.push(angryAction);
+
+            const joyTrack =
+              vrm.expressionManager.getExpressionTrackName("Joy");
+            const joyKeys = new THREE.NumberKeyframeTrack(
+              joyTrack as string,
+              [0.0, 2.5, 5.0, 6.0], // times
+              [0.0, 1.0, 0.0, 0.0] // values
+            );
+            const joyClip = new THREE.AnimationClip(
+              joyTrack as string,
+              6.0, // duration
+              [joyKeys]
+            );
+            const joyAction = newMixer.clipAction(joyClip);
+            expressions.push(joyAction);
+
+            const sorrowTrack =
+              vrm.expressionManager.getExpressionTrackName("Sorrow");
+            const sorrowKeys = new THREE.NumberKeyframeTrack(
+              sorrowTrack as string,
+              [0.0, 3.0, 6.0], // times
+              [0.0, 1.0, 0.0] // values
+            );
+            const sorrowClip = new THREE.AnimationClip(
+              sorrowTrack as string,
+              6.0, // duration
+              [sorrowKeys]
+            );
+            const sorrowAction = newMixer.clipAction(sorrowClip);
+            expressions.push(sorrowAction);
+
+            const funTrack =
+              vrm.expressionManager.getExpressionTrackName("Fun");
+            const funKeys = new THREE.NumberKeyframeTrack(
+              funTrack as string,
+              [0.0, 1.5, 3.0, 4.5, 6.0], // times
+              [0.0, 1.0, 0.0, 1.0, 0.0] // values
+            );
+            const funClip = new THREE.AnimationClip(
+              funTrack as string,
+              6.0, // duration
+              [funKeys]
+            );
+            const funAction = newMixer.clipAction(funClip);
+            expressions.push(funAction);
+
+            // Function to play a random expression
+            let currentAction: THREE.AnimationAction | null = null;
+
+            const playRandomExpression = () => {
+              if (currentAction) {
+                currentAction.stop();
+              }
+              const randomIndex = Math.floor(
+                Math.random() * expressions.length
+              );
+              const nextAction = expressions[randomIndex];
+              nextAction.reset();
+              nextAction.play();
+              currentAction = nextAction;
+            };
+
+            // Initial play
+            playRandomExpression();
+
+            // Switch expression every 6 seconds
+            setInterval(playRandomExpression, 6000);
           },
           (event) => {
             // Update loading progress
@@ -382,7 +489,6 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
         const expressionManager = (gltf.userData.vrm as VRM).expressionManager;
         if (expressionManager) {
           expressionManager.resetValues();
-          expressionManager.update();
         }
       }
     }
@@ -445,6 +551,11 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
           expressionManager.update();
         }
       }
+    }
+
+    const expressionManager = (gltf?.userData.vrm as VRM).expressionManager;
+    if (expressionManager) {
+      expressionManager.update();
     }
   });
 
