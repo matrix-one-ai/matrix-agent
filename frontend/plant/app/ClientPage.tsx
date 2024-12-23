@@ -181,6 +181,16 @@ const ClientPage = () => {
             <div className="flex items-center gap-2">
               <XIcon />
               <Link
+                href="https://x.com/plantdotfun"
+                className="underline text-black"
+                target="_blank"
+              >
+                @plantdotfun
+              </Link>
+            </div>
+            <div className="flex items-center gap-2">
+              <XIcon />
+              <Link
                 href="https://x.com/thegardenerteam"
                 className="underline text-black"
                 target="_blank"
