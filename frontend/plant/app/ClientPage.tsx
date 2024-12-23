@@ -180,19 +180,23 @@ const ClientPage = () => {
           <div className="flex items-center justify-around font-bold w-full max-w-[600px] flex-col md:flex-row gap-6 md:gap-2">
             <div className="flex items-center gap-2">
               <XIcon />
-              <Link href="/" className="underline text-black">
-                @aplant
+              <Link
+                href="https://x.com/thegardenerteam"
+                className="underline text-black"
+                target="_blank"
+              >
+                @thegardenerteam
               </Link>
             </div>
             <div className="flex items-center gap-2">
               <PumpFunIcon />
-              <Link href="/" className="underline text-black">
+              <Link href="/" className="underline text-black" target="_blank">
                 @aplant
               </Link>
             </div>
             <div className="flex items-center gap-2">
               <TelegramIcon />
-              <Link href="/" className="underline text-black">
+              <Link href="/" className="underline text-black" target="_blank">
                 @aplant
               </Link>
             </div>
