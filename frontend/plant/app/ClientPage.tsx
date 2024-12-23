@@ -124,11 +124,13 @@ const ClientPage = () => {
           </p>
           <p>
             Hold my token, and you’ll unlock exclusive access to my ever-growing
-            insights. 🌵 I remember all my Gardeners and our memories together.
+            insights. 🌵
+            <br />I remember all my Gardeners and our memories together.
           </p>
           <p>
             You will be showered with refreshing water(air)drops to keep our
-            desert thriving. Are you ready to grow with me?
+            desert thriving.
+            <br /> Are you ready to grow with me?
           </p>
         </div>
 
