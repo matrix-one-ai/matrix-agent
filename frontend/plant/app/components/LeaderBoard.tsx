@@ -78,7 +78,7 @@ const LeaderBoard = () => {
                 </div>
               </th>
               <th className="w-[10%] text-center">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center justify-center gap-1">
                   <Tooltip content="The number of Mentions and therefore memories saved by Plan in its Relationship database">
                     Mentions
                   </Tooltip>
@@ -94,7 +94,7 @@ const LeaderBoard = () => {
                 </div>
               </th>
               <th className="text-center">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center justify-center gap-1">
                   <Tooltip content="The total engagement (Replies, Retweets, Likes, Views) with your mentions with Plant">
                     Engagement
                   </Tooltip>
@@ -110,7 +110,7 @@ const LeaderBoard = () => {
                 </div>
               </th>
               <th className="text-center">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center justify-center gap-1">
                   <Tooltip content="Relevance of your Mention with Plant on X. It should be related to tokens or wallets or crypto projects.">
                     Relevance
                   </Tooltip>
@@ -126,7 +126,7 @@ const LeaderBoard = () => {
                 </div>
               </th>
               <th className="text-center">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center justify-center gap-1">
                   <Tooltip content="Depth in your Mention with Plant on X. The more information and words the more it learns.">
                     Depth
                   </Tooltip>
@@ -140,7 +140,7 @@ const LeaderBoard = () => {
                 </div>
               </th>
               <th className="text-center">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center justify-center gap-1">
                   <Tooltip content="Novelty in your Mentions with Plant on X. New tokens and projects are valued more. Tokens that have never been mentioned before.">
                     Novelty
                   </Tooltip>
@@ -156,7 +156,7 @@ const LeaderBoard = () => {
                 </div>
               </th>
               <th className="text-center">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center justify-center gap-1">
                   <Tooltip content="Sentiment in your mentions with Plant on X. Positive sentiment is valued more.">
                     Sentiment
                   </Tooltip>
