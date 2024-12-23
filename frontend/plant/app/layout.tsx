@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={comicNeue.className}>
       <body>
-        <main className="flex flex-col p-6 pt-10 pb-16 h-full items-center">
+        <main className="flex flex-col p-2 md:p-6 pt-10 pb-16 h-full items-center">
           <Link
             className="text-6xl tracking-[20px] font-bold text-center mb-10 underline text-secondary [text-shadow:_1px_1px_0_#000,_-1px_-1px_0_#000,_-1px_1px_0_#000,_1px_-1px_0_#000]"
             href="/"
