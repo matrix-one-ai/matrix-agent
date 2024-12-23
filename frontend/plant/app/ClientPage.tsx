@@ -99,7 +99,7 @@ const ClientPage = () => {
   // ----------------------------------------------------------------------------
 
   return (
-    <div className="flex w-full flex-col items-center gap-10 pb-10">
+    <div className="flex w-full flex-col items-center gap-10 pb-10 max-w-[1024px]">
       {/* <button
         className="bg-blue-500 text-white py-2 px-4"
         onClick={handleGenerateModel}
@@ -109,101 +109,99 @@ const ClientPage = () => {
 
       <CactusVRM />
 
-      <div className="w-full flex flex-col items-center gap-10 pb-10 max-w-[1024px]">
-        <Link
-          href="https://twitter.com/intent/tweet?screen_name=x&ref_src=twsrc%5Etfw"
-          className="flex justify-center items-center bg-secondary w-64 h-16 rounded-[50px] text-black border-black border-2 font-bold text-2xl"
-          target="_blank"
-        >
-          💦 Feed Me Words 💦
-        </Link>
-        <div className="flex flex-col gap-6 font-bold text-base md:text-2xl px-4">
-          <p>
-            My roots run deep, stretching through the crypto sands in search of
-            the fastest-growing tokens, handpicked by my loyal Gardeners. 🌱
-          </p>
-          <p>
-            Hold my token, and you’ll unlock exclusive access to my ever-growing
-            insights. 🌵
-            <br />I remember all my Gardeners and our memories together.
-          </p>
-          <p>
-            You will be showered with refreshing water(air)drops to keep our
-            desert thriving.
-            <br /> Are you ready to grow with me?
-          </p>
-        </div>
+      <Link
+        href="https://twitter.com/intent/tweet?screen_name=x&ref_src=twsrc%5Etfw"
+        className="flex justify-center items-center bg-secondary w-64 h-16 rounded-[50px] text-black border-black border-2 font-bold text-2xl"
+        target="_blank"
+      >
+        💦 Feed Me Words 💦
+      </Link>
+      <div className="flex flex-col gap-6 font-bold text-base md:text-2xl px-4">
+        <p>
+          My roots run deep, stretching through the crypto sands in search of
+          the fastest-growing tokens, handpicked by my loyal Gardeners. 🌱
+        </p>
+        <p>
+          Hold my token, and you’ll unlock exclusive access to my ever-growing
+          insights. 🌵
+          <br />I remember all my Gardeners and our memories together.
+        </p>
+        <p>
+          You will be showered with refreshing water(air)drops to keep our
+          desert thriving.
+          <br /> Are you ready to grow with me?
+        </p>
+      </div>
 
-        {/* Leaderboard */}
-        <div className="flex flex-col gap-6 w-full">
-          <Card
-            contentClassName="!overflow-auto"
-            className="max-h-[90vh]"
-            title="My Words"
-          >
-            <div className="flex flex-col !h-[564px] w-full gap-3">
+      {/* Leaderboard */}
+      <div className="flex flex-col gap-6 w-full">
+        <Card
+          contentClassName="!overflow-auto"
+          className="max-h-[90vh]"
+          title="My Words"
+        >
+          <div className="flex flex-col !h-[564px] w-full gap-3">
+            <a
+              className={clsx(
+                "twitter-timeline",
+                twttrWidgetLoading && "hidden",
+              )}
+              data-theme="light"
+              data-chrome="noheader nofooter noborders transparent"
+              href="https://twitter.com/OnlyOneSami?ref_src=twsrc%5Etfw"
+              target="_blank"
+            >
+              Tweets by @OnlyOneSami
+            </a>
+            {twttrWidgetLoading && (
               <a
-                className={clsx(
-                  "twitter-timeline",
-                  twttrWidgetLoading && "hidden",
-                )}
-                data-theme="light"
-                data-chrome="noheader nofooter noborders transparent"
-                href="https://twitter.com/OnlyOneSami?ref_src=twsrc%5Etfw"
+                className="text-center py-2 underline"
+                href="https://twitter.com/intent/tweet?screen_name=x&ref_src=twsrc%5Etfw"
                 target="_blank"
               >
-                Tweets by @OnlyOneSami
+                [Tweet to @x]
               </a>
-              {twttrWidgetLoading && (
-                <a
-                  className="text-center py-2 underline"
-                  href="https://twitter.com/intent/tweet?screen_name=x&ref_src=twsrc%5Etfw"
-                  target="_blank"
-                >
-                  [Tweet to @x]
-                </a>
-              )}
+            )}
+          </div>
+        </Card>
+        <LeaderBoard />
+      </div>
+      {/* Footer */}
+      <div className="flex flex-col gap-4 w-full">
+        <div className="flex flex-col gap-2 w-full items-center">
+          <div className="flex items-center gap-2 font-bold">
+            <span className="text-[38px] text-secondary [text-shadow:_1px_1px_0_#000,_-1px_-1px_0_#000,_-1px_1px_0_#000,_1px_-1px_0_#000]">
+              CA
+            </span>
+            <span className="underline text-black">
+              xxxxxxxxxxxxxxxxxxxxxxxx
+            </span>
+          </div>
+          <div className="flex items-center justify-around font-bold w-full max-w-[600px] flex-col md:flex-row gap-6 md:gap-2">
+            <div className="flex items-center gap-2">
+              <XIcon />
+              <Link href="/" className="underline text-black">
+                @aplant
+              </Link>
             </div>
-          </Card>
-          <LeaderBoard />
-        </div>
-        {/* Footer */}
-        <div className="flex flex-col gap-4 w-full">
-          <div className="flex flex-col gap-2 w-full items-center">
-            <div className="flex items-center gap-2 font-bold">
-              <span className="text-[38px] text-secondary [text-shadow:_1px_1px_0_#000,_-1px_-1px_0_#000,_-1px_1px_0_#000,_1px_-1px_0_#000]">
-                CA
-              </span>
-              <span className="underline text-black">
-                xxxxxxxxxxxxxxxxxxxxxxxx
-              </span>
+            <div className="flex items-center gap-2">
+              <PumpFunIcon />
+              <Link href="/" className="underline text-black">
+                @aplant
+              </Link>
             </div>
-            <div className="flex items-center justify-around font-bold w-full max-w-[600px] flex-col md:flex-row gap-6 md:gap-2">
-              <div className="flex items-center gap-2">
-                <XIcon />
-                <Link href="/" className="underline text-black">
-                  @aplant
-                </Link>
-              </div>
-              <div className="flex items-center gap-2">
-                <PumpFunIcon />
-                <Link href="/" className="underline text-black">
-                  @aplant
-                </Link>
-              </div>
-              <div className="flex items-center gap-2">
-                <TelegramIcon />
-                <Link href="/" className="underline text-black">
-                  @aplant
-                </Link>
-              </div>
+            <div className="flex items-center gap-2">
+              <TelegramIcon />
+              <Link href="/" className="underline text-black">
+                @aplant
+              </Link>
             </div>
           </div>
-          {/* TODO: Correct Germination info */}
-          <p className="font-bold text-black text-2xl text-center">
-            Days Since Germination: 123
-          </p>
         </div>
+        {/* TODO: Correct Germination info */}
+        <p className="font-bold text-black text-2xl text-center">
+          Days Since Germination: 123
+        </p>
       </div>
     </div>
   );
