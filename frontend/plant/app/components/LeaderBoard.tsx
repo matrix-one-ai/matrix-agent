@@ -7,8 +7,13 @@ import Tooltip from "@/app/components/Tooltip";
 import AmmoProgress from "@/app/components/AmmoChart";
 import SortButton from "@/app/components/SortButton";
 import { MOCK_DATA } from "@/app/constants";
+import useInfiniteScroll from "@/app/hooks/useInfiniteScroll";
+import { useToggle } from "@/app/hooks/useToggle";
 
 const LeaderBoard = () => {
+  const [loading, { toggleOn: toggleOnLoading, toggleOff: toggleOffLoading }] =
+    useToggle(false);
+  const [data, setData] = useState(MOCK_DATA);
   const [sortData, setSortData] = useState<{
     column: string;
     direction: "asc" | "desc" | "none";
@@ -35,7 +40,20 @@ const LeaderBoard = () => {
     });
 
     // TODO: Integrate with backend to fetch data with sort info
+    setData(MOCK_DATA); // Reset data with mock data
   }, []);
+
+  // Handler for load more
+  const handleLoadMore = useCallback(() => {
+    // TODO: Integrate with backend for loading more data
+    toggleOnLoading();
+    setTimeout(() => {
+      setData((cur) => [...cur, ...MOCK_DATA]);
+      toggleOffLoading();
+    }, 2000);
+  }, [toggleOffLoading, toggleOnLoading]);
+
+  const targetRef = useInfiniteScroll(handleLoadMore);
 
   return (
     <Card
@@ -168,7 +186,7 @@ const LeaderBoard = () => {
             </tr>
           </thead>
           <tbody>
-            {MOCK_DATA.map(
+            {data.map(
               (
                 {
                   avatar,
@@ -268,6 +286,12 @@ const LeaderBoard = () => {
             )}
           </tbody>
         </table>
+        {/* Target element for infinite scroll */}
+        {loading ? (
+          <p className="text-center">Loading more...</p>
+        ) : (
+          <div ref={targetRef} className="h-[1px]" />
+        )}
       </div>
       <div className="flex justify-between gap-2 items-center px-9 h-8 font-bold text-[10px] overflow-x-auto bg-[#decca2] border-t-2 border-t-black">
         <Tooltip
