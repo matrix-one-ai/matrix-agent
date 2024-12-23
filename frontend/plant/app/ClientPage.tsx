@@ -135,6 +135,7 @@ const ClientPage = () => {
 
       {/* Leaderboard */}
       <div className="flex flex-col gap-6 w-full">
+        <LeaderBoard />
         <Card
           contentClassName="!overflow-auto"
           className="max-h-[90vh]"
@@ -164,7 +165,6 @@ const ClientPage = () => {
             )}
           </div>
         </Card>
-        <LeaderBoard />
       </div>
       {/* Footer */}
       <div className="flex flex-col gap-4 w-full">
