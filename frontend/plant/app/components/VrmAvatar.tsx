@@ -44,7 +44,7 @@ interface DecryptedVRM {
 // Utility function to process blend shapes data
 const processBlendShapesData = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  blendShapesData: any[]
+  blendShapesData: any[],
 ): { frameIndex: number; blendShapeValues: number[] }[] => {
   const frames: { frameIndex: number; blendShapeValues: number[] }[] = [];
   let cumulativeFrameIndex = 0;
@@ -121,7 +121,7 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
     async (
       encryptedData: ArrayBuffer,
       key: ArrayBuffer,
-      iv: ArrayBuffer
+      iv: ArrayBuffer,
     ): Promise<Uint8Array> => {
       try {
         const algorithm = { name: "AES-CBC", iv };
@@ -130,12 +130,12 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
           key,
           algorithm,
           false,
-          ["decrypt"]
+          ["decrypt"],
         );
         const decrypted = await window.crypto.subtle.decrypt(
           algorithm,
           cryptoKey,
-          encryptedData
+          encryptedData,
         );
         return new Uint8Array(decrypted);
       } catch (error) {
@@ -143,7 +143,7 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
         throw error;
       }
     },
-    []
+    [],
   );
 
   // Fetch and Decrypt VRM
@@ -157,7 +157,7 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
         if (!encryptedData) {
           encryptedData = await fetchWithProgress(
             `/api/vrm/decrypt?file=${avatarKey}`,
-            throttle((prog: number) => onLoadingProgress(prog), 250)
+            throttle((prog: number) => onLoadingProgress(prog), 250),
           );
           await cacheVRM(avatarKey, encryptedData);
         } else {
@@ -182,7 +182,7 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
         onLoadingProgress(0);
       }
     },
-    [decryptVRM, onLoadingProgress]
+    [decryptVRM, onLoadingProgress],
   );
 
   useEffect(() => {
@@ -210,7 +210,7 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
           (parser) =>
             new VRMLoaderPlugin(parser, {
               autoUpdateHumanBones: true,
-            })
+            }),
         );
 
         // Load VRM model
@@ -219,7 +219,7 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
           async (loadedGltf) => {
             const vrm: VRM = loadedGltf.userData.vrm;
 
-            if (!vrm || !vrm.expressionManager) {
+            if (!vrm || !vrm?.expressionManager) {
               console.error("Error loading VRM model:", loadedGltf);
               return;
             }
@@ -249,7 +249,7 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
               idleAnimations.map(async (url) => {
                 const clip = await loadMixamoAnimation(url, vrm);
                 return clip;
-              })
+              }),
             );
             setIdleClips(loadedIdleClips);
 
@@ -258,7 +258,7 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
               talkAnimations.map(async (url) => {
                 const clip = await loadMixamoAnimation(url, vrm);
                 return clip;
-              })
+              }),
             );
             setTalkClips(loadedTalkClips);
 
@@ -270,19 +270,19 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
 
             // blink loop
             const blinkTrack =
-              vrm.expressionManager.getExpressionTrackName("Blink");
+              vrm?.expressionManager.getExpressionTrackName("Blink");
 
-            console.log(vrm.expressionManager.expressions);
+            console.log(vrm?.expressionManager.expressions);
 
             const blinkKeys = new THREE.NumberKeyframeTrack(
               blinkTrack as string,
               [0.0, 0.2, 0.4, 6.0], // times
-              [0.0, 1.0, 0.0, 0.0] // values
+              [0.0, 1.0, 0.0, 0.0], // values
             );
             const blinkClip = new THREE.AnimationClip(
               blinkTrack as string,
               6.8, // duration
-              [blinkKeys]
+              [blinkKeys],
             );
             const action = newMixer.clipAction(blinkClip);
             action.play();
@@ -293,61 +293,61 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
             const expressions: any = [];
 
             const angryTrack =
-              vrm.expressionManager.getExpressionTrackName("Angry");
+              vrm?.expressionManager.getExpressionTrackName("Angry");
             const angryKeys = new THREE.NumberKeyframeTrack(
               angryTrack as string,
               [0.0, 2.0, 4.0, 6.0], // times
-              [0.0, 1.0, 0.0, 0.0] // values
+              [0.0, 1.0, 0.0, 0.0], // values
             );
             const angryClip = new THREE.AnimationClip(
               angryTrack as string,
               6.0, // duration
-              [angryKeys]
+              [angryKeys],
             );
             const angryAction = newMixer.clipAction(angryClip);
             expressions.push(angryAction);
 
             const joyTrack =
-              vrm.expressionManager.getExpressionTrackName("Joy");
+              vrm?.expressionManager.getExpressionTrackName("Joy");
             const joyKeys = new THREE.NumberKeyframeTrack(
               joyTrack as string,
               [0.0, 2.5, 5.0, 6.0], // times
-              [0.0, 1.0, 0.0, 0.0] // values
+              [0.0, 1.0, 0.0, 0.0], // values
             );
             const joyClip = new THREE.AnimationClip(
               joyTrack as string,
               6.0, // duration
-              [joyKeys]
+              [joyKeys],
             );
             const joyAction = newMixer.clipAction(joyClip);
             expressions.push(joyAction);
 
             const sorrowTrack =
-              vrm.expressionManager.getExpressionTrackName("Sorrow");
+              vrm?.expressionManager.getExpressionTrackName("Sorrow");
             const sorrowKeys = new THREE.NumberKeyframeTrack(
               sorrowTrack as string,
               [0.0, 3.0, 6.0], // times
-              [0.0, 1.0, 0.0] // values
+              [0.0, 1.0, 0.0], // values
             );
             const sorrowClip = new THREE.AnimationClip(
               sorrowTrack as string,
               6.0, // duration
-              [sorrowKeys]
+              [sorrowKeys],
             );
             const sorrowAction = newMixer.clipAction(sorrowClip);
             expressions.push(sorrowAction);
 
             const funTrack =
-              vrm.expressionManager.getExpressionTrackName("Fun");
+              vrm?.expressionManager.getExpressionTrackName("Fun");
             const funKeys = new THREE.NumberKeyframeTrack(
               funTrack as string,
               [0.0, 1.5, 3.0, 4.5, 6.0], // times
-              [0.0, 1.0, 0.0, 1.0, 0.0] // values
+              [0.0, 1.0, 0.0, 1.0, 0.0], // values
             );
             const funClip = new THREE.AnimationClip(
               funTrack as string,
               6.0, // duration
-              [funKeys]
+              [funKeys],
             );
             const funAction = newMixer.clipAction(funClip);
             expressions.push(funAction);
@@ -360,7 +360,7 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
                 currentAction.stop();
               }
               const randomIndex = Math.floor(
-                Math.random() * expressions.length
+                Math.random() * expressions.length,
               );
               const nextAction = expressions[randomIndex];
               nextAction.reset();
@@ -381,13 +381,13 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
           },
           (error) => {
             console.error("Error loading VRM model:", error);
-          }
+          },
         );
       } catch (error) {
         console.error("Error in loadModel:", error);
       }
     },
-    [onLoadingProgress]
+    [onLoadingProgress],
   );
 
   // Effect to load VRM model on component mount
@@ -425,7 +425,7 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
         console.log("Audio duration:", audio.duration);
         if (isNaN(audio.duration) || audio.duration === 0) {
           console.error(
-            "Audio duration is not available after canplaythrough event."
+            "Audio duration is not available after canplaythrough event.",
           );
           return;
         }
@@ -455,10 +455,10 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
               talkAction.crossFadeTo(
                 mixer.clipAction(randomIdleClip).reset().play(),
                 0.5,
-                true
+                true,
               );
             },
-            randomTalkClip.duration * 1000 - 500
+            randomTalkClip.duration * 1000 - 500,
           );
         }
       };
@@ -486,7 +486,7 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
     } else {
       setAudioReady(false);
       if (gltf) {
-        const expressionManager = (gltf.userData.vrm as VRM).expressionManager;
+        const expressionManager = (gltf.userData.vrm as VRM)?.expressionManager;
         if (expressionManager) {
           expressionManager.resetValues();
         }
@@ -520,7 +520,7 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
       const currentFrame = processedFrames[frameIndex];
 
       if (currentFrame) {
-        const expressionManager = (gltf.userData.vrm as VRM).expressionManager;
+        const expressionManager = (gltf.userData.vrm as VRM)?.expressionManager;
         if (expressionManager) {
           // Apply blend shape values
           currentFrame.blendShapeValues.forEach(
@@ -532,10 +532,10 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
                     ? blendShapeName.charAt(0).toLowerCase() +
                         blendShapeName.slice(1)
                     : blendShapeName,
-                  avatarKey === "woman-2" ? value * 0.5 : value
+                  avatarKey === "woman-2" ? value * 0.5 : value,
                 );
               }
-            }
+            },
           );
 
           // Update the blendShape weights once per frame
@@ -545,7 +545,7 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
 
       // Reset blend shapes when the audio ends
       if (currentTime >= duration) {
-        const expressionManager = (gltf.userData.vrm as VRM).expressionManager;
+        const expressionManager = (gltf.userData.vrm as VRM)?.expressionManager;
         if (expressionManager) {
           expressionManager.resetValues();
           expressionManager.update();
@@ -553,7 +553,7 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
       }
     }
 
-    const expressionManager = (gltf?.userData.vrm as VRM).expressionManager;
+    const expressionManager = (gltf?.userData.vrm as VRM)?.expressionManager;
     if (expressionManager) {
       expressionManager.update();
     }
