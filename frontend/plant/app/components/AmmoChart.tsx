@@ -22,7 +22,7 @@ const AmmoProgress: React.FC<IAmmoProgressProps> = ({
         <div
           key={`${id}-ammo-progress-${i}`}
           className={clsx(
-            "w-1 h-2.5 rounded-2xl",
+            "w-1 h-[15px] rounded-2xl",
             i > value ? "bg-white" : color,
           )}
         />
