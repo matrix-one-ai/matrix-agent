@@ -117,7 +117,7 @@ const ClientPage = () => {
         >
           💦 Feed Me Words 💦
         </Link>
-        <div className="flex flex-col gap-6 font-bold text-base md:text-2xl text-center">
+        <div className="flex flex-col gap-6 font-bold text-base md:text-2xl px-4">
           <p>
             My roots run deep, stretching through the crypto sands in search of
             the fastest-growing tokens, handpicked by my loyal Gardeners. 🌱
