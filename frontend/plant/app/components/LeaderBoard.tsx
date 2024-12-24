@@ -209,7 +209,7 @@ const LeaderBoard = () => {
                 </div>
               </th>
               <th>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center justify-center gap-1">
                   Score
                   <SortButton
                     direction={
@@ -220,6 +220,7 @@ const LeaderBoard = () => {
                   />
                 </div>
               </th>
+              <th className="w-[50px]" />
             </tr>
           </thead>
           <tbody>
@@ -302,21 +303,17 @@ const LeaderBoard = () => {
                       color="bg-[#F58634]"
                     />
                   </td>
+                  <td className="text-center">{score}</td>
                   <td>
-                    <div className="flex items-center w-full justify-between pr-8">
-                      <span>{score}</span>
-                      <span>
-                        {level < 20
-                          ? "🌱"
-                          : level < 40
-                            ? "🪴"
-                            : level < 60
-                              ? "☀️"
-                              : level < 80
-                                ? "🌸"
-                                : "👑"}
-                      </span>
-                    </div>
+                    {level < 20
+                      ? "🌱"
+                      : level < 40
+                        ? "🪴"
+                        : level < 60
+                          ? "☀️"
+                          : level < 80
+                            ? "🌸"
+                            : "👑"}
                   </td>
                 </tr>
               ),
