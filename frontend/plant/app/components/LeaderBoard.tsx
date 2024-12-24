@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
@@ -6,14 +6,13 @@ import Card from "@/app/components/Card/Card";
 import Tooltip from "@/app/components/Tooltip";
 import AmmoProgress from "@/app/components/AmmoChart";
 import SortButton from "@/app/components/SortButton";
-import { MOCK_DATA } from "@/app/constants";
-import useInfiniteScroll from "@/app/hooks/useInfiniteScroll";
+// import useInfiniteScroll from "@/app/hooks/useInfiniteScroll";
 import { useToggle } from "@/app/hooks/useToggle";
 
 const LeaderBoard = () => {
   const [loading, { toggleOn: toggleOnLoading, toggleOff: toggleOffLoading }] =
     useToggle(false);
-  const [data, setData] = useState(MOCK_DATA);
+  const [data, setData] = useState([]);
   const [sortData, setSortData] = useState<{
     column: string;
     direction: "asc" | "desc" | "none";
@@ -39,21 +38,59 @@ const LeaderBoard = () => {
       return { column, direction: "asc" };
     });
 
-    // TODO: Integrate with backend to fetch data with sort info
-    setData(MOCK_DATA); // Reset data with mock data
+    // // TODO: Integrate with backend to fetch data with sort info
+    // setData(MOCK_DATA); // Reset data with mock data
   }, []);
 
   // Handler for load more
-  const handleLoadMore = useCallback(() => {
-    // TODO: Integrate with backend for loading more data
+  // const handleLoadMore = useCallback(() => {
+  //   // TODO: Integrate with backend for loading more data
+  //   toggleOnLoading();
+  //   setTimeout(() => {
+  //     setData((cur) => [...cur, ...MOCK_DATA]);
+  //     toggleOffLoading();
+  //   }, 2000);
+  // }, [toggleOffLoading, toggleOnLoading]);
+
+  // const targetRef = useInfiniteScroll(handleLoadMore);
+
+  const fetchLeaderboardData = useCallback(async () => {
     toggleOnLoading();
-    setTimeout(() => {
-      setData((cur) => [...cur, ...MOCK_DATA]);
+
+    const leaderboardResp = await fetch("/api/azure-sass/leaderboard");
+    if (leaderboardResp.ok) {
+      const { data } = await leaderboardResp.json();
+
+      if (!data) {
+        console.error("Failed to fetch leaderboard data");
+        return;
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const mappedData = data.items.map((row: any) => ({
+        avatar: "/images/sami_profile_photo.png",
+        twitter_handler: row.persona.name,
+        twitter_link: "anon",
+        mentions: row.twitterRank.totalMentions,
+        engagement: row.twitterRank.totalEngagementScore,
+        relevance: row.twitterRank.totalRelevanceScore,
+        depth: row.twitterRank.totalDepthScore,
+        novelty: row.twitterRank.totalNoveltyScore,
+        sentiment: row.twitterRank.totalSentimentScore,
+        score: row.twitterRank.totalScore,
+        level: row.twitterRank.rank,
+      }));
+
+      setData(mappedData);
       toggleOffLoading();
-    }, 2000);
+    } else {
+      console.error("Failed to fetch leaderboard data");
+    }
   }, [toggleOffLoading, toggleOnLoading]);
 
-  const targetRef = useInfiniteScroll(handleLoadMore);
+  useEffect(() => {
+    fetchLeaderboardData();
+  }, [fetchLeaderboardData]);
 
   return (
     <Card
@@ -201,7 +238,7 @@ const LeaderBoard = () => {
                   score,
                   level,
                 },
-                i,
+                i
               ) => (
                 <tr
                   key={`ranking-${i}`}
@@ -210,7 +247,7 @@ const LeaderBoard = () => {
                   <td
                     className={clsx(
                       "sticky left-0 pl-4",
-                      i % 2 === 0 ? "bg-[#decca2]" : "bg-primary",
+                      i % 2 === 0 ? "bg-[#decca2]" : "bg-primary"
                     )}
                   >
                     <div className="flex items-center">
@@ -282,7 +319,7 @@ const LeaderBoard = () => {
                     </div>
                   </td>
                 </tr>
-              ),
+              )
             )}
           </tbody>
         </table>
@@ -290,7 +327,7 @@ const LeaderBoard = () => {
         {loading ? (
           <p className="text-center">Loading more...</p>
         ) : (
-          <div ref={targetRef} className="h-[1px]" />
+          <div className="h-[1px]" />
         )}
       </div>
       <div className="flex justify-between gap-2 items-center px-9 h-8 font-bold text-[10px] overflow-x-auto bg-[#decca2] border-t-2 border-t-black">

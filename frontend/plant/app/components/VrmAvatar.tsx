@@ -272,8 +272,6 @@ const VrmAvatar: React.FC<VrmAvatarProps> = ({
             const blinkTrack =
               vrm?.expressionManager.getExpressionTrackName("Blink");
 
-            console.log(vrm?.expressionManager.expressions);
-
             const blinkKeys = new THREE.NumberKeyframeTrack(
               blinkTrack as string,
               [0.0, 0.2, 0.4, 6.0], // times
