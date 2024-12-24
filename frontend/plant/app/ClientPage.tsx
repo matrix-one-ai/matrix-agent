@@ -15,6 +15,7 @@ import XIcon from "@/app/components/Icons/XIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import TelegramIcon from "@/app/components/Icons/TelegramIcon";
 import CactusVRM from "./components/CactusVRM";
+import FeedMeButton from "./components/FeedMeButton";
 
 const ClientPage = () => {
   const twttrWidgetLoading = useTweetWidget();
@@ -108,14 +109,7 @@ const ClientPage = () => {
       </button> */}
 
       <CactusVRM />
-
-      <Link
-        href="https://twitter.com/intent/tweet?screen_name=x&ref_src=twsrc%5Etfw"
-        className="flex justify-center items-center bg-secondary w-64 h-16 rounded-[50px] text-black border-black border-2 font-bold text-2xl"
-        target="_blank"
-      >
-        💦 Feed Me Tokens 💦
-      </Link>
+      <FeedMeButton />
       <div className="flex flex-col gap-6 font-bold text-base md:text-2xl px-4">
         <p>
           My roots run deep, stretching through the crypto sands in search of
