@@ -114,7 +114,7 @@ const ClientPage = () => {
         className="flex justify-center items-center bg-secondary w-64 h-16 rounded-[50px] text-black border-black border-2 font-bold text-2xl"
         target="_blank"
       >
-        💦 Feed Me Words 💦
+        💦 Feed Me Tokens 💦
       </Link>
       <div className="flex flex-col gap-6 font-bold text-base md:text-2xl px-4">
         <p>
