@@ -11,11 +11,12 @@ import clsx from "clsx";
 import { useTweetWidget } from "./hooks/useTweetWidget";
 import LeaderBoard from "@/app/components/LeaderBoard";
 import Card from "@/app/components/Card/Card";
+import CactusVRM from "@/app/components/CactusVRM";
+import FeedMeButton from "@/app/components/FeedMeButton";
+import EmojiCursorFollower from "@/app/components/EmojiCursorFollower";
 import XIcon from "@/app/components/Icons/XIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import TelegramIcon from "@/app/components/Icons/TelegramIcon";
-import CactusVRM from "./components/CactusVRM";
-import FeedMeButton from "./components/FeedMeButton";
 
 const ClientPage = () => {
   const twttrWidgetLoading = useTweetWidget();
@@ -214,6 +215,7 @@ const ClientPage = () => {
           Days Since Germination: 123
         </p>
       </div>
+      <EmojiCursorFollower />
     </div>
   );
 };
