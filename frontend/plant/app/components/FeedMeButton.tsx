@@ -1,13 +1,12 @@
-import React, { useMemo } from "react";
+"use client";
+
+import React from "react";
 import Link from "next/link";
 import clsx from "clsx";
+import useHoverSupport from "@/app/hooks/useHoverSupport";
 
 const FeedMeButton = () => {
-  // Detect if browser supports hover
-  const supportsHover = useMemo(
-    () => window.matchMedia("(hover: hover)").matches,
-    [],
-  );
+  const supportsHover = useHoverSupport();
 
   return (
     <Link
