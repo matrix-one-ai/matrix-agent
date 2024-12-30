@@ -44,3 +44,20 @@ export function convertToLinks(text: string): string {
     return match;
   });
 }
+
+/**
+ * Calculates the number of days between two dates
+ */
+export function getDaysBetweenDates(date1: Date, date2: Date): number {
+  const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
+
+  // Convert dates to milliseconds
+  const date1Ms = date1.getTime();
+  const date2Ms = date2.getTime();
+
+  // Calculate the difference in milliseconds
+  const differenceMs = date1Ms - date2Ms;
+
+  // Convert back to days and return
+  return Math.round(differenceMs / oneDay);
+}

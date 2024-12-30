@@ -17,6 +17,7 @@ import FeedMeButton from "@/app/components/FeedMeButton";
 import XIcon from "@/app/components/Icons/XIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import TelegramIcon from "@/app/components/Icons/TelegramIcon";
+import { getDaysBetweenDates } from "./utils/string";
 
 const ClientPage = () => {
   const twttrWidgetLoading = useTweetWidget();
@@ -219,7 +220,8 @@ const ClientPage = () => {
         </div>
         {/* TODO: Correct Germination info */}
         <p className="font-bold text-black text-2xl text-center">
-          Days Since Germination: 123
+          Days Since Germination:{" "}
+          {getDaysBetweenDates(new Date(), new Date("2025-01-01"))}
         </p>
       </div>
       {/* TODO: Confirm if we'll need waterdrop following cursor later. If not rid of completely */}
