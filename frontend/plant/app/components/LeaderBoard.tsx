@@ -260,7 +260,6 @@ const LeaderBoard = () => {
                         alt=""
                       />
                       <div className="flex w-0 flex-grow items-center">
-                        @
                         <Link
                           className="underline truncate"
                           href={twitter_link}
