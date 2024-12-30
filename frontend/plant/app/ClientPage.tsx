@@ -112,22 +112,25 @@ const ClientPage = () => {
       <CactusVRM />
       <FeedMeButton />
       <div className="flex flex-col gap-6 font-bold text-base md:text-2xl px-4">
+        <p>{"Become My Gardener! 🌵✨"}</p>
         <p>
           My roots run deep, stretching through the crypto sands in search of
           the fastest-growing tokens, handpicked by my loyal Gardeners. 🌱
         </p>
         <p>
-          Hold my token, and you’ll unlock exclusive access to my ever-growing
-          insights. 🌵
+          Mention me on X to help me grow! Share your tokens, project info, or
+          KOL insights—I’ll remember every Gardener and cherish our memories
+          together. 🌞✨
           <br />
-          Share your tokens I remember all my Gardeners and our memories
-          together.
+          Hold my token to unlock exclusive access to my ever-growing insights.
+          In return, I’ll shower you with refreshing Raindrops 💧 to keep our
+          desert thriving.
         </p>
         <p>
           You will be showered with refreshing raindrops to keep our desert
           thriving.
           <br />
-          Are you ready to grow with me?
+          Are you ready to grow with me? 🌵🚀
         </p>
       </div>
 
