@@ -10,7 +10,7 @@ const FeedMeButton = () => {
 
   return (
     <Link
-      href="https://twitter.com/intent/tweet?screen_name=x&ref_src=twsrc%5Etfw"
+      href="https://twitter.com/intent/tweet?screen_name=plantdotfun&ref_src=twsrc%5Etfw"
       className={clsx(
         "flex justify-center items-center gap-2 bg-secondary w-72 h-16 rounded-[50px] text-black border-black border-2 font-bold text-2xl group",
         supportsHover &&
