@@ -136,7 +136,7 @@ const ClientPage = () => {
 
       {/* Leaderboard */}
       <div className="flex flex-col gap-6 w-full">
-        <LeaderBoard />
+        {/* <LeaderBoard /> */}
         <Card
           contentClassName="!overflow-auto"
           className="max-h-[90vh]"
@@ -150,10 +150,10 @@ const ClientPage = () => {
               )}
               data-theme="light"
               data-chrome="noheader nofooter noborders transparent"
-              href="https://twitter.com/OnlyOneSami?ref_src=twsrc%5Etfw"
+              href="https://twitter.com/plantdotfun?ref_src=twsrc%5Etfw"
               target="_blank"
             >
-              Tweets by @OnlyOneSami
+              Tweets by @plantdotfun
             </a>
             {twttrWidgetLoading && (
               <a
@@ -175,7 +175,7 @@ const ClientPage = () => {
               CA
             </span>
             <span className="underline text-black">
-              xxxxxxxxxxxxxxxxxxxxxxxx
+              4BsE91MrbhEeJmWJ3ddX58hN4iAk8gXmvZv5JYUapump
             </span>
           </div>
           <div className="flex items-center justify-around font-bold w-full max-w-[600px] flex-col md:flex-row gap-6 md:gap-2">
@@ -201,8 +201,12 @@ const ClientPage = () => {
             </div>
             <div className="flex items-center gap-2">
               <PumpFunIcon />
-              <Link href="/" className="underline text-black" target="_blank">
-                @aplant
+              <Link
+                href="https://pump.fun/coin/4BsE91MrbhEeJmWJ3ddX58hN4iAk8gXmvZv5JYUapump"
+                className="underline text-black"
+                target="_blank"
+              >
+                @PLANT
               </Link>
             </div>
             <div className="flex items-center gap-2">
