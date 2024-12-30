@@ -209,7 +209,7 @@ const LeaderBoard = () => {
                 </div>
               </th>
               <th>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center justify-center gap-1">
                   Score
                   <SortButton
                     direction={
@@ -220,6 +220,7 @@ const LeaderBoard = () => {
                   />
                 </div>
               </th>
+              <th className="w-[50px]" />
             </tr>
           </thead>
           <tbody>
@@ -238,7 +239,7 @@ const LeaderBoard = () => {
                   score,
                   level,
                 },
-                i
+                i,
               ) => (
                 <tr
                   key={`ranking-${i}`}
@@ -247,7 +248,7 @@ const LeaderBoard = () => {
                   <td
                     className={clsx(
                       "sticky left-0 pl-4",
-                      i % 2 === 0 ? "bg-[#decca2]" : "bg-primary"
+                      i % 2 === 0 ? "bg-[#decca2]" : "bg-primary",
                     )}
                   >
                     <div className="flex items-center">
@@ -302,24 +303,20 @@ const LeaderBoard = () => {
                       color="bg-[#F58634]"
                     />
                   </td>
+                  <td className="text-center">{score}</td>
                   <td>
-                    <div className="flex items-center w-full justify-between pr-8">
-                      <span>{score}</span>
-                      <span>
-                        {level < 20
-                          ? "🌱"
-                          : level < 40
-                            ? "🪴"
-                            : level < 60
-                              ? "☀️"
-                              : level < 80
-                                ? "🌸"
-                                : "👑"}
-                      </span>
-                    </div>
+                    {level < 20
+                      ? "🌱"
+                      : level < 40
+                        ? "🪴"
+                        : level < 60
+                          ? "☀️"
+                          : level < 80
+                            ? "🌸"
+                            : "👑"}
                   </td>
                 </tr>
-              )
+              ),
             )}
           </tbody>
         </table>
@@ -330,7 +327,7 @@ const LeaderBoard = () => {
           <div className="h-[1px]" />
         )}
       </div>
-      <div className="flex justify-between gap-2 items-center px-9 h-8 font-bold text-[10px] overflow-x-auto bg-[#decca2] border-t-2 border-t-black">
+      <div className="flex justify-between gap-2 items-center px-9 h-8 font-bold text-[10px] overflow-x-auto hidden-scrollbar bg-[#decca2] border-t-2 border-t-black">
         <Tooltip
           content="Entry Level: New members who’ve just started contributing. They plant the seeds of engagement by mentioning the cactus occasionally. Requirements: Minimal contributions like basic mentions or interactions."
           placement="bottom"

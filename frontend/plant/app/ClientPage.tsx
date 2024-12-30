@@ -11,10 +11,12 @@ import clsx from "clsx";
 import { useTweetWidget } from "./hooks/useTweetWidget";
 import LeaderBoard from "@/app/components/LeaderBoard";
 import Card from "@/app/components/Card/Card";
+import CactusVRM from "@/app/components/CactusVRM";
+import FeedMeButton from "@/app/components/FeedMeButton";
+import EmojiCursorFollower from "@/app/components/EmojiCursorFollower";
 import XIcon from "@/app/components/Icons/XIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import TelegramIcon from "@/app/components/Icons/TelegramIcon";
-import CactusVRM from "./components/CactusVRM";
 
 const ClientPage = () => {
   const twttrWidgetLoading = useTweetWidget();
@@ -108,14 +110,7 @@ const ClientPage = () => {
       </button> */}
 
       <CactusVRM />
-
-      <Link
-        href="https://twitter.com/intent/tweet?screen_name=x&ref_src=twsrc%5Etfw"
-        className="flex justify-center items-center bg-secondary w-64 h-16 rounded-[50px] text-black border-black border-2 font-bold text-2xl"
-        target="_blank"
-      >
-        💦 Feed Me Words 💦
-      </Link>
+      <FeedMeButton />
       <div className="flex flex-col gap-6 font-bold text-base md:text-2xl px-4">
         <p>
           My roots run deep, stretching through the crypto sands in search of
@@ -124,12 +119,15 @@ const ClientPage = () => {
         <p>
           Hold my token, and you’ll unlock exclusive access to my ever-growing
           insights. 🌵
-          <br />I remember all my Gardeners and our memories together.
+          <br />
+          Share your tokens I remember all my Gardeners and our memories
+          together.
         </p>
         <p>
-          You will be showered with refreshing water(air)drops to keep our
-          desert thriving.
-          <br /> Are you ready to grow with me?
+          You will be showered with refreshing raindrops to keep our desert
+          thriving.
+          <br />
+          Are you ready to grow with me?
         </p>
       </div>
 
@@ -217,6 +215,7 @@ const ClientPage = () => {
           Days Since Germination: 123
         </p>
       </div>
+      <EmojiCursorFollower />
     </div>
   );
 };
