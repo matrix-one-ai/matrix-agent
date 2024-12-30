@@ -4,7 +4,6 @@ import { Cloud, Clouds, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import React, { Suspense, useRef } from "react";
 import { MeshBasicMaterial } from "three";
-import Grass from "./Grass/Grass";
 import VrmAvatar from "./VrmAvatar";
 import { Model as DesertScene } from "./gltf/DesertScene";
 
