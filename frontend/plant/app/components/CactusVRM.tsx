@@ -24,21 +24,22 @@ const CactusVRM = () => {
 
         <OrbitControls
           target={[0, 0, 0]}
-          maxDistance={4}
-          minDistance={3}
+          maxDistance={3}
+          minDistance={2}
           maxPolarAngle={Math.PI / 2}
           minPolarAngle={Math.PI / 4}
-          maxAzimuthAngle={Math.PI / 4}
+          maxAzimuthAngle={Math.PI / 2}
           minAzimuthAngle={-Math.PI / 4}
         />
 
         <color attach="background" args={["#87CEEB"]} />
 
         <Suspense fallback={null}>
-          <Clouds material={MeshBasicMaterial} position={[0, 4, -20]}>
+          <Clouds material={MeshBasicMaterial} position={[0, 15, -40]}>
             <Cloud
               segments={40}
               bounds={[10, 2, 2]}
+              speed={0.5}
               volume={10}
               color="white"
             />
@@ -48,15 +49,15 @@ const CactusVRM = () => {
 
         <Suspense fallback={null}>
           <DesertScene
-            position={[0, 1, -2]}
-            rotation={[0, -Math.PI / 2, 0]}
+            position={[0, -33.35, -5]}
+            rotation={[0, 0, 0]}
             scale={[25, 25, 25]}
           />
         </Suspense>
 
         <Suspense fallback={null}>
           <VrmAvatar
-            avatarKey="cactus_black"
+            avatarKey="cactus-simple"
             audioRef={audioRef}
             audioBlob={null}
             blendShapes={[]}
