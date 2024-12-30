@@ -13,7 +13,7 @@ import LeaderBoard from "@/app/components/LeaderBoard";
 import Card from "@/app/components/Card/Card";
 import CactusVRM from "@/app/components/CactusVRM";
 import FeedMeButton from "@/app/components/FeedMeButton";
-import EmojiCursorFollower from "@/app/components/EmojiCursorFollower";
+// import EmojiCursorFollower from "@/app/components/EmojiCursorFollower";
 import XIcon from "@/app/components/Icons/XIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import TelegramIcon from "@/app/components/Icons/TelegramIcon";
@@ -215,7 +215,8 @@ const ClientPage = () => {
           Days Since Germination: 123
         </p>
       </div>
-      <EmojiCursorFollower />
+      {/* TODO: Confirm if we'll need waterdrop following cursor later. If not rid of completely */}
+      {/* <EmojiCursorFollower /> */}
     </div>
   );
 };
