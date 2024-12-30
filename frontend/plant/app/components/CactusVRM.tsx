@@ -6,6 +6,7 @@ import React, { Suspense, useRef } from "react";
 import { MeshBasicMaterial } from "three";
 import Grass from "./Grass/Grass";
 import VrmAvatar from "./VrmAvatar";
+import { Model as DesertScene } from "./gltf/DesertScene";
 
 const CactusVRM = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -35,7 +36,7 @@ const CactusVRM = () => {
         <color attach="background" args={["#87CEEB"]} />
 
         <Suspense fallback={null}>
-          <Clouds material={MeshBasicMaterial} position={[0, 4, -10]}>
+          <Clouds material={MeshBasicMaterial} position={[0, 4, -20]}>
             <Cloud
               segments={40}
               bounds={[10, 2, 2]}
@@ -47,7 +48,11 @@ const CactusVRM = () => {
         </Suspense>
 
         <Suspense fallback={null}>
-          <Grass position={[0, -3, 2]} rotation={[0, 0, 0]} />
+          <DesertScene
+            position={[0, 1, -2]}
+            rotation={[0, -Math.PI / 2, 0]}
+            scale={[25, 25, 25]}
+          />
         </Suspense>
 
         <Suspense fallback={null}>
