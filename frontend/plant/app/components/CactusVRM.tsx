@@ -56,7 +56,7 @@ const CactusVRM = () => {
 
         <Suspense fallback={null}>
           <VrmAvatar
-            avatarKey="cactus_flat"
+            avatarKey="cactus_black"
             audioRef={audioRef}
             audioBlob={null}
             blendShapes={[]}
