@@ -7,7 +7,6 @@ import React from "react";
 //   ITripoQueueRes,
 // } from "./types";
 import Link from "next/link";
-import clsx from "clsx";
 import { useTweetWidget } from "./hooks/useTweetWidget";
 // import LeaderBoard from "@/app/components/LeaderBoard";
 import Card from "@/app/components/Card/Card";
@@ -20,7 +19,7 @@ import TelegramIcon from "@/app/components/Icons/TelegramIcon";
 import { getDaysBetweenDates } from "./utils/string";
 
 const ClientPage = () => {
-  const twttrWidgetLoading = useTweetWidget();
+  useTweetWidget();
 
   // TODO: Below code does run for Tripo gen
   // ----------------------------------------------------------------------------
@@ -141,10 +140,7 @@ const ClientPage = () => {
         >
           <div className="flex flex-col !h-[564px] w-full gap-3">
             <a
-              className={clsx(
-                "twitter-timeline",
-                twttrWidgetLoading && "hidden",
-              )}
+              className="twitter-timeline text-center py-2 underline"
               data-theme="light"
               data-chrome="noheader nofooter noborders transparent"
               href="https://twitter.com/plantdotfun?ref_src=twsrc%5Etfw"
@@ -152,15 +148,6 @@ const ClientPage = () => {
             >
               Tweets by @plantdotfun
             </a>
-            {twttrWidgetLoading && (
-              <a
-                className="text-center py-2 underline"
-                href="https://twitter.com/intent/tweet?screen_name=x&ref_src=twsrc%5Etfw"
-                target="_blank"
-              >
-                [Tweet to @x]
-              </a>
-            )}
           </div>
         </Card>
       </div>
