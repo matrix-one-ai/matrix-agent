@@ -61,7 +61,7 @@ const CactusVRM = () => {
             audioRef={audioRef}
             audioBlob={null}
             blendShapes={[]}
-            position={[0.25, -14.9, 0.3]}
+            position={[0.25, -15.1, 0.3]}
             rotation={[0, Math.PI, 0]}
             scale={[10, 10, 10]}
             onLoadingProgress={() => {}}
