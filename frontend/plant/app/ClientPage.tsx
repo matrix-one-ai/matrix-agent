@@ -7,7 +7,6 @@ import React from "react";
 //   ITripoQueueRes,
 // } from "./types";
 import Link from "next/link";
-import clsx from "clsx";
 import { useTweetWidget } from "./hooks/useTweetWidget";
 // import LeaderBoard from "@/app/components/LeaderBoard";
 import Card from "@/app/components/Card/Card";
@@ -20,7 +19,7 @@ import TelegramIcon from "@/app/components/Icons/TelegramIcon";
 import { getDaysBetweenDates } from "./utils/string";
 
 const ClientPage = () => {
-  const twttrWidgetLoading = useTweetWidget();
+  useTweetWidget();
 
   // TODO: Below code does run for Tripo gen
   // ----------------------------------------------------------------------------
@@ -116,23 +115,19 @@ const ClientPage = () => {
         <p>{"Become My Gardener! 🌵✨"}</p>
         <p>
           My roots run deep, stretching through the crypto sands in search of
-          the fastest-growing tokens, handpicked by my loyal Gardeners. 🌱
+          the next token alpha, handpicked by my loyal Gardeners. 🌱
         </p>
         <p>
-          Mention me on X to help me grow! Share your tokens, project info, or
-          KOL insights—I’ll remember every Gardener and cherish our memories
-          together. 🌞✨
-          <br />
+          Mention me on X under any post to help me grow! Share tokens, project
+          info, or thought leader insights— I’ll remember you as my loyal
+          Gardener and value every time you engage with me. 🌞✨
+        </p>
+        <p>
           Hold my token to unlock exclusive access to my ever-growing insights.
-          In return, I’ll shower you with refreshing Raindrops 💧 to keep our
-          desert thriving.
+          In return, I’ll shower you with refreshing Rain(air)drops 💧 to keep
+          our desert thriving.
         </p>
-        <p>
-          You will be showered with refreshing raindrops to keep our desert
-          thriving.
-          <br />
-          Are you ready to grow with me? 🌵🚀
-        </p>
+        <p>Are you ready to grow with me? 🌵🚀</p>
       </div>
 
       {/* Leaderboard */}
@@ -145,10 +140,7 @@ const ClientPage = () => {
         >
           <div className="flex flex-col !h-[564px] w-full gap-3">
             <a
-              className={clsx(
-                "twitter-timeline",
-                twttrWidgetLoading && "hidden",
-              )}
+              className="twitter-timeline text-center py-2 underline"
               data-theme="light"
               data-chrome="noheader nofooter noborders transparent"
               href="https://twitter.com/plantdotfun?ref_src=twsrc%5Etfw"
@@ -156,15 +148,6 @@ const ClientPage = () => {
             >
               Tweets by @plantdotfun
             </a>
-            {twttrWidgetLoading && (
-              <a
-                className="text-center py-2 underline"
-                href="https://twitter.com/intent/tweet?screen_name=x&ref_src=twsrc%5Etfw"
-                target="_blank"
-              >
-                [Tweet to @x]
-              </a>
-            )}
           </div>
         </Card>
       </div>
@@ -172,10 +155,10 @@ const ClientPage = () => {
       <div className="flex flex-col gap-4 w-full">
         <div className="flex flex-col gap-2 w-full items-center">
           <div className="flex items-center gap-2 font-bold">
-            <span className="text-[38px] text-secondary [text-shadow:_1px_1px_0_#000,_-1px_-1px_0_#000,_-1px_1px_0_#000,_1px_-1px_0_#000]">
+            <span className="text-secondary [text-shadow:_1px_1px_0_#000,_-1px_-1px_0_#000,_-1px_1px_0_#000,_1px_-1px_0_#000]">
               CA
             </span>
-            <span className="underline text-black">
+            <span className="text-black">
               4BsE91MrbhEeJmWJ3ddX58hN4iAk8gXmvZv5JYUapump
             </span>
           </div>

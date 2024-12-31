@@ -5,42 +5,43 @@ import clsx from "clsx";
 import Card from "@/app/components/Card/Card";
 import Tooltip from "@/app/components/Tooltip";
 import AmmoProgress from "@/app/components/AmmoChart";
-import SortButton from "@/app/components/SortButton";
+// import SortButton from "@/app/components/SortButton";
 // import useInfiniteScroll from "@/app/hooks/useInfiniteScroll";
 import { useToggle } from "@/app/hooks/useToggle";
+import QuestionIcon from "@/app/components/Icons/QuestionIcon";
 
 const LeaderBoard = () => {
   const [loading, { toggleOn: toggleOnLoading, toggleOff: toggleOffLoading }] =
     useToggle(false);
   const [data, setData] = useState([]);
-  const [sortData, setSortData] = useState<{
-    column: string;
-    direction: "asc" | "desc" | "none";
-  }>({
-    column: "",
-    direction: "none",
-  });
+  // const [sortData, setSortData] = useState<{
+  //   column: string;
+  //   direction: "asc" | "desc" | "none";
+  // }>({
+  //   column: "",
+  //   direction: "none",
+  // });
 
-  // Handler for sorting
-  const handleSort = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-    const column = e.currentTarget.dataset.column;
+  // // Handler for sorting
+  // const handleSort = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+  //   const column = e.currentTarget.dataset.column;
 
-    // column info is necessary
-    if (!column) return;
+  //   // column info is necessary
+  //   if (!column) return;
 
-    setSortData((cur) => {
-      if (cur.column === column) {
-        return {
-          column,
-          direction: cur.direction === "asc" ? "desc" : "asc",
-        };
-      }
-      return { column, direction: "asc" };
-    });
+  //   setSortData((cur) => {
+  //     if (cur.column === column) {
+  //       return {
+  //         column,
+  //         direction: cur.direction === "asc" ? "desc" : "asc",
+  //       };
+  //     }
+  //     return { column, direction: "asc" };
+  //   });
 
-    // // TODO: Integrate with backend to fetch data with sort info
-    // setData(MOCK_DATA); // Reset data with mock data
-  }, []);
+  //   // // TODO: Integrate with backend to fetch data with sort info
+  //   // setData(MOCK_DATA); // Reset data with mock data
+  // }, []);
 
   // Handler for load more
   // const handleLoadMore = useCallback(() => {
@@ -105,21 +106,23 @@ const LeaderBoard = () => {
               <th className="w-[15%] sticky left-0 bg-primary pl-4 z-10">
                 <div className="flex items-center gap-1">
                   User
-                  <SortButton
+                  {/* <SortButton
                     direction={
                       sortData.column === "user" ? sortData.direction : "none"
                     }
                     data-column="user"
                     onClick={handleSort}
-                  />
+                  /> */}
                 </div>
               </th>
-              <th className="w-[10%] text-center">
+              <th className="w-[12%] text-center">
                 <div className="flex items-center justify-center gap-1">
                   <Tooltip content="The number of Mentions and therefore memories saved by Plan in its Relationship database">
-                    Mentions
+                    <div className="flex gap-1 items-center">
+                      Mentions <QuestionIcon />
+                    </div>
                   </Tooltip>
-                  <SortButton
+                  {/* <SortButton
                     direction={
                       sortData.column === "mentions"
                         ? sortData.direction
@@ -127,15 +130,17 @@ const LeaderBoard = () => {
                     }
                     data-column="mentions"
                     onClick={handleSort}
-                  />
+                  /> */}
                 </div>
               </th>
               <th className="text-center">
                 <div className="flex items-center justify-center gap-1">
                   <Tooltip content="The total engagement (Replies, Retweets, Likes, Views) with your mentions with Plant">
-                    Engagement
+                    <div className="flex gap-1 items-center">
+                      Engagement <QuestionIcon />
+                    </div>
                   </Tooltip>
-                  <SortButton
+                  {/* <SortButton
                     direction={
                       sortData.column === "engagement"
                         ? sortData.direction
@@ -143,15 +148,17 @@ const LeaderBoard = () => {
                     }
                     data-column="engagement"
                     onClick={handleSort}
-                  />
+                  /> */}
                 </div>
               </th>
               <th className="text-center">
                 <div className="flex items-center justify-center gap-1">
                   <Tooltip content="Relevance of your Mention with Plant on X. It should be related to tokens or wallets or crypto projects.">
-                    Relevance
+                    <div className="flex gap-1 items-center">
+                      Relevance <QuestionIcon />
+                    </div>
                   </Tooltip>
-                  <SortButton
+                  {/* <SortButton
                     direction={
                       sortData.column === "relevance"
                         ? sortData.direction
@@ -159,29 +166,33 @@ const LeaderBoard = () => {
                     }
                     data-column="relevance"
                     onClick={handleSort}
-                  />
+                  /> */}
                 </div>
               </th>
               <th className="text-center">
                 <div className="flex items-center justify-center gap-1">
                   <Tooltip content="Depth in your Mention with Plant on X. The more information and words the more it learns.">
-                    Depth
+                    <div className="flex gap-1 items-center">
+                      Depth <QuestionIcon />
+                    </div>
                   </Tooltip>
-                  <SortButton
+                  {/* <SortButton
                     direction={
                       sortData.column === "depth" ? sortData.direction : "none"
                     }
                     data-column="depth"
                     onClick={handleSort}
-                  />
+                  /> */}
                 </div>
               </th>
               <th className="text-center">
                 <div className="flex items-center justify-center gap-1">
                   <Tooltip content="Novelty in your Mentions with Plant on X. New tokens and projects are valued more. Tokens that have never been mentioned before.">
-                    Novelty
+                    <div className="flex gap-1 items-center">
+                      Novelty <QuestionIcon />
+                    </div>
                   </Tooltip>
-                  <SortButton
+                  {/* <SortButton
                     direction={
                       sortData.column === "novelty"
                         ? sortData.direction
@@ -189,15 +200,17 @@ const LeaderBoard = () => {
                     }
                     data-column="novelty"
                     onClick={handleSort}
-                  />
+                  /> */}
                 </div>
               </th>
               <th className="text-center">
                 <div className="flex items-center justify-center gap-1">
                   <Tooltip content="Sentiment in your mentions with Plant on X. Positive sentiment is valued more.">
-                    Sentiment
+                    <div className="flex gap-1 items-center">
+                      Sentiment <QuestionIcon />
+                    </div>
                   </Tooltip>
-                  <SortButton
+                  {/* <SortButton
                     direction={
                       sortData.column === "sentiment"
                         ? sortData.direction
@@ -205,19 +218,19 @@ const LeaderBoard = () => {
                     }
                     data-column="sentiment"
                     onClick={handleSort}
-                  />
+                  /> */}
                 </div>
               </th>
               <th>
                 <div className="flex items-center justify-center gap-1">
                   Score
-                  <SortButton
+                  {/* <SortButton
                     direction={
                       sortData.column === "score" ? sortData.direction : "none"
                     }
                     data-column="score"
                     onClick={handleSort}
-                  />
+                  /> */}
                 </div>
               </th>
               <th className="w-[50px]" />
