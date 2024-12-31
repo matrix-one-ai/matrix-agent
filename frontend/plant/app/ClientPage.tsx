@@ -116,23 +116,19 @@ const ClientPage = () => {
         <p>{"Become My Gardener! 🌵✨"}</p>
         <p>
           My roots run deep, stretching through the crypto sands in search of
-          the fastest-growing tokens, handpicked by my loyal Gardeners. 🌱
+          the next token alpha, handpicked by my loyal Gardeners. 🌱
         </p>
         <p>
-          Mention me on X to help me grow! Share your tokens, project info, or
-          KOL insights—I’ll remember every Gardener and cherish our memories
-          together. 🌞✨
-          <br />
+          Mention me on X under any post to help me grow! Share tokens, project
+          info, or thought leader insights— I’ll remember you as my loyal
+          Gardener and value every time you engage with me. 🌞✨
+        </p>
+        <p>
           Hold my token to unlock exclusive access to my ever-growing insights.
-          In return, I’ll shower you with refreshing Raindrops 💧 to keep our
-          desert thriving.
+          In return, I’ll shower you with refreshing Rain(air)drops 💧 to keep
+          our desert thriving.
         </p>
-        <p>
-          You will be showered with refreshing raindrops to keep our desert
-          thriving.
-          <br />
-          Are you ready to grow with me? 🌵🚀
-        </p>
+        <p>Are you ready to grow with me? 🌵🚀</p>
       </div>
 
       {/* Leaderboard */}
