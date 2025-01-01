@@ -195,7 +195,7 @@ const ClientPage = () => {
             </div>
             <div className="flex items-center gap-2">
               <TelegramIcon />
-              <Link href="/" className="underline text-black" target="_blank">
+              <Link href="https://t.me/portalplant" className="underline text-black" target="_blank">
                 @aplant
               </Link>
             </div>
