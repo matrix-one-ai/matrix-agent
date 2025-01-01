@@ -154,7 +154,7 @@ const ClientPage = () => {
       {/* Footer */}
       <div className="flex flex-col gap-4 w-full">
         <div className="flex flex-col gap-2 w-full items-center">
-          <div className="flex items-center gap-2 font-bold">
+          <div className="flex items-center gap-2 font-bold text-sm md:text-base">
             <span className="text-secondary [text-shadow:_1px_1px_0_#000,_-1px_-1px_0_#000,_-1px_1px_0_#000,_1px_-1px_0_#000]">
               CA
             </span>
