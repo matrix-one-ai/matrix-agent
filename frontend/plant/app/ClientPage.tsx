@@ -195,14 +195,18 @@ const ClientPage = () => {
             </div>
             <div className="flex items-center gap-2">
               <TelegramIcon />
-              <Link href="https://t.me/portalplant" className="underline text-black" target="_blank">
+              <Link
+                href="https://t.me/portalplant"
+                className="underline text-black"
+                target="_blank"
+              >
                 @aplant
               </Link>
             </div>
           </div>
         </div>
         {/* TODO: Correct Germination info */}
-        <p className="font-bold text-black text-2xl text-center">
+        <p className="font-bold text-black text-center">
           Days Since Germination:{" "}
           {getDaysBetweenDates(new Date(), new Date("2025-01-01"))}
         </p>
