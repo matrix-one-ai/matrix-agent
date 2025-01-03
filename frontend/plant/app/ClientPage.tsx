@@ -8,7 +8,7 @@ import React from "react";
 // } from "./types";
 import Link from "next/link";
 import { useTweetWidget } from "./hooks/useTweetWidget";
-// import LeaderBoard from "@/app/components/LeaderBoard";
+import LeaderBoard from "@/app/components/LeaderBoard";
 import Card from "@/app/components/Card/Card";
 import CactusVRM from "@/app/components/CactusVRM";
 import FeedMeButton from "@/app/components/FeedMeButton";
@@ -132,7 +132,7 @@ const ClientPage = () => {
 
       {/* Leaderboard */}
       <div className="flex flex-col gap-6 w-full">
-        {/* <LeaderBoard /> */}
+        <LeaderBoard />
         <Card
           contentClassName="!overflow-auto"
           className="max-h-[90vh]"
