@@ -67,11 +67,13 @@ const LeaderBoard = () => {
         return;
       }
 
+      console.log(data);
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const mappedData = data.items.map((row: any) => ({
-        avatar: "/images/sami_profile_photo.png",
+        avatar: row.persona.twitterAvatarUrl,
         twitter_handler: row.persona.name,
-        twitter_link: "anon",
+        twitter_link: row.persona.twitterHandle.slice(1),
         mentions: row.twitterRank.totalMentions,
         engagement: row.twitterRank.totalEngagementScore,
         relevance: row.twitterRank.totalRelevanceScore,
@@ -252,7 +254,7 @@ const LeaderBoard = () => {
                   score,
                   level,
                 },
-                i,
+                i
               ) => (
                 <tr
                   key={`ranking-${i}`}
@@ -261,11 +263,11 @@ const LeaderBoard = () => {
                   <td
                     className={clsx(
                       "sticky left-0 pl-4",
-                      i % 2 === 0 ? "bg-[#decca2]" : "bg-primary",
+                      i % 2 === 0 ? "bg-[#decca2]" : "bg-primary"
                     )}
                   >
                     <div className="flex items-center">
-                      <Image
+                      <img
                         src={avatar}
                         className="w-5 h-5 object-cover rounded-full mr-2"
                         width={128}
@@ -275,7 +277,7 @@ const LeaderBoard = () => {
                       <div className="flex w-0 flex-grow items-center">
                         <Link
                           className="underline truncate"
-                          href={twitter_link}
+                          href={`https://x.com/${twitter_link}`}
                           target="_blank"
                         >
                           {twitter_handler}
@@ -328,7 +330,7 @@ const LeaderBoard = () => {
                             : "👑"}
                   </td>
                 </tr>
-              ),
+              )
             )}
           </tbody>
         </table>

@@ -37,7 +37,7 @@ export async function GET() {
         body: JSON.stringify({
           maxResultCount: 1000,
           skipCount: 0,
-          characterName: "SaucePan",
+          characterName: "Plant",
         }),
       }
     );
