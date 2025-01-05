@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
 import Card from "@/app/components/Card/Card";
