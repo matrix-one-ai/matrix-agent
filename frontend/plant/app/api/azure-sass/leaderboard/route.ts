@@ -11,6 +11,7 @@ export async function GET() {
         headers: {
           "Content-Type": "application/json",
           "Abp.TenantId": "2",
+          cache: "no-cache",
         },
         body: JSON.stringify({
           userNameOrEmailAddress: "external-api",
@@ -33,6 +34,7 @@ export async function GET() {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${authData.result.accessToken}`,
+          cache: "no-cache",
         },
         body: JSON.stringify({
           maxResultCount: 1000,

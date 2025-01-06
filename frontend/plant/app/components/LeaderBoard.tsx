@@ -57,7 +57,11 @@ const LeaderBoard = () => {
   const fetchLeaderboardData = useCallback(async () => {
     toggleOnLoading();
 
-    const leaderboardResp = await fetch("/api/azure-sass/leaderboard");
+    const leaderboardResp = await fetch("/api/azure-sass/leaderboard", {
+      headers: {
+        cache: "no-cache",
+      },
+    });
     if (leaderboardResp.ok) {
       const { data } = await leaderboardResp.json();
 
