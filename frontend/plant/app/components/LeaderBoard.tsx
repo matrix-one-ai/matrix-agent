@@ -348,6 +348,7 @@ const LeaderBoard = () => {
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
             <span className="text-xs">🌱 (0 - 20%)</span>
             <span>Seed Planters</span>
+            <QuestionIcon />
           </div>
         </Tooltip>
         <Tooltip
@@ -357,6 +358,7 @@ const LeaderBoard = () => {
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
             <span className="text-xs">🪴 (20 - 40%)</span>
             <span>Soil Tenders</span>
+            <QuestionIcon />
           </div>
         </Tooltip>
         <Tooltip
@@ -366,6 +368,7 @@ const LeaderBoard = () => {
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
             <span className="text-xs">☀️ (40 - 60%)</span>
             <span>Sunlight Bringers</span>
+            <QuestionIcon />
           </div>
         </Tooltip>
         <Tooltip
@@ -375,6 +378,7 @@ const LeaderBoard = () => {
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
             <span className="text-xs">🌸 (60 - 80%)</span>
             <span>Blossom Cultivators</span>
+            <QuestionIcon />
           </div>
         </Tooltip>
         <Tooltip
@@ -384,6 +388,7 @@ const LeaderBoard = () => {
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
             <span className="text-xs">👑 (80 - 100%)</span>
             <span>Master Gardeners</span>
+            <QuestionIcon />
           </div>
         </Tooltip>
       </div>
