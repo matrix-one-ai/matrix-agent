@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import clsx from "clsx";
 import Card from "@/app/components/Card/Card";
@@ -90,6 +90,14 @@ const LeaderBoard = () => {
   useEffect(() => {
     fetchLeaderboardData();
   }, [fetchLeaderboardData]);
+
+  // Get min and max score
+  const [minScore, maxScore] = useMemo(() => {
+    if (data === null) return [1, 1];
+
+    const scores = data.items.map((item) => item.twitterRank.totalScore);
+    return [Math.min(...scores), Math.max(...scores)];
+  }, [data]);
 
   return (
     <Card
@@ -241,86 +249,101 @@ const LeaderBoard = () => {
             </tr>
           </thead>
           <tbody>
-            {(data?.items || []).map(({ persona, twitterRank }, i) => (
-              <tr
-                key={`ranking-${i}`}
-                className={clsx("h-9", i % 2 === 0 && "bg-[#decca2]")}
-              >
-                <td
-                  className={clsx(
-                    "sticky left-0 pl-4",
-                    i % 2 === 0 ? "bg-[#decca2]" : "bg-primary",
-                  )}
+            {(data?.items || []).map(({ persona, twitterRank }, i) => {
+              const { twitterAvatarUrl, twitterHandle, name } = persona;
+              const {
+                totalMentions,
+                totalEngagementScore,
+                totalRelevanceScore,
+                totalDepthScore,
+                totalNoveltyScore,
+                totalSentimentScore,
+                totalScore,
+              } = twitterRank;
+              const scorePercentage =
+                ((totalScore - minScore) / (maxScore - minScore)) * 100;
+
+              return (
+                <tr
+                  key={`ranking-${i}`}
+                  className={clsx("h-9", i % 2 === 0 && "bg-[#decca2]")}
                 >
-                  <div className="flex items-center">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={persona.twitterAvatarUrl}
-                      className="w-5 h-5 object-cover rounded-full mr-2"
-                      width={128}
-                      height={128}
-                      alt=""
-                    />
-                    <div className="flex w-0 flex-grow items-center">
-                      <Link
-                        className="underline truncate"
-                        href={`https://x.com/${persona.twitterHandle.slice(1)}`}
-                        target="_blank"
-                      >
-                        {persona.name}
-                      </Link>
+                  <td
+                    className={clsx(
+                      "sticky left-0 pl-4",
+                      i % 2 === 0 ? "bg-[#decca2]" : "bg-primary",
+                    )}
+                  >
+                    <div className="flex items-center">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={twitterAvatarUrl}
+                        className="w-5 h-5 object-cover rounded-full mr-2"
+                        width={128}
+                        height={128}
+                        alt=""
+                      />
+                      <div className="flex w-0 flex-grow items-center">
+                        <Link
+                          className="underline truncate"
+                          href={`https://x.com/${twitterHandle.slice(1)}`}
+                          target="_blank"
+                        >
+                          {name}
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td className="text-center">{twitterRank.totalMentions}</td>
-                <td>
-                  <AmmoProgress
-                    id="engagement"
-                    value={twitterRank.totalEngagementScore}
-                  />
-                </td>
-                <td>
-                  <AmmoProgress
-                    id="relevance"
-                    value={twitterRank.totalRelevanceScore}
-                    color="bg-[#FFC107]"
-                  />
-                </td>
-                <td>
-                  <AmmoProgress
-                    id="depth"
-                    value={twitterRank.totalDepthScore}
-                    color="bg-[#8B5A2B]"
-                  />
-                </td>
-                <td>
-                  <AmmoProgress
-                    id="novelty"
-                    value={twitterRank.totalNoveltyScore}
-                    color="bg-[#4E944F]"
-                  />
-                </td>
-                <td>
-                  <AmmoProgress
-                    id="sentiment"
-                    value={twitterRank.totalSentimentScore}
-                    color="bg-[#F58634]"
-                  />
-                </td>
-                <td className="text-center">{twitterRank.totalScore}</td>
-                <td>
-                  {twitterRank.rank < 20
-                    ? "🌱"
-                    : twitterRank.rank < 40
-                      ? "🪴"
-                      : twitterRank.rank < 60
-                        ? "☀️"
-                        : twitterRank.rank < 80
-                          ? "🌸"
-                          : "👑"}
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td className="text-center">{totalMentions}</td>
+                  <td>
+                    <AmmoProgress
+                      id="engagement"
+                      value={totalEngagementScore}
+                    />
+                  </td>
+                  <td>
+                    <AmmoProgress
+                      id="relevance"
+                      value={totalRelevanceScore}
+                      color="bg-[#FFC107]"
+                    />
+                  </td>
+                  <td>
+                    <AmmoProgress
+                      id="depth"
+                      value={totalDepthScore}
+                      color="bg-[#8B5A2B]"
+                    />
+                  </td>
+                  <td>
+                    <AmmoProgress
+                      id="novelty"
+                      value={totalNoveltyScore}
+                      color="bg-[#4E944F]"
+                    />
+                  </td>
+                  <td>
+                    <AmmoProgress
+                      id="sentiment"
+                      value={totalSentimentScore}
+                      color="bg-[#F58634]"
+                    />
+                  </td>
+                  <td className="text-center">{totalScore}</td>
+                  <td>
+                    {scorePercentage < 20
+                      ? "🌱"
+                      : scorePercentage < 40
+                        ? "🪴"
+                        : scorePercentage < 60
+                          ? "☀️"
+                          : scorePercentage < 80
+                            ? "🌸"
+                            : "👑"}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         {/* Target element for infinite scroll */}
