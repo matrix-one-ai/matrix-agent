@@ -134,3 +134,5 @@ export interface ILeaderBoardData {
   totalCount: number;
   items: TLeaderBoardDataItem[];
 }
+
+export type TSortDirection = "asc" | "desc" | "none";
