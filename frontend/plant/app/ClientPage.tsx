@@ -9,7 +9,7 @@ import React from "react";
 import Link from "next/link";
 import { useTweetWidget } from "./hooks/useTweetWidget";
 import LeaderBoard from "@/app/components/LeaderBoard";
-import Card from "@/app/components/Card/Card";
+// import Card from "@/app/components/Card/Card";
 import CactusVRM from "@/app/components/CactusVRM";
 import FeedMeButton from "@/app/components/FeedMeButton";
 // import EmojiCursorFollower from "@/app/components/EmojiCursorFollower";
@@ -133,7 +133,7 @@ const ClientPage = () => {
       {/* Leaderboard */}
       <div className="flex flex-col gap-6 w-full">
         <LeaderBoard />
-        <Card
+        {/* <Card
           contentClassName="!overflow-auto"
           className="max-h-[90vh]"
           title="My Words"
@@ -149,7 +149,7 @@ const ClientPage = () => {
               Tweets by @plantdotfun
             </a>
           </div>
-        </Card>
+        </Card> */}
       </div>
       {/* Footer */}
       <div className="flex flex-col gap-4 w-full">
