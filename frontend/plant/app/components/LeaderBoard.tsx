@@ -118,7 +118,7 @@ const LeaderBoard = () => {
               </th>
               <th className="w-[12%] text-center">
                 <div className="flex items-center justify-center gap-1">
-                  <Tooltip content="The number of Mentions and therefore memories saved by Plan in its Relationship database">
+                  <Tooltip content="The number of Mentions and therefore memories saved by Plant in its Relationship database">
                     <div className="flex gap-1 items-center">
                       Mentions <QuestionIcon />
                     </div>
@@ -136,7 +136,7 @@ const LeaderBoard = () => {
               </th>
               <th className="text-center">
                 <div className="flex items-center justify-center gap-1">
-                  <Tooltip content="The total engagement (Replies, Retweets, Likes, Views) with your mentions with Plant">
+                  <Tooltip content="The total engagement (Replies, Retweets, Likes, Views) on your mentions with Plant">
                     <div className="flex gap-1 items-center">
                       Engagement <QuestionIcon />
                     </div>
@@ -253,7 +253,7 @@ const LeaderBoard = () => {
                   score,
                   level,
                 },
-                i
+                i,
               ) => (
                 <tr
                   key={`ranking-${i}`}
@@ -262,7 +262,7 @@ const LeaderBoard = () => {
                   <td
                     className={clsx(
                       "sticky left-0 pl-4",
-                      i % 2 === 0 ? "bg-[#decca2]" : "bg-primary"
+                      i % 2 === 0 ? "bg-[#decca2]" : "bg-primary",
                     )}
                   >
                     <div className="flex items-center">
@@ -329,7 +329,7 @@ const LeaderBoard = () => {
                             : "👑"}
                   </td>
                 </tr>
-              )
+              ),
             )}
           </tbody>
         </table>
