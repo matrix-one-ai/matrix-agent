@@ -238,6 +238,7 @@ const LeaderBoard = () => {
                   )}
                 >
                   <div className="flex items-center">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={persona.twitterAvatarUrl}
                       className="w-5 h-5 object-cover rounded-full mr-2"
