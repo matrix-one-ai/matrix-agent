@@ -83,6 +83,7 @@ export async function GET(request: NextRequest) {
                   color: "#70C238",
                   textShadow:
                     "-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000",
+                  letterSpacing: "0.2em",
                 }}
               >
                 @{userName}
