@@ -84,3 +84,53 @@ export enum EAmount {
   TEN = "10",
   FIFTY = "50",
 }
+
+export type TLeaderBoardDataItem = {
+  id: string;
+  attitude: unknown; // TODO: Need to assign correct type
+  character: {
+    id: string;
+    name: string;
+  };
+  persona: {
+    id: string;
+    name: string;
+    twitterAvatarUrl: string;
+    twitterHandle: string;
+  };
+  responses: unknown; // TODO: Need to assign correct type
+  rowSettings: {
+    canOpen: boolean;
+    canEdit: boolean;
+    canHandle: boolean;
+    canCancel: boolean;
+    canCreateClientBlockade: boolean;
+    canDelete: boolean;
+  };
+  shouldImportNewPosts: boolean;
+  shouldRespondMentions: boolean;
+  shouldRespondNewPosts: boolean;
+  twitterRank: {
+    id: string;
+    rank: number;
+    totalDepthScore: number;
+    totalEngagementScore: number;
+    totalLikes: number;
+    totalMentions: number;
+    totalMentionsScore: number;
+    totalNoveltyScore: number;
+    totalQualityScore: number;
+    totalRelevanceScore: number;
+    totalReplies: number;
+    totalRetweets: number;
+    totalScore: number;
+    totalScoreTimeDecayed: number;
+    totalSentimentScore: number;
+    totalViews: number;
+  };
+};
+
+export interface ILeaderBoardData {
+  totalCount: number;
+  items: TLeaderBoardDataItem[];
+}

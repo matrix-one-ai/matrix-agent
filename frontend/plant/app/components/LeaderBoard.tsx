@@ -8,11 +8,12 @@ import AmmoProgress from "@/app/components/AmmoChart";
 // import useInfiniteScroll from "@/app/hooks/useInfiniteScroll";
 import { useToggle } from "@/app/hooks/useToggle";
 import QuestionIcon from "@/app/components/Icons/QuestionIcon";
+import { ILeaderBoardData } from "@/app/types";
 
 const LeaderBoard = () => {
   const [loading, { toggleOn: toggleOnLoading, toggleOff: toggleOffLoading }] =
     useToggle(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<ILeaderBoardData | null>(null);
   // const [sortData, setSortData] = useState<{
   //   column: string;
   //   direction: "asc" | "desc" | "none";
@@ -70,24 +71,7 @@ const LeaderBoard = () => {
         return;
       }
 
-      console.log(data);
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mappedData = data.items.map((row: any) => ({
-        avatar: row.persona.twitterAvatarUrl,
-        twitter_handler: row.persona.name,
-        twitter_link: row.persona.twitterHandle.slice(1),
-        mentions: row.twitterRank.totalMentions,
-        engagement: row.twitterRank.totalEngagementScore,
-        relevance: row.twitterRank.totalRelevanceScore,
-        depth: row.twitterRank.totalDepthScore,
-        novelty: row.twitterRank.totalNoveltyScore,
-        sentiment: row.twitterRank.totalSentimentScore,
-        score: row.twitterRank.totalScore,
-        level: row.twitterRank.rank,
-      }));
-
-      setData(mappedData);
+      setData(data as ILeaderBoardData);
       toggleOffLoading();
     } else {
       console.error("Failed to fetch leaderboard data");
@@ -242,99 +226,85 @@ const LeaderBoard = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map(
-              (
-                {
-                  avatar,
-                  twitter_handler,
-                  twitter_link,
-                  mentions,
-                  engagement,
-                  relevance,
-                  depth,
-                  novelty,
-                  sentiment,
-                  score,
-                  level,
-                },
-                i,
-              ) => (
-                <tr
-                  key={`ranking-${i}`}
-                  className={clsx("h-9", i % 2 === 0 && "bg-[#decca2]")}
+            {(data?.items || []).map(({ persona, twitterRank }, i) => (
+              <tr
+                key={`ranking-${i}`}
+                className={clsx("h-9", i % 2 === 0 && "bg-[#decca2]")}
+              >
+                <td
+                  className={clsx(
+                    "sticky left-0 pl-4",
+                    i % 2 === 0 ? "bg-[#decca2]" : "bg-primary",
+                  )}
                 >
-                  <td
-                    className={clsx(
-                      "sticky left-0 pl-4",
-                      i % 2 === 0 ? "bg-[#decca2]" : "bg-primary",
-                    )}
-                  >
-                    <div className="flex items-center">
-                      <img
-                        src={avatar}
-                        className="w-5 h-5 object-cover rounded-full mr-2"
-                        width={128}
-                        height={128}
-                        alt=""
-                      />
-                      <div className="flex w-0 flex-grow items-center">
-                        <Link
-                          className="underline truncate"
-                          href={`https://x.com/${twitter_link}`}
-                          target="_blank"
-                        >
-                          {twitter_handler}
-                        </Link>
-                      </div>
+                  <div className="flex items-center">
+                    <img
+                      src={persona.twitterAvatarUrl}
+                      className="w-5 h-5 object-cover rounded-full mr-2"
+                      width={128}
+                      height={128}
+                      alt=""
+                    />
+                    <div className="flex w-0 flex-grow items-center">
+                      <Link
+                        className="underline truncate"
+                        href={`https://x.com/${persona.twitterHandle.slice(1)}`}
+                        target="_blank"
+                      >
+                        {persona.name}
+                      </Link>
                     </div>
-                  </td>
-                  <td className="text-center">{mentions}</td>
-                  <td>
-                    <AmmoProgress id="engagement" value={engagement} />
-                  </td>
-                  <td>
-                    <AmmoProgress
-                      id="relevance"
-                      value={relevance}
-                      color="bg-[#FFC107]"
-                    />
-                  </td>
-                  <td>
-                    <AmmoProgress
-                      id="depth"
-                      value={depth}
-                      color="bg-[#8B5A2B]"
-                    />
-                  </td>
-                  <td>
-                    <AmmoProgress
-                      id="novelty"
-                      value={novelty}
-                      color="bg-[#4E944F]"
-                    />
-                  </td>
-                  <td>
-                    <AmmoProgress
-                      id="sentiment"
-                      value={sentiment}
-                      color="bg-[#F58634]"
-                    />
-                  </td>
-                  <td className="text-center">{score}</td>
-                  <td>
-                    {level < 20
-                      ? "🌱"
-                      : level < 40
-                        ? "🪴"
-                        : level < 60
-                          ? "☀️"
-                          : level < 80
-                            ? "🌸"
-                            : "👑"}
-                  </td>
-                </tr>
-              ),
-            )}
+                  </div>
+                </td>
+                <td className="text-center">{twitterRank.totalMentions}</td>
+                <td>
+                  <AmmoProgress
+                    id="engagement"
+                    value={twitterRank.totalEngagementScore}
+                  />
+                </td>
+                <td>
+                  <AmmoProgress
+                    id="relevance"
+                    value={twitterRank.totalRelevanceScore}
+                    color="bg-[#FFC107]"
+                  />
+                </td>
+                <td>
+                  <AmmoProgress
+                    id="depth"
+                    value={twitterRank.totalDepthScore}
+                    color="bg-[#8B5A2B]"
+                  />
+                </td>
+                <td>
+                  <AmmoProgress
+                    id="novelty"
+                    value={twitterRank.totalNoveltyScore}
+                    color="bg-[#4E944F]"
+                  />
+                </td>
+                <td>
+                  <AmmoProgress
+                    id="sentiment"
+                    value={twitterRank.totalSentimentScore}
+                    color="bg-[#F58634]"
+                  />
+                </td>
+                <td className="text-center">{twitterRank.totalScore}</td>
+                <td>
+                  {twitterRank.rank < 20
+                    ? "🌱"
+                    : twitterRank.rank < 40
+                      ? "🪴"
+                      : twitterRank.rank < 60
+                        ? "☀️"
+                        : twitterRank.rank < 80
+                          ? "🌸"
+                          : "👑"}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
         {/* Target element for infinite scroll */}
