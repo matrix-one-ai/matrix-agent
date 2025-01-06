@@ -8,7 +8,7 @@ import React from "react";
 // } from "./types";
 import Link from "next/link";
 import { useTweetWidget } from "./hooks/useTweetWidget";
-import LeaderBoard from "@/app/components/LeaderBoard";
+// import LeaderBoard from "@/app/components/LeaderBoard";
 import Card from "@/app/components/Card/Card";
 import CactusVRM from "@/app/components/CactusVRM";
 import FeedMeButton from "@/app/components/FeedMeButton";
