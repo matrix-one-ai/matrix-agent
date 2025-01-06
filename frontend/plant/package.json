@@ -19,6 +19,7 @@
     "@react-three/drei": "^9.120.4",
     "@react-three/fiber": "^8.17.10",
     "@vercel/analytics": "^1.4.1",
+    "@vercel/og": "^0.6.4",
     "ai": "^4.0.22",
     "clsx": "^2.1.1",
     "idb": "^8.0.1",
