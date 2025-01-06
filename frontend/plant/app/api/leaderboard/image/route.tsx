@@ -35,7 +35,12 @@ export function GET(request: NextRequest) {
         }}
       >
         Hello {userName}!
-        <img src={twitterAvatarUrl} alt="User Avatar" />
+        <img
+          src={twitterAvatarUrl}
+          alt="User Avatar"
+          width={200}
+          height={200}
+        />
       </div>
     ),
     { width: 1200, height: 630 }
