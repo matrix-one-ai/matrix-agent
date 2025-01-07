@@ -14,7 +14,7 @@ import {
   // TLeaderBoardDataItem,
   // TSortDirection,
 } from "@/app/types";
-import { BLOCK_USER_NAMES } from "@/app/constants";
+import { BLOCK_USER_NAMES, LB_PLACEHOLDER_AVATAR_SRC } from "@/app/constants";
 // import { sortObjectArray } from "@/app/utils/array";
 
 const LeaderBoard = () => {
@@ -281,10 +281,14 @@ const LeaderBoard = () => {
                       <div className="flex items-center">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                          src={twitterAvatarUrl}
+                          src={twitterAvatarUrl || LB_PLACEHOLDER_AVATAR_SRC}
                           className="w-5 h-5 object-cover rounded-full mr-2"
                           width={128}
                           height={128}
+                          onError={({ currentTarget }) => {
+                            currentTarget.onerror = null; // prevents looping
+                            currentTarget.src = LB_PLACEHOLDER_AVATAR_SRC;
+                          }}
                           alt=""
                         />
                         <div className="flex w-0 flex-grow items-center">
