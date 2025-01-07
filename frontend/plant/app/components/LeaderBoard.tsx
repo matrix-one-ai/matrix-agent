@@ -250,7 +250,7 @@ const LeaderBoard = () => {
             </tr>
           </thead>
           <tbody>
-            {(data?.items || []).map(({ persona, twitterRank }, i) => {
+            {(data?.items || []).map(({ id, persona, twitterRank }, i) => {
               const { twitterAvatarUrl, twitterHandle, name } = persona;
               const {
                 totalMentions,
@@ -266,7 +266,7 @@ const LeaderBoard = () => {
 
               return (
                 <tr
-                  key={`ranking-${i}`}
+                  key={id}
                   className={clsx("h-9", i % 2 === 0 && "bg-[#decca2]")}
                 >
                   <td
