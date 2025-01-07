@@ -390,7 +390,7 @@ const LeaderBoard = () => {
           placement="bottom"
         >
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
-            <div className="flex gap-1 items-center text-xs">
+            <div className="flex gap-1 items-center text-xs w-max">
               <Image src="/images/level_1.png" width={16} height={16} alt="" />
               (0 - 20%)
             </div>
@@ -403,7 +403,7 @@ const LeaderBoard = () => {
           placement="bottom"
         >
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
-            <div className="flex gap-1 items-center text-xs">
+            <div className="flex gap-1 items-center text-xs w-max">
               <Image src="/images/level_2.png" width={16} height={16} alt="" />
               (20 - 40%)
             </div>
@@ -416,7 +416,7 @@ const LeaderBoard = () => {
           placement="bottom"
         >
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
-            <div className="flex gap-1 items-center text-xs">
+            <div className="flex gap-1 items-center text-xs w-max">
               <Image src="/images/level_3.png" width={16} height={16} alt="" />
               (40 - 60%)
             </div>
@@ -429,7 +429,7 @@ const LeaderBoard = () => {
           placement="bottom"
         >
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
-            <div className="flex gap-1 items-center text-xs">
+            <div className="flex gap-1 items-center text-xs w-max">
               <Image src="/images/level_4.png" width={16} height={16} alt="" />
               (60 - 80%)
             </div>
@@ -442,7 +442,7 @@ const LeaderBoard = () => {
           placement="bottom"
         >
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
-            <div className="flex gap-1 items-center text-xs">
+            <div className="flex gap-1 items-center text-xs w-max">
               <Image src="/images/level_5.png" width={16} height={16} alt="" />
               (80 - 100%)
             </div>
