@@ -5,53 +5,53 @@ import clsx from "clsx";
 import Card from "@/app/components/Card/Card";
 import Tooltip from "@/app/components/Tooltip";
 import AmmoProgress from "@/app/components/AmmoChart";
-import SortButton from "@/app/components/SortButton";
+// import SortButton from "@/app/components/SortButton";
 // import useInfiniteScroll from "@/app/hooks/useInfiniteScroll";
 import { useToggle } from "@/app/hooks/useToggle";
 import QuestionIcon from "@/app/components/Icons/QuestionIcon";
 import {
   ILeaderBoardData,
-  TLeaderBoardDataItem,
-  TSortDirection,
+  // TLeaderBoardDataItem,
+  // TSortDirection,
 } from "@/app/types";
-import { sortObjectArray } from "@/app/utils/array";
+// import { sortObjectArray } from "@/app/utils/array";
 
 const LeaderBoard = () => {
   const [loading, { toggleOn: toggleOnLoading, toggleOff: toggleOffLoading }] =
     useToggle(false);
   const [data, setData] = useState<ILeaderBoardData | null>(null);
-  const [sortData, setSortData] = useState<{
-    column: string;
-    direction: TSortDirection;
-  }>({
-    column: "",
-    direction: "none",
-  });
+  // const [sortData, setSortData] = useState<{
+  //   column: string;
+  //   direction: TSortDirection;
+  // }>({
+  //   column: "",
+  //   direction: "none",
+  // });
 
-  // Handler for sorting
-  const handleSort = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      const column = e.currentTarget.dataset.column as
-        | keyof TLeaderBoardDataItem
-        | undefined;
+  // // Handler for sorting
+  // const handleSort = useCallback(
+  //   (e: React.MouseEvent<HTMLButtonElement>) => {
+  //     const column = e.currentTarget.dataset.column as
+  //       | keyof TLeaderBoardDataItem
+  //       | undefined;
 
-      // column info is necessary
-      if (!column || data === null) return;
+  //     // column info is necessary
+  //     if (!column || data === null) return;
 
-      let sortDirection: TSortDirection = "asc";
-      if (sortData.column === column) {
-        // Toggle direction
-        sortDirection = sortData.direction === "asc" ? "desc" : "asc";
-      }
+  //     let sortDirection: TSortDirection = "asc";
+  //     if (sortData.column === column) {
+  //       // Toggle direction
+  //       sortDirection = sortData.direction === "asc" ? "desc" : "asc";
+  //     }
 
-      setSortData({ column, direction: sortDirection });
+  //     setSortData({ column, direction: sortDirection });
 
-      const items = sortObjectArray(data.items, column, sortDirection);
-      console.log(items);
-      setData({ ...data, items });
-    },
-    [data, sortData],
-  );
+  //     const items = sortObjectArray(data.items, column, sortDirection);
+  //     console.log(items);
+  //     setData({ ...data, items });
+  //   },
+  //   [data, sortData],
+  // );
 
   // Handler for load more
   // const handleLoadMore = useCallback(() => {
@@ -113,7 +113,7 @@ const LeaderBoard = () => {
               <th className="w-[15%] sticky left-0 bg-primary pl-4 z-10">
                 <div className="flex items-center gap-1">
                   User
-                  <SortButton
+                  {/* <SortButton
                     direction={
                       sortData.column === "persona.name"
                         ? sortData.direction
@@ -121,7 +121,7 @@ const LeaderBoard = () => {
                     }
                     data-column="persona.name"
                     onClick={handleSort}
-                  />
+                  /> */}
                 </div>
               </th>
               <th className="w-[12%] text-center">
@@ -131,7 +131,7 @@ const LeaderBoard = () => {
                       Mentions <QuestionIcon />
                     </div>
                   </Tooltip>
-                  <SortButton
+                  {/* <SortButton
                     direction={
                       sortData.column === "twitterRank.totalMentions"
                         ? sortData.direction
@@ -139,7 +139,7 @@ const LeaderBoard = () => {
                     }
                     data-column="twitterRank.totalMentions"
                     onClick={handleSort}
-                  />
+                  /> */}
                 </div>
               </th>
               <th className="text-center">
@@ -149,7 +149,7 @@ const LeaderBoard = () => {
                       Engagement <QuestionIcon />
                     </div>
                   </Tooltip>
-                  <SortButton
+                  {/* <SortButton
                     direction={
                       sortData.column === "twitterRank.totalEngagementScore"
                         ? sortData.direction
@@ -157,7 +157,7 @@ const LeaderBoard = () => {
                     }
                     data-column="twitterRank.totalEngagementScore"
                     onClick={handleSort}
-                  />
+                  /> */}
                 </div>
               </th>
               <th className="text-center">
@@ -167,7 +167,7 @@ const LeaderBoard = () => {
                       Relevance <QuestionIcon />
                     </div>
                   </Tooltip>
-                  <SortButton
+                  {/* <SortButton
                     direction={
                       sortData.column === "twitterRank.totalRelevanceScore"
                         ? sortData.direction
@@ -175,7 +175,7 @@ const LeaderBoard = () => {
                     }
                     data-column="twitterRank.totalRelevanceScore"
                     onClick={handleSort}
-                  />
+                  /> */}
                 </div>
               </th>
               <th className="text-center">
@@ -185,7 +185,7 @@ const LeaderBoard = () => {
                       Depth <QuestionIcon />
                     </div>
                   </Tooltip>
-                  <SortButton
+                  {/* <SortButton
                     direction={
                       sortData.column === "twitterRank.totalDepthScore"
                         ? sortData.direction
@@ -193,7 +193,7 @@ const LeaderBoard = () => {
                     }
                     data-column="twitterRank.totalDepthScore"
                     onClick={handleSort}
-                  />
+                  /> */}
                 </div>
               </th>
               <th className="text-center">
@@ -203,7 +203,7 @@ const LeaderBoard = () => {
                       Novelty <QuestionIcon />
                     </div>
                   </Tooltip>
-                  <SortButton
+                  {/* <SortButton
                     direction={
                       sortData.column === "twitterRank.totalNoveltyScore"
                         ? sortData.direction
@@ -211,7 +211,7 @@ const LeaderBoard = () => {
                     }
                     data-column="twitterRank.totalNoveltyScore"
                     onClick={handleSort}
-                  />
+                  /> */}
                 </div>
               </th>
               <th className="text-center">
@@ -221,7 +221,7 @@ const LeaderBoard = () => {
                       Sentiment <QuestionIcon />
                     </div>
                   </Tooltip>
-                  <SortButton
+                  {/* <SortButton
                     direction={
                       sortData.column === "twitterRank.totalSentimentScore"
                         ? sortData.direction
@@ -229,13 +229,13 @@ const LeaderBoard = () => {
                     }
                     data-column="twitterRank.totalSentimentScore"
                     onClick={handleSort}
-                  />
+                  /> */}
                 </div>
               </th>
               <th>
                 <div className="flex items-center justify-center gap-1">
                   Score
-                  <SortButton
+                  {/* <SortButton
                     direction={
                       sortData.column === "twitterRank.totalScore"
                         ? sortData.direction
@@ -243,7 +243,7 @@ const LeaderBoard = () => {
                     }
                     data-column="twitterRank.totalScore"
                     onClick={handleSort}
-                  />
+                  /> */}
                 </div>
               </th>
               <th className="w-[50px]" />
