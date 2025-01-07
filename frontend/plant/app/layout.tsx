@@ -12,8 +12,9 @@ const comicNeue = Comic_Neue({
 });
 
 export const metadata: Metadata = {
-  title: "Just a Plant",
-  description: "Just a Plant.",
+  title: "Plant",
+  description:
+    "Feed Me Mentions. Let's bring raindrops to this crypto desert 💦",
 };
 
 export default function RootLayout({
