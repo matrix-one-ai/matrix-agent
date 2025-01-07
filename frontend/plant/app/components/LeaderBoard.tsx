@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import clsx from "clsx";
 import Card from "@/app/components/Card/Card";
 import Tooltip from "@/app/components/Tooltip";
@@ -331,15 +332,42 @@ const LeaderBoard = () => {
                   </td>
                   <td className="text-center">{totalScore}</td>
                   <td>
-                    {scorePercentage < 20
-                      ? "🌱"
-                      : scorePercentage < 40
-                        ? "🪴"
-                        : scorePercentage < 60
-                          ? "☀️"
-                          : scorePercentage < 80
-                            ? "🌸"
-                            : "👑"}
+                    {scorePercentage < 20 ? (
+                      <Image
+                        src="/images/level_1.png"
+                        width={16}
+                        height={16}
+                        alt=""
+                      />
+                    ) : scorePercentage < 40 ? (
+                      <Image
+                        src="/images/level_2.png"
+                        width={16}
+                        height={16}
+                        alt=""
+                      />
+                    ) : scorePercentage < 60 ? (
+                      <Image
+                        src="/images/level_3.png"
+                        width={16}
+                        height={16}
+                        alt=""
+                      />
+                    ) : scorePercentage < 80 ? (
+                      <Image
+                        src="/images/level_4.png"
+                        width={16}
+                        height={16}
+                        alt=""
+                      />
+                    ) : (
+                      <Image
+                        src="/images/level_5.png"
+                        width={16}
+                        height={16}
+                        alt=""
+                      />
+                    )}
                   </td>
                 </tr>
               );
@@ -359,7 +387,10 @@ const LeaderBoard = () => {
           placement="bottom"
         >
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
-            <span className="text-xs">🌱 (0 - 20%)</span>
+            <div className="flex gap-1 items-center text-xs">
+              <Image src="/images/level_1.png" width={16} height={16} alt="" />
+              (0 - 20%)
+            </div>
             <span>Seed Planters</span>
             <QuestionIcon />
           </div>
@@ -369,7 +400,10 @@ const LeaderBoard = () => {
           placement="bottom"
         >
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
-            <span className="text-xs">🪴 (20 - 40%)</span>
+            <div className="flex gap-1 items-center text-xs">
+              <Image src="/images/level_2.png" width={16} height={16} alt="" />
+              (20 - 40%)
+            </div>
             <span>Soil Tenders</span>
             <QuestionIcon />
           </div>
@@ -379,7 +413,10 @@ const LeaderBoard = () => {
           placement="bottom"
         >
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
-            <span className="text-xs">☀️ (40 - 60%)</span>
+            <div className="flex gap-1 items-center text-xs">
+              <Image src="/images/level_3.png" width={16} height={16} alt="" />
+              (40 - 60%)
+            </div>
             <span>Sunlight Bringers</span>
             <QuestionIcon />
           </div>
@@ -389,7 +426,10 @@ const LeaderBoard = () => {
           placement="bottom"
         >
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
-            <span className="text-xs">🌸 (60 - 80%)</span>
+            <div className="flex gap-1 items-center text-xs">
+              <Image src="/images/level_4.png" width={16} height={16} alt="" />
+              (60 - 80%)
+            </div>
             <span>Blossom Cultivators</span>
             <QuestionIcon />
           </div>
@@ -399,7 +439,10 @@ const LeaderBoard = () => {
           placement="bottom"
         >
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
-            <span className="text-xs">👑 (80 - 100%)</span>
+            <div className="flex gap-1 items-center text-xs">
+              <Image src="/images/level_5.png" width={16} height={16} alt="" />
+              (80 - 100%)
+            </div>
             <span>Master Gardeners</span>
             <QuestionIcon />
           </div>
