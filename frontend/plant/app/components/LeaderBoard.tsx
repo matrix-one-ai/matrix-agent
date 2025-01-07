@@ -14,6 +14,7 @@ import {
   // TLeaderBoardDataItem,
   // TSortDirection,
 } from "@/app/types";
+import { BLOCK_USER_NAMES } from "@/app/constants";
 // import { sortObjectArray } from "@/app/utils/array";
 
 const LeaderBoard = () => {
@@ -250,128 +251,130 @@ const LeaderBoard = () => {
             </tr>
           </thead>
           <tbody>
-            {(data?.items || []).map(({ id, persona, twitterRank }, i) => {
-              const { twitterAvatarUrl, twitterHandle, name } = persona;
-              const {
-                totalMentions,
-                totalEngagementScore,
-                totalRelevanceScore,
-                totalDepthScore,
-                totalNoveltyScore,
-                totalSentimentScore,
-                totalScore,
-              } = twitterRank;
-              const scorePercentage =
-                ((totalScore - minScore) / (maxScore - minScore)) * 100;
+            {(data?.items || [])
+              .filter(({ persona }) => !BLOCK_USER_NAMES.includes(persona.name))
+              .map(({ id, persona, twitterRank }, i) => {
+                const { twitterAvatarUrl, twitterHandle, name } = persona;
+                const {
+                  totalMentions,
+                  totalEngagementScore,
+                  totalRelevanceScore,
+                  totalDepthScore,
+                  totalNoveltyScore,
+                  totalSentimentScore,
+                  totalScore,
+                } = twitterRank;
+                const scorePercentage =
+                  ((totalScore - minScore) / (maxScore - minScore)) * 100;
 
-              return (
-                <tr
-                  key={id}
-                  className={clsx("h-9", i % 2 === 0 && "bg-[#decca2]")}
-                >
-                  <td
-                    className={clsx(
-                      "sticky left-0 pl-4",
-                      i % 2 === 0 ? "bg-[#decca2]" : "bg-primary",
-                    )}
+                return (
+                  <tr
+                    key={id}
+                    className={clsx("h-9", i % 2 === 0 && "bg-[#decca2]")}
                   >
-                    <div className="flex items-center">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={twitterAvatarUrl}
-                        className="w-5 h-5 object-cover rounded-full mr-2"
-                        width={128}
-                        height={128}
-                        alt=""
-                      />
-                      <div className="flex w-0 flex-grow items-center">
-                        <Link
-                          className="underline truncate"
-                          href={`https://x.com/${twitterHandle.slice(1)}`}
-                          target="_blank"
-                        >
-                          {name}
-                        </Link>
+                    <td
+                      className={clsx(
+                        "sticky left-0 pl-4",
+                        i % 2 === 0 ? "bg-[#decca2]" : "bg-primary",
+                      )}
+                    >
+                      <div className="flex items-center">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={twitterAvatarUrl}
+                          className="w-5 h-5 object-cover rounded-full mr-2"
+                          width={128}
+                          height={128}
+                          alt=""
+                        />
+                        <div className="flex w-0 flex-grow items-center">
+                          <Link
+                            className="underline truncate"
+                            href={`https://x.com/${twitterHandle.slice(1)}`}
+                            target="_blank"
+                          >
+                            {name}
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="text-center">{totalMentions}</td>
-                  <td>
-                    <AmmoProgress
-                      id="engagement"
-                      value={totalEngagementScore}
-                    />
-                  </td>
-                  <td>
-                    <AmmoProgress
-                      id="relevance"
-                      value={totalRelevanceScore}
-                      color="bg-[#FFC107]"
-                    />
-                  </td>
-                  <td>
-                    <AmmoProgress
-                      id="depth"
-                      value={totalDepthScore}
-                      color="bg-[#8B5A2B]"
-                    />
-                  </td>
-                  <td>
-                    <AmmoProgress
-                      id="novelty"
-                      value={totalNoveltyScore}
-                      color="bg-[#4E944F]"
-                    />
-                  </td>
-                  <td>
-                    <AmmoProgress
-                      id="sentiment"
-                      value={totalSentimentScore}
-                      color="bg-[#F58634]"
-                    />
-                  </td>
-                  <td className="text-center">{totalScore}</td>
-                  <td>
-                    {scorePercentage < 20 ? (
-                      <Image
-                        src="/images/level_1.png"
-                        width={16}
-                        height={16}
-                        alt=""
+                    </td>
+                    <td className="text-center">{totalMentions}</td>
+                    <td>
+                      <AmmoProgress
+                        id="engagement"
+                        value={totalEngagementScore}
                       />
-                    ) : scorePercentage < 40 ? (
-                      <Image
-                        src="/images/level_2.png"
-                        width={16}
-                        height={16}
-                        alt=""
+                    </td>
+                    <td>
+                      <AmmoProgress
+                        id="relevance"
+                        value={totalRelevanceScore}
+                        color="bg-[#FFC107]"
                       />
-                    ) : scorePercentage < 60 ? (
-                      <Image
-                        src="/images/level_3.png"
-                        width={16}
-                        height={16}
-                        alt=""
+                    </td>
+                    <td>
+                      <AmmoProgress
+                        id="depth"
+                        value={totalDepthScore}
+                        color="bg-[#8B5A2B]"
                       />
-                    ) : scorePercentage < 80 ? (
-                      <Image
-                        src="/images/level_4.png"
-                        width={16}
-                        height={16}
-                        alt=""
+                    </td>
+                    <td>
+                      <AmmoProgress
+                        id="novelty"
+                        value={totalNoveltyScore}
+                        color="bg-[#4E944F]"
                       />
-                    ) : (
-                      <Image
-                        src="/images/level_5.png"
-                        width={16}
-                        height={16}
-                        alt=""
+                    </td>
+                    <td>
+                      <AmmoProgress
+                        id="sentiment"
+                        value={totalSentimentScore}
+                        color="bg-[#F58634]"
                       />
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
+                    </td>
+                    <td className="text-center">{totalScore}</td>
+                    <td>
+                      {scorePercentage < 20 ? (
+                        <Image
+                          src="/images/level_1.png"
+                          width={16}
+                          height={16}
+                          alt=""
+                        />
+                      ) : scorePercentage < 40 ? (
+                        <Image
+                          src="/images/level_2.png"
+                          width={16}
+                          height={16}
+                          alt=""
+                        />
+                      ) : scorePercentage < 60 ? (
+                        <Image
+                          src="/images/level_3.png"
+                          width={16}
+                          height={16}
+                          alt=""
+                        />
+                      ) : scorePercentage < 80 ? (
+                        <Image
+                          src="/images/level_4.png"
+                          width={16}
+                          height={16}
+                          alt=""
+                        />
+                      ) : (
+                        <Image
+                          src="/images/level_5.png"
+                          width={16}
+                          height={16}
+                          alt=""
+                        />
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
         {/* Target element for infinite scroll */}

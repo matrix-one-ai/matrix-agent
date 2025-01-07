@@ -260,3 +260,5 @@ export const MOCK_DATA = [
     level: 77.3,
   },
 ];
+
+export const BLOCK_USER_NAMES = ["Froggy", "pffffffnsd", "TheGardenerTeam"];
