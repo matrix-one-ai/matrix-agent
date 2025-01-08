@@ -483,36 +483,37 @@ const LeaderBoard = () => {
       )}
       {/* Pagination section */}
       <div className="relative flex justify-between items-center p-4 text-xs font-bold">
-        {/* Pagination info */}
-        <span className={clsx("hidden md:block", maxPage === 0 && "invisible")}>
-          Showing {(page - 1) * pageSize + 1} to {page * pageSize} of{" "}
-          {data?.totalCount || 0} results
-        </span>
-        {/* Pagination action buttons */}
-        <div className="flex items-center gap-3 relative md:absolute md:left-1/2 md:-translate-x-1/2">
-          <button
-            className="flex justify-center items-center w-[15px] h-[15px] disabled:opacity-25"
-            onClick={handleGoToPrevPage}
-            disabled={page <= 1}
-          >
-            <LeftChevronIcon />
-          </button>
-          {maxPage !== 0 && (
-            <div className="flex gap-2">
-              {visiblePageNumbers.map((pg) => (
-                <button
-                  key={`pagination-btn-${pg}`}
-                  className={clsx(
-                    "flex justify-center items-center w-[21px] h-4 rounded-[100px] border border-black/0",
-                    pg === page && "border-black/100",
-                  )}
-                  onClick={() => handleGoToPage(pg)}
-                >
-                  {pg}
-                </button>
-              ))}
-              {/* TODO: Confirm UX */}
-              {/* <button
+        {maxPage !== 0 && (
+          <>
+            {/* Pagination info */}
+            <span className="hidden md:block">
+              Showing {(page - 1) * pageSize + 1} to {page * pageSize} of{" "}
+              {data?.totalCount || 0} results
+            </span>
+            {/* Pagination action buttons */}
+            <div className="flex items-center gap-3 relative md:absolute md:left-1/2 md:-translate-x-1/2">
+              <button
+                className="flex justify-center items-center w-[15px] h-[15px] disabled:opacity-25"
+                onClick={handleGoToPrevPage}
+                disabled={page <= 1}
+              >
+                <LeftChevronIcon />
+              </button>
+              <div className="flex gap-2">
+                {visiblePageNumbers.map((pg) => (
+                  <button
+                    key={`pagination-btn-${pg}`}
+                    className={clsx(
+                      "flex justify-center items-center w-[21px] h-4 rounded-[100px] border border-black/0",
+                      pg === page && "border-black/100",
+                    )}
+                    onClick={() => handleGoToPage(pg)}
+                  >
+                    {pg}
+                  </button>
+                ))}
+                {/* TODO: Confirm UX */}
+                {/* <button
                 className="flex justify-center w-[21px] h-4 font-bold"
                 onClick={handleGoToNextPages}
               >
@@ -524,29 +525,30 @@ const LeaderBoard = () => {
               >
                 {maxPage}
               </button> */}
+              </div>
+              <button
+                className="flex justify-center items-center w-[15px] h-[15px] disabled:opacity-25"
+                onClick={handleGoToNextPage}
+                disabled={page >= maxPage}
+              >
+                <RightChevronIcon />
+              </button>
             </div>
-          )}
-          <button
-            className="flex justify-center items-center w-[15px] h-[15px] disabled:opacity-25"
-            onClick={handleGoToNextPage}
-            disabled={page >= maxPage}
-          >
-            <RightChevronIcon />
-          </button>
-        </div>
-        {/* Row count selector */}
-        <div className="flex justify-center items-center gap-2">
-          <span>Rows</span>
-          <Dropdown
-            options={
-              Object.values(ELeaderBoardPageSize).filter(
-                (value) => typeof value === "number",
-              ) as number[]
-            }
-            value={pageSize}
-            onSelectOption={handleCountPerPageChange}
-          />
-        </div>
+            {/* Row count selector */}
+            <div className="flex justify-center items-center gap-2">
+              <span>Rows</span>
+              <Dropdown
+                options={
+                  Object.values(ELeaderBoardPageSize).filter(
+                    (value) => typeof value === "number",
+                  ) as number[]
+                }
+                value={pageSize}
+                onSelectOption={handleCountPerPageChange}
+              />
+            </div>
+          </>
+        )}
       </div>
       <div className="flex justify-between gap-2 items-center px-9 h-8 font-bold text-[10px] overflow-x-auto hidden-scrollbar bg-[#decca2] border-t-2 border-t-black">
         <Tooltip
