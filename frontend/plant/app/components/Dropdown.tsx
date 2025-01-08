@@ -5,24 +5,24 @@ import { useToggle } from "@/app/hooks/useToggle";
 import { useOutsideClick } from "@/app/hooks/useOutsideClick";
 
 interface IDropdownProps extends React.HTMLAttributes<HTMLDivElement> {
-  options: string[];
-  initialSelectedOption?: string;
-  onSelectOption: (option: string) => void;
+  options: string[] | number[];
+  value?: string | number;
+  onSelectOption: (option: string | number) => void;
   placeholder?: string;
 }
 
 const Dropdown: React.FC<IDropdownProps> = ({
   className,
   options,
-  initialSelectedOption = null,
+  value = null,
   onSelectOption,
   placeholder = "",
   ...rest
 }) => {
   const [isOpen, { toggleOn: toggleOnIsOpen, toggleOff: toggleOffIsOpen }] =
     useToggle(false);
-  const [selectedOption, setSelectedOption] = useState<string | null>(
-    initialSelectedOption,
+  const [selectedOption, setSelectedOption] = useState<string | number | null>(
+    value,
   );
   const dropdownContentRef = useOutsideClick<HTMLUListElement>(toggleOffIsOpen);
 
@@ -37,7 +37,7 @@ const Dropdown: React.FC<IDropdownProps> = ({
 
   // Handler for selecting an option
   const handleOptionClick = useCallback(
-    (option: string) => {
+    (option: string | number) => {
       setSelectedOption(option);
       onSelectOption(option);
       toggleOffIsOpen();
