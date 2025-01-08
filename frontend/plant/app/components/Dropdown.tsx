@@ -49,7 +49,7 @@ const Dropdown: React.FC<IDropdownProps> = ({
     <div className={clsx("relative w-full border-black", className)} {...rest}>
       <button
         onClick={handleOpen}
-        className="w-full h-6 flex items-center flex-row-reverse justify-between gap-1 px-4 py-2 text-left border border-inherit rounded-[100px] focus:outline-none bg-primary"
+        className="w-full h-6 flex items-center flex-row-reverse justify-between gap-1 px-4 py-2 text-left border border-inherit rounded-[100px] focus:outline-none bg-primary hover:bg-[#fcedc7]"
       >
         <span className={clsx("float-right", isOpen && "rotate-180")}>
           <DownChevronIcon />
