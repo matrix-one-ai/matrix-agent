@@ -130,13 +130,14 @@ const LeaderBoard = () => {
     fetchLeaderboardData();
   }, [fetchLeaderboardData]);
 
-  // Get min and max score
-  const [minScore, maxScore] = useMemo(() => {
-    if (data === null) return [1, 1];
+  // TODO: Rid of when level is available to fetch from API
+  // // Get min and max score
+  // const [minScore, maxScore] = useMemo(() => {
+  //   if (data === null) return [1, 1];
 
-    const scores = data.items.map((item) => item.twitterRank.totalScore);
-    return [Math.min(...scores), Math.max(...scores)];
-  }, [data]);
+  //   const scores = data.items.map((item) => item.twitterRank.totalScore);
+  //   return [Math.min(...scores), Math.max(...scores)];
+  // }, [data]);
 
   // Get max page number
   const maxPage = useMemo(
@@ -340,7 +341,8 @@ const LeaderBoard = () => {
                   /> */}
                 </div>
               </th>
-              <th className="w-[50px]" />
+              {/* TODO: Bring back when level is available to fetch from API */}
+              {/* <th className="w-[50px]" /> */}
             </tr>
           </thead>
           <tbody>
@@ -357,8 +359,8 @@ const LeaderBoard = () => {
                   totalSentimentScore,
                   totalScore,
                 } = twitterRank;
-                const scorePercentage =
-                  ((totalScore - minScore) / (maxScore - minScore)) * 100;
+                // const scorePercentage =
+                //   ((totalScore - minScore) / (maxScore - minScore)) * 100;
 
                 return (
                   <tr
@@ -431,7 +433,8 @@ const LeaderBoard = () => {
                       />
                     </td>
                     <td className="text-center">{totalScore}</td>
-                    <td>
+                    {/* TODO: Bring back when level is available to fetch from API */}
+                    {/* <td>
                       {scorePercentage < 20 ? (
                         <Image
                           src="/images/level_1.png"
@@ -468,7 +471,7 @@ const LeaderBoard = () => {
                           alt=""
                         />
                       )}
-                    </td>
+                    </td> */}
                   </tr>
                 );
               })}
