@@ -468,11 +468,6 @@ const LeaderBoard = () => {
               })}
           </tbody>
         </table>
-        {loading && (
-          <p className="text-center absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 font-bold">
-            Loading...
-          </p>
-        )}
         {/* TODO: Rid of infinite scrolling target element */}
         {/* Target element for infinite scroll */}
         {/* {loading ? (
@@ -481,6 +476,11 @@ const LeaderBoard = () => {
           <div className="h-[1px]" />
         )} */}
       </div>
+      {loading && (
+        <p className="text-center absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 font-bold">
+          Loading...
+        </p>
+      )}
       {/* Pagination section */}
       <div className="relative flex justify-between items-center p-4 text-xs font-bold">
         {/* Pagination info */}
