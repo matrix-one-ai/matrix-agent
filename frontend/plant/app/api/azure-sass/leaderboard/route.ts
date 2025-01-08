@@ -1,8 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const revalidate = 0;
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const page = parseInt(searchParams.get("page") || "null", 10);
+  const pageSize = parseInt(searchParams.get("pagesize") || "null", 10);
+  const personalName = searchParams.get("personalName");
+
   try {
     const authResp = await fetch(
       "https://sami-one-portal-be.azurewebsites.net/api/TokenAuth/Authenticate",
@@ -17,7 +22,7 @@ export async function GET() {
           userNameOrEmailAddress: "external-api",
           password: "egq3yxq!QEX!myq2cyb",
         }),
-      }
+      },
     );
 
     const authData = await authResp.json();
@@ -37,11 +42,12 @@ export async function GET() {
           cache: "no-cache",
         },
         body: JSON.stringify({
-          maxResultCount: 1000,
-          skipCount: 0,
+          maxResultCount: pageSize,
+          skipCount: (page - 1) * pageSize,
           characterName: "Plant",
+          ...(personalName && { personalName }),
         }),
-      }
+      },
     );
 
     const leaderboardData = await leaderboardResp.json();
@@ -50,7 +56,7 @@ export async function GET() {
       console.log(leaderboardData.error);
       return NextResponse.json(
         { error: leaderboardData.error },
-        { status: 500 }
+        { status: 500 },
       );
     }
 

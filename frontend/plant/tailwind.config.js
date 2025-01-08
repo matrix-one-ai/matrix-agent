@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import { fontFamily } from "tailwindcss/defaultTheme";
+import plugin from "tailwindcss/plugin";
 
 export const content = [
   "./app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -28,4 +29,15 @@ export const theme = {
     },
   },
 };
-export const plugins = [];
+export const plugins = [
+  plugin(function ({ matchUtilities, theme }) {
+    matchUtilities(
+      {
+        "animate-duration": (value) => ({
+          animationDuration: value,
+        }),
+      },
+      { values: theme("transitionDuration") },
+    );
+  }),
+];

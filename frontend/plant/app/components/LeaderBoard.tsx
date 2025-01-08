@@ -1,26 +1,43 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import clsx from "clsx";
 import Card from "@/app/components/Card/Card";
 import Tooltip from "@/app/components/Tooltip";
 import AmmoProgress from "@/app/components/AmmoChart";
+import Dropdown from "@/app/components/Dropdown";
 // import SortButton from "@/app/components/SortButton";
 // import useInfiniteScroll from "@/app/hooks/useInfiniteScroll";
 import { useToggle } from "@/app/hooks/useToggle";
 import QuestionIcon from "@/app/components/Icons/QuestionIcon";
+import LeftChevronIcon from "@/app/components/Icons/LeftChevronIcon";
+import RightChevronIcon from "@/app/components/Icons/RightChevronIcon";
 import {
   ILeaderBoardData,
   // TLeaderBoardDataItem,
   // TSortDirection,
+  ELeaderBoardPageSize,
 } from "@/app/types";
-import { BLOCK_USER_NAMES, LB_PLACEHOLDER_AVATAR_SRC } from "@/app/constants";
+import {
+  BLOCK_USER_NAMES,
+  LB_PLACEHOLDER_AVATAR_SRC,
+  LB_PAGE_COUNT_LIMIT,
+} from "@/app/constants";
+import { AbortableFetch } from "@/app/utils/abortablePromise";
 // import { sortObjectArray } from "@/app/utils/array";
 
 const LeaderBoard = () => {
   const [loading, { toggleOn: toggleOnLoading, toggleOff: toggleOffLoading }] =
     useToggle(false);
   const [data, setData] = useState<ILeaderBoardData | null>(null);
+  const [page, setPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(ELeaderBoardPageSize.TWENTY);
   // const [sortData, setSortData] = useState<{
   //   column: string;
   //   direction: TSortDirection;
@@ -28,6 +45,7 @@ const LeaderBoard = () => {
   //   column: "",
   //   direction: "none",
   // });
+  const abortableLBFetch = useRef<AbortableFetch | null>(null);
 
   // // Handler for sorting
   // const handleSort = useCallback(
@@ -67,27 +85,43 @@ const LeaderBoard = () => {
   // const targetRef = useInfiniteScroll(handleLoadMore);
 
   const fetchLeaderboardData = useCallback(async () => {
-    toggleOnLoading();
+    try {
+      abortableLBFetch.current?.abort();
 
-    const leaderboardResp = await fetch("/api/azure-sass/leaderboard", {
-      headers: {
-        cache: "no-cache",
-      },
-    });
-    if (leaderboardResp.ok) {
-      const { data } = await leaderboardResp.json();
+      toggleOnLoading();
 
-      if (!data) {
-        console.error("Failed to fetch leaderboard data");
-        return;
+      abortableLBFetch.current = new AbortableFetch(
+        `/api/azure-sass/leaderboard?page=${page}&pagesize=${pageSize}`,
+        {
+          headers: {
+            cache: "no-cache",
+          },
+        },
+      );
+      const leaderboardResp = await abortableLBFetch.current.fetch;
+      abortableLBFetch.current = null;
+      if (leaderboardResp.ok) {
+        const { data } = await leaderboardResp.json();
+
+        if (!data) {
+          throw new Error(
+            "Leaderboard data is not available. Please try again later.",
+          );
+        }
+
+        setData(data as ILeaderBoardData);
+        toggleOffLoading();
+      } else {
+        throw new Error(leaderboardResp.statusText);
       }
-
-      setData(data as ILeaderBoardData);
-      toggleOffLoading();
-    } else {
-      console.error("Failed to fetch leaderboard data");
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") {
+        console.log("Fetch aborted.");
+      } else {
+        console.error("Fetch failed:", error);
+      }
     }
-  }, [toggleOffLoading, toggleOnLoading]);
+  }, [toggleOffLoading, toggleOnLoading, page, pageSize]);
 
   useEffect(() => {
     fetchLeaderboardData();
@@ -101,6 +135,54 @@ const LeaderBoard = () => {
     return [Math.min(...scores), Math.max(...scores)];
   }, [data]);
 
+  // Get max page number
+  const maxPage = useMemo(
+    () => Math.ceil((data?.totalCount || 0) / pageSize),
+    [pageSize, data],
+  );
+
+  // Get visible page numbers
+  const visiblePageNumbers = useMemo(() => {
+    if (maxPage <= LB_PAGE_COUNT_LIMIT)
+      return Array.from({ length: maxPage }, (_, i) => i + 1);
+
+    const startPage =
+      Math.floor((page - 1) / LB_PAGE_COUNT_LIMIT) * LB_PAGE_COUNT_LIMIT + 1;
+    const endPage = startPage + 4;
+
+    return Array.from(
+      { length: endPage - startPage + 1 },
+      (_, i) => startPage + i,
+    );
+  }, [page, maxPage]);
+
+  // Handler for changing count per page
+  const handleCountPerPageChange = useCallback((value: string | number) => {
+    setPageSize(Number(value));
+  }, []);
+
+  // Handler for changing page
+  const handleGoToPage = useCallback((page: number) => {
+    setPage(page);
+  }, []);
+
+  // // Handler for changing page to next LB_PAGE_COUNT_LIMIT
+  // const handleGoToNextPages = useCallback(() => {
+  //   if (visiblePageNumbers[visiblePageNumbers.length - 1] < maxPage) {
+  //     setPage((cur) => cur + LB_PAGE_COUNT_LIMIT);
+  //   }
+  // }, [visiblePageNumbers, maxPage]);
+
+  // Handler for changing page to next one
+  const handleGoToNextPage = useCallback(() => {
+    setPage((cur) => (cur === maxPage ? maxPage : cur + 1));
+  }, [maxPage]);
+
+  // Handler for changing page to previous one
+  const handleGoToPrevPage = useCallback(() => {
+    setPage((cur) => (cur === 1 ? 1 : cur - 1));
+  }, []);
+
   return (
     <Card
       contentClassName="flex flex-col !p-0 !h-[750px]"
@@ -108,7 +190,12 @@ const LeaderBoard = () => {
       title="My Gardeners"
     >
       <div className="relative w-full h-0 flex-grow px-4 overflow-auto [clip-path:inset(0_16px_round_0)]">
-        <table className="w-full min-w-[900px] table-fixed overflow-x-auto font-bold border-collapse">
+        <table
+          className={clsx(
+            "w-full min-w-[900px] table-fixed overflow-x-auto font-bold border-collapse",
+            loading && "animate-pulse animate-duration-[1500ms]",
+          )}
+        >
           <thead className="sticky top-0 bg-primary z-10">
             <tr className="text-left h-11">
               <th className="w-[15%] sticky left-0 bg-primary pl-4 z-10">
@@ -381,12 +468,85 @@ const LeaderBoard = () => {
               })}
           </tbody>
         </table>
+        {loading && (
+          <p className="text-center absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 font-bold">
+            Loading...
+          </p>
+        )}
+        {/* TODO: Rid of infinite scrolling target element */}
         {/* Target element for infinite scroll */}
-        {loading ? (
+        {/* {loading ? (
           <p className="text-center">Loading more...</p>
         ) : (
           <div className="h-[1px]" />
-        )}
+        )} */}
+      </div>
+      {/* Pagination section */}
+      <div className="relative flex justify-between items-center p-4 text-xs font-bold">
+        {/* Pagination info */}
+        <span className={clsx("hidden md:block", maxPage === 0 && "invisible")}>
+          Showing {(page - 1) * pageSize + 1} to {page * pageSize} of{" "}
+          {data?.totalCount || 0} results
+        </span>
+        {/* Pagination action buttons */}
+        <div className="flex items-center gap-3 relative md:absolute md:left-1/2 md:-translate-x-1/2">
+          <button
+            className="flex justify-center items-center w-[15px] h-[15px] disabled:opacity-25"
+            onClick={handleGoToPrevPage}
+            disabled={page <= 1}
+          >
+            <LeftChevronIcon />
+          </button>
+          {maxPage !== 0 && (
+            <div className="flex gap-2">
+              {visiblePageNumbers.map((pg) => (
+                <button
+                  key={`pagination-btn-${pg}`}
+                  className={clsx(
+                    "flex justify-center items-center w-[21px] h-4 rounded-[100px] border border-black/0",
+                    pg === page && "border-black/100",
+                  )}
+                  onClick={() => handleGoToPage(pg)}
+                >
+                  {pg}
+                </button>
+              ))}
+              {/* TODO: Confirm UX */}
+              {/* <button
+                className="flex justify-center w-[21px] h-4 font-bold"
+                onClick={handleGoToNextPages}
+              >
+                ...
+              </button>
+              <button
+                className="flex justify-center w-[21px] h-4 font-bold"
+                onClick={() => handleGoToPage(maxPage)}
+              >
+                {maxPage}
+              </button> */}
+            </div>
+          )}
+          <button
+            className="flex justify-center items-center w-[15px] h-[15px] disabled:opacity-25"
+            onClick={handleGoToNextPage}
+            disabled={page >= maxPage}
+          >
+            <RightChevronIcon />
+          </button>
+        </div>
+        {/* Row count selector */}
+        <div className="flex justify-center items-center gap-2">
+          <span>Rows</span>
+          <Dropdown
+            options={
+              Object.values(ELeaderBoardPageSize).filter(
+                (value) => typeof value === "number",
+              ) as number[]
+            }
+            value={pageSize}
+            onSelectOption={handleCountPerPageChange}
+          />
+        </div>
       </div>
       <div className="flex justify-between gap-2 items-center px-9 h-8 font-bold text-[10px] overflow-x-auto hidden-scrollbar bg-[#decca2] border-t-2 border-t-black">
         <Tooltip

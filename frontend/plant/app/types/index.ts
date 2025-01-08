@@ -136,3 +136,9 @@ export interface ILeaderBoardData {
 }
 
 export type TSortDirection = "asc" | "desc" | "none";
+
+export enum ELeaderBoardPageSize {
+  TWENTY = 20,
+  FIFTY = 50,
+  HUNDRED = 100,
+}
