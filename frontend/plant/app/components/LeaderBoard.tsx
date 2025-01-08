@@ -45,7 +45,8 @@ const LeaderBoard = () => {
   //   column: "",
   //   direction: "none",
   // });
-  const abortableLBFetch = useRef<AbortableFetch | null>(null);
+  const tableWrapperRef = useRef<HTMLDivElement | null>(null);
+  const abortableLBFetchRef = useRef<AbortableFetch | null>(null);
 
   // // Handler for sorting
   // const handleSort = useCallback(
@@ -86,11 +87,11 @@ const LeaderBoard = () => {
 
   const fetchLeaderboardData = useCallback(async () => {
     try {
-      abortableLBFetch.current?.abort();
+      abortableLBFetchRef.current?.abort();
 
       toggleOnLoading();
 
-      abortableLBFetch.current = new AbortableFetch(
+      abortableLBFetchRef.current = new AbortableFetch(
         `/api/azure-sass/leaderboard?page=${page}&pagesize=${pageSize}`,
         {
           headers: {
@@ -98,8 +99,8 @@ const LeaderBoard = () => {
           },
         },
       );
-      const leaderboardResp = await abortableLBFetch.current.fetch;
-      abortableLBFetch.current = null;
+      const leaderboardResp = await abortableLBFetchRef.current.fetch;
+      abortableLBFetchRef.current = null;
       if (leaderboardResp.ok) {
         const { data } = await leaderboardResp.json();
 
@@ -111,6 +112,8 @@ const LeaderBoard = () => {
 
         setData(data as ILeaderBoardData);
         toggleOffLoading();
+
+        tableWrapperRef.current?.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         throw new Error(leaderboardResp.statusText);
       }
@@ -189,7 +192,10 @@ const LeaderBoard = () => {
       className="max-h-[90vh]"
       title="My Gardeners"
     >
-      <div className="relative w-full h-0 flex-grow px-4 overflow-auto [clip-path:inset(0_16px_round_0)]">
+      <div
+        ref={tableWrapperRef}
+        className="relative w-full h-0 flex-grow px-4 overflow-auto [clip-path:inset(0_16px_round_0)]"
+      >
         <table
           className={clsx(
             "w-full min-w-[900px] table-fixed overflow-x-auto font-bold border-collapse",
