@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const page = parseInt(searchParams.get("page") || "null", 10);
   const pageSize = parseInt(searchParams.get("pagesize") || "null", 10);
-  const personalName = searchParams.get("personalName");
+  const personaName = searchParams.get("personaName");
 
   try {
     if (!authAccessToken || isTokenExpired(authAccessToken)) {
@@ -81,7 +81,7 @@ export async function GET(request: NextRequest) {
           maxResultCount: pageSize,
           skipCount: (page - 1) * pageSize,
           characterName: "Plant",
-          ...(personalName && { personalName }),
+          ...(personaName && { personaName }),
         }),
       },
     );

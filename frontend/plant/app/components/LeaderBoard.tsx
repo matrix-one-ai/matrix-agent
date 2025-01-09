@@ -8,6 +8,7 @@ import React, {
 import Link from "next/link";
 import Image from "next/image";
 import clsx from "clsx";
+import { useDebounce } from "use-debounce";
 import Card from "@/app/components/Card/Card";
 import Tooltip from "@/app/components/Tooltip";
 import AmmoProgress from "@/app/components/AmmoChart";
@@ -18,6 +19,7 @@ import { useToggle } from "@/app/hooks/useToggle";
 import QuestionIcon from "@/app/components/Icons/QuestionIcon";
 import LeftChevronIcon from "@/app/components/Icons/LeftChevronIcon";
 import RightChevronIcon from "@/app/components/Icons/RightChevronIcon";
+import SearchIcon from "@/app/components/Icons/SearchIcon";
 import {
   ILeaderBoardData,
   // TLeaderBoardDataItem,
@@ -38,6 +40,8 @@ const LeaderBoard = () => {
   const [data, setData] = useState<ILeaderBoardData | null>(null);
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(ELeaderBoardPageSize.TWENTY);
+  const [searchName, setSearchName] = useState<string>("");
+  const [debouncedSearchName] = useDebounce(searchName, 1000);
   // const [sortData, setSortData] = useState<{
   //   column: string;
   //   direction: TSortDirection;
@@ -92,7 +96,7 @@ const LeaderBoard = () => {
       toggleOnLoading();
 
       abortableLBFetchRef.current = new AbortableFetch(
-        `/api/azure-sass/leaderboard?page=${page}&pagesize=${pageSize}`,
+        `/api/azure-sass/leaderboard?page=${page}&pagesize=${pageSize}&personaName=${debouncedSearchName}`,
         {
           headers: {
             cache: "no-cache",
@@ -124,7 +128,7 @@ const LeaderBoard = () => {
         console.error("Fetch failed:", error);
       }
     }
-  }, [toggleOffLoading, toggleOnLoading, page, pageSize]);
+  }, [toggleOffLoading, toggleOnLoading, page, pageSize, debouncedSearchName]);
 
   useEffect(() => {
     fetchLeaderboardData();
@@ -187,6 +191,14 @@ const LeaderBoard = () => {
     setPage((cur) => (cur === 1 ? 1 : cur - 1));
   }, []);
 
+  // Handler for changing search name
+  const handleSearchNameChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchName(e.target.value);
+    },
+    [],
+  );
+
   return (
     <Card
       contentClassName="flex flex-col !p-0 !h-[750px] cursor-default"
@@ -205,9 +217,15 @@ const LeaderBoard = () => {
         >
           <thead className="sticky top-0 bg-primary z-10">
             <tr className="text-left h-11">
-              <th className="w-[15%] sticky left-0 bg-primary pl-4 z-10">
-                <div className="flex items-center gap-1">
-                  User
+              <th className="w-[15%] sticky left-0 bg-primary z-10">
+                <div className="flex items-center gap-1 w-full relative">
+                  <input
+                    className="w-full bg-transparent border border-black rounded-[20px] font-bold text-xs px-2 py-1 placeholder:text-black placeholder:font-bold focus:bg-white focus:outline-none focus:placeholder:text-gray-500"
+                    placeholder="User Search"
+                    value={searchName}
+                    onChange={handleSearchNameChange}
+                  />
+                  <SearchIcon className="absolute right-4" />
                   {/* <SortButton
                     direction={
                       sortData.column === "persona.name"
