@@ -60,13 +60,13 @@ const Dropdown: React.FC<IDropdownProps> = ({
       {isOpen && (
         <ul
           ref={dropdownContentRef}
-          className="absolute w-full bottom-full border bg-main border-inherit rounded-[10px] mb-1 max-h-60 overflow-y-auto z-10 bg-primary"
+          className="absolute w-full bottom-full border bg-main border-inherit rounded-[10px] mb-1 px-2 py-1 max-h-60 overflow-y-auto z-10 bg-primary"
         >
           {options.map((option) => (
             <li
               key={option}
               onClick={() => handleOptionClick(option)}
-              className="px-4 py-2 cursor-pointer hover:bg-black/10"
+              className="px-2 py-1 my-1 cursor-pointer hover:bg-[#F9E9C4] rounded-[20px]"
             >
               {option}
             </li>
