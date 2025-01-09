@@ -86,30 +86,31 @@ export enum EAmount {
 }
 
 export type TLeaderBoardDataItem = {
-  id: string;
-  attitude: unknown; // TODO: Need to assign correct type
-  character: {
-    id: string;
-    name: string;
-  };
+  // id: string;
+  // attitude: unknown; // TODO: Need to assign correct type
+  // character: {
+  //   id: string;
+  //   name: string;
+  // };
+  gardnerLevel: number;
   persona: {
     id: string;
     name: string;
     twitterAvatarUrl: string;
     twitterHandle: string;
   };
-  responses: unknown; // TODO: Need to assign correct type
-  rowSettings: {
-    canOpen: boolean;
-    canEdit: boolean;
-    canHandle: boolean;
-    canCancel: boolean;
-    canCreateClientBlockade: boolean;
-    canDelete: boolean;
-  };
-  shouldImportNewPosts: boolean;
-  shouldRespondMentions: boolean;
-  shouldRespondNewPosts: boolean;
+  // responses: unknown; // TODO: Need to assign correct type
+  // rowSettings: {
+  //   canOpen: boolean;
+  //   canEdit: boolean;
+  //   canHandle: boolean;
+  //   canCancel: boolean;
+  //   canCreateClientBlockade: boolean;
+  //   canDelete: boolean;
+  // };
+  // shouldImportNewPosts: boolean;
+  // shouldRespondMentions: boolean;
+  // shouldRespondNewPosts: boolean;
   twitterRank: {
     id: string;
     rank: number;

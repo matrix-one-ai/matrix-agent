@@ -139,15 +139,6 @@ const LeaderBoard = () => {
     setPage(1);
   }, [debouncedSearchName, pageSize]);
 
-  // TODO: Rid of when level is available to fetch from API
-  // // Get min and max score
-  // const [minScore, maxScore] = useMemo(() => {
-  //   if (data === null) return [1, 1];
-
-  //   const scores = data.items.map((item) => item.twitterRank.totalScore);
-  //   return [Math.min(...scores), Math.max(...scores)];
-  // }, [data]);
-
   // Get max page number
   const maxPage = useMemo(
     () => Math.ceil((data?.totalCount || 0) / pageSize),
@@ -364,15 +355,14 @@ const LeaderBoard = () => {
                   /> */}
                 </div>
               </th>
-              {/* TODO: Bring back when level is available to fetch from API */}
-              {/* <th className="w-[50px]" /> */}
+              <th className="w-[50px]" />
             </tr>
           </thead>
           <tbody>
             {(data?.items || [])
               .filter(({ persona }) => !BLOCK_USER_NAMES.includes(persona.name))
-              .map(({ id, persona, twitterRank }, i) => {
-                const { twitterAvatarUrl, twitterHandle, name } = persona;
+              .map(({ persona, twitterRank, gardnerLevel }, i) => {
+                const { id, twitterAvatarUrl, twitterHandle, name } = persona;
                 const {
                   totalMentions,
                   totalEngagementScore,
@@ -382,8 +372,6 @@ const LeaderBoard = () => {
                   totalSentimentScore,
                   totalScore,
                 } = twitterRank;
-                // const scorePercentage =
-                //   ((totalScore - minScore) / (maxScore - minScore)) * 100;
 
                 return (
                   <tr
@@ -456,30 +444,29 @@ const LeaderBoard = () => {
                       />
                     </td>
                     <td className="text-center">{totalScore}</td>
-                    {/* TODO: Bring back when level is available to fetch from API */}
-                    {/* <td>
-                      {scorePercentage < 20 ? (
+                    <td>
+                      {gardnerLevel === 1 ? (
                         <Image
                           src="/images/level_1.png"
                           width={16}
                           height={16}
                           alt=""
                         />
-                      ) : scorePercentage < 40 ? (
+                      ) : gardnerLevel === 2 ? (
                         <Image
                           src="/images/level_2.png"
                           width={16}
                           height={16}
                           alt=""
                         />
-                      ) : scorePercentage < 60 ? (
+                      ) : gardnerLevel === 3 ? (
                         <Image
                           src="/images/level_3.png"
                           width={16}
                           height={16}
                           alt=""
                         />
-                      ) : scorePercentage < 80 ? (
+                      ) : gardnerLevel === 4 ? (
                         <Image
                           src="/images/level_4.png"
                           width={16}
@@ -494,7 +481,7 @@ const LeaderBoard = () => {
                           alt=""
                         />
                       )}
-                    </td> */}
+                    </td>
                   </tr>
                 );
               })}
