@@ -370,7 +370,7 @@ const LeaderBoard = () => {
                   totalDepthScore,
                   totalNoveltyScore,
                   totalSentimentScore,
-                  totalScore,
+                  totalScoreTimeDecayed,
                 } = twitterRank;
 
                 return (
@@ -443,7 +443,7 @@ const LeaderBoard = () => {
                         color="bg-[#F58634]"
                       />
                     </td>
-                    <td className="text-center">{totalScore}</td>
+                    <td className="text-center">{totalScoreTimeDecayed}</td>
                     <td>
                       {gardnerLevel === 1 ? (
                         <Image
