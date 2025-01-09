@@ -189,7 +189,7 @@ const LeaderBoard = () => {
 
   return (
     <Card
-      contentClassName="flex flex-col !p-0 !h-[750px]"
+      contentClassName="flex flex-col !p-0 !h-[750px] cursor-default"
       className="max-h-[90vh]"
       title="My Gardeners"
     >
