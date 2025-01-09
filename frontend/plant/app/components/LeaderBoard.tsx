@@ -134,6 +134,11 @@ const LeaderBoard = () => {
     fetchLeaderboardData();
   }, [fetchLeaderboardData]);
 
+  // Whenever search param and page size change, reset page to 1
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedSearchName, pageSize]);
+
   // TODO: Rid of when level is available to fetch from API
   // // Get min and max score
   // const [minScore, maxScore] = useMemo(() => {
