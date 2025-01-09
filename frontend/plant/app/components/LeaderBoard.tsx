@@ -196,7 +196,7 @@ const LeaderBoard = () => {
               <th className="w-[15%] sticky left-0 bg-primary z-10">
                 <div className="flex items-center gap-1 w-full relative">
                   <input
-                    className="w-full bg-transparent border border-black rounded-[20px] font-bold text-xs px-2 py-1 placeholder:text-black placeholder:font-bold focus:bg-white focus:outline-none focus:placeholder:text-gray-500"
+                    className="w-full bg-transparent border border-black rounded-[20px] font-bold text-xs px-2 py-1 placeholder:text-black placeholder:font-bold focus:bg-white focus:outline-none focus:placeholder:text-gray-500 focus:border-[#70C238]"
                     placeholder="User Search"
                     value={searchName}
                     onChange={handleSearchNameChange}
