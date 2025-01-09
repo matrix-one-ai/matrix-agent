@@ -14,7 +14,6 @@ import Tooltip from "@/app/components/Tooltip";
 import AmmoProgress from "@/app/components/AmmoChart";
 import Dropdown from "@/app/components/Dropdown";
 // import SortButton from "@/app/components/SortButton";
-// import useInfiniteScroll from "@/app/hooks/useInfiniteScroll";
 import { useToggle } from "@/app/hooks/useToggle";
 import QuestionIcon from "@/app/components/Icons/QuestionIcon";
 import LeftChevronIcon from "@/app/components/Icons/LeftChevronIcon";
@@ -76,18 +75,6 @@ const LeaderBoard = () => {
   //   },
   //   [data, sortData],
   // );
-
-  // Handler for load more
-  // const handleLoadMore = useCallback(() => {
-  //   // TODO: Integrate with backend for loading more data
-  //   toggleOnLoading();
-  //   setTimeout(() => {
-  //     setData((cur) => [...cur, ...MOCK_DATA]);
-  //     toggleOffLoading();
-  //   }, 2000);
-  // }, [toggleOffLoading, toggleOnLoading]);
-
-  // const targetRef = useInfiniteScroll(handleLoadMore);
 
   const fetchLeaderboardData = useCallback(async () => {
     try {
@@ -169,13 +156,6 @@ const LeaderBoard = () => {
   const handleGoToPage = useCallback((page: number) => {
     setPage(page);
   }, []);
-
-  // // Handler for changing page to next LB_PAGE_COUNT_LIMIT
-  // const handleGoToNextPages = useCallback(() => {
-  //   if (visiblePageNumbers[visiblePageNumbers.length - 1] < maxPage) {
-  //     setPage((cur) => cur + LB_PAGE_COUNT_LIMIT);
-  //   }
-  // }, [visiblePageNumbers, maxPage]);
 
   // Handler for changing page to next one
   const handleGoToNextPage = useCallback(() => {
@@ -487,13 +467,6 @@ const LeaderBoard = () => {
               })}
           </tbody>
         </table>
-        {/* TODO: Rid of infinite scrolling target element */}
-        {/* Target element for infinite scroll */}
-        {/* {loading ? (
-          <p className="text-center">Loading more...</p>
-        ) : (
-          <div className="h-[1px]" />
-        )} */}
       </div>
       {loading && (
         <p className="text-center absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 font-bold">
@@ -531,19 +504,6 @@ const LeaderBoard = () => {
                     {pg}
                   </button>
                 ))}
-                {/* TODO: Confirm UX */}
-                {/* <button
-                className="flex justify-center w-[21px] h-4 font-bold"
-                onClick={handleGoToNextPages}
-              >
-                ...
-              </button>
-              <button
-                className="flex justify-center w-[21px] h-4 font-bold"
-                onClick={() => handleGoToPage(maxPage)}
-              >
-                {maxPage}
-              </button> */}
               </div>
               <button
                 className="flex justify-center items-center w-[15px] h-[15px] disabled:opacity-25"
