@@ -504,8 +504,8 @@ const LeaderBoard = () => {
                   <button
                     key={`pagination-btn-${pg}`}
                     className={clsx(
-                      "flex justify-center items-center w-[21px] h-4 rounded-[100px] border border-black/0 hover:bg-[#F9E9C4]",
-                      pg === page && "border-black/100",
+                      "flex justify-center items-center w-[21px] h-4 rounded-[100px] border border-black/0",
+                      pg === page && "border-black/100 bg-[#F9E9C4]",
                     )}
                     onClick={() => handleGoToPage(pg)}
                   >
