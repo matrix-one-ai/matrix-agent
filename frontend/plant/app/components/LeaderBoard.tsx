@@ -141,7 +141,8 @@ const LeaderBoard = () => {
 
     const startPage =
       Math.floor((page - 1) / LB_PAGE_COUNT_LIMIT) * LB_PAGE_COUNT_LIMIT + 1;
-    const endPage = startPage + 4;
+    let endPage = startPage + 4;
+    endPage = endPage > maxPage ? maxPage : endPage;
 
     return Array.from(
       { length: endPage - startPage + 1 },
