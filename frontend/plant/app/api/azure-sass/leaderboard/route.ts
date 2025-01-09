@@ -39,6 +39,7 @@ export async function GET(request: NextRequest) {
   const page = parseInt(searchParams.get("page") || "null", 10);
   const pageSize = parseInt(searchParams.get("pagesize") || "null", 10);
   const personaName = searchParams.get("personaName");
+  const sorting = searchParams.get("sorting");
 
   try {
     if (!authAccessToken || isTokenExpired(authAccessToken)) {
@@ -82,6 +83,7 @@ export async function GET(request: NextRequest) {
           skipCount: (page - 1) * pageSize,
           characterName: "Plant",
           ...(personaName && { personaName }),
+          ...(sorting && { sorting }),
         }),
       },
     );

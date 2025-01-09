@@ -13,7 +13,7 @@ import Card from "@/app/components/Card/Card";
 import Tooltip from "@/app/components/Tooltip";
 import AmmoProgress from "@/app/components/AmmoChart";
 import Dropdown from "@/app/components/Dropdown";
-// import SortButton from "@/app/components/SortButton";
+import SortButton from "@/app/components/SortButton";
 import { useToggle } from "@/app/hooks/useToggle";
 import QuestionIcon from "@/app/components/Icons/QuestionIcon";
 import LeftChevronIcon from "@/app/components/Icons/LeftChevronIcon";
@@ -21,8 +21,8 @@ import RightChevronIcon from "@/app/components/Icons/RightChevronIcon";
 import SearchIcon from "@/app/components/Icons/SearchIcon";
 import {
   ILeaderBoardData,
-  // TLeaderBoardDataItem,
-  // TSortDirection,
+  TLeaderBoardDataItem,
+  TSortDirection,
   ELeaderBoardPageSize,
 } from "@/app/types";
 import {
@@ -31,7 +31,6 @@ import {
   LB_PAGE_COUNT_LIMIT,
 } from "@/app/constants";
 import { AbortableFetch } from "@/app/utils/abortablePromise";
-// import { sortObjectArray } from "@/app/utils/array";
 
 const LeaderBoard = () => {
   const [loading, { toggleOn: toggleOnLoading, toggleOff: toggleOffLoading }] =
@@ -41,40 +40,36 @@ const LeaderBoard = () => {
   const [pageSize, setPageSize] = useState<number>(ELeaderBoardPageSize.TWENTY);
   const [searchName, setSearchName] = useState<string>("");
   const [debouncedSearchName] = useDebounce(searchName, 1000);
-  // const [sortData, setSortData] = useState<{
-  //   column: string;
-  //   direction: TSortDirection;
-  // }>({
-  //   column: "",
-  //   direction: "none",
-  // });
+  const [sortData, setSortData] = useState<{
+    column: string;
+    direction: TSortDirection;
+  }>({
+    column: "TwitterRank.TotalScoreTimeDecayed",
+    direction: "desc",
+  });
   const tableWrapperRef = useRef<HTMLDivElement | null>(null);
   const abortableLBFetchRef = useRef<AbortableFetch | null>(null);
 
-  // // Handler for sorting
-  // const handleSort = useCallback(
-  //   (e: React.MouseEvent<HTMLButtonElement>) => {
-  //     const column = e.currentTarget.dataset.column as
-  //       | keyof TLeaderBoardDataItem
-  //       | undefined;
+  // Handler for sorting
+  const handleSort = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const column = e.currentTarget.dataset.column as
+        | keyof TLeaderBoardDataItem
+        | undefined;
 
-  //     // column info is necessary
-  //     if (!column || data === null) return;
+      // column info is necessary
+      if (!column || data === null) return;
 
-  //     let sortDirection: TSortDirection = "asc";
-  //     if (sortData.column === column) {
-  //       // Toggle direction
-  //       sortDirection = sortData.direction === "asc" ? "desc" : "asc";
-  //     }
+      let sortDirection: TSortDirection = "desc";
+      if (sortData.column === column) {
+        // Toggle direction
+        sortDirection = sortData.direction === "asc" ? "desc" : "asc";
+      }
 
-  //     setSortData({ column, direction: sortDirection });
-
-  //     const items = sortObjectArray(data.items, column, sortDirection);
-  //     console.log(items);
-  //     setData({ ...data, items });
-  //   },
-  //   [data, sortData],
-  // );
+      setSortData({ column, direction: sortDirection });
+    },
+    [data, sortData],
+  );
 
   const fetchLeaderboardData = useCallback(async () => {
     try {
@@ -83,7 +78,7 @@ const LeaderBoard = () => {
       toggleOnLoading();
 
       abortableLBFetchRef.current = new AbortableFetch(
-        `/api/azure-sass/leaderboard?page=${page}&pagesize=${pageSize}&personaName=${debouncedSearchName}`,
+        `/api/azure-sass/leaderboard?page=${page}&pagesize=${pageSize}&personaName=${debouncedSearchName}&sorting=${sortData.direction === "asc" ? `${sortData.column}` : `${sortData.column} desc`}`,
         {
           headers: {
             cache: "no-cache",
@@ -115,16 +110,23 @@ const LeaderBoard = () => {
         console.error("Fetch failed:", error);
       }
     }
-  }, [toggleOffLoading, toggleOnLoading, page, pageSize, debouncedSearchName]);
+  }, [
+    toggleOffLoading,
+    toggleOnLoading,
+    page,
+    pageSize,
+    debouncedSearchName,
+    sortData,
+  ]);
 
   useEffect(() => {
     fetchLeaderboardData();
   }, [fetchLeaderboardData]);
 
-  // Whenever search param and page size change, reset page to 1
+  // Whenever search param, sort data, and page size change, reset page to 1
   useEffect(() => {
     setPage(1);
-  }, [debouncedSearchName, pageSize]);
+  }, [debouncedSearchName, pageSize, sortData]);
 
   // Get max page number
   const maxPage = useMemo(
@@ -187,7 +189,7 @@ const LeaderBoard = () => {
       >
         <table
           className={clsx(
-            "w-full min-w-[900px] table-fixed overflow-x-auto font-bold border-collapse",
+            "w-full min-w-[980px] table-fixed overflow-x-auto font-bold border-collapse",
             loading && "animate-pulse animate-duration-[1500ms]",
           )}
         >
@@ -214,128 +216,128 @@ const LeaderBoard = () => {
                 </div>
               </th>
               <th className="w-[12%] text-center">
-                <div className="flex items-center justify-center gap-1">
+                <div className="flex items-center justify-center gap-0.5">
                   <Tooltip content="The number of Mentions and therefore memories saved by Plant in its Relationship database">
                     <div className="flex gap-1 items-center">
                       Mentions <QuestionIcon />
                     </div>
                   </Tooltip>
-                  {/* <SortButton
+                  <SortButton
                     direction={
-                      sortData.column === "twitterRank.totalMentions"
+                      sortData.column === "TwitterRank.TotalMentions"
                         ? sortData.direction
                         : "none"
                     }
-                    data-column="twitterRank.totalMentions"
+                    data-column="TwitterRank.TotalMentions"
                     onClick={handleSort}
-                  /> */}
+                  />
                 </div>
               </th>
               <th className="text-center">
-                <div className="flex items-center justify-center gap-1">
+                <div className="flex items-center justify-center gap-0.5">
                   <Tooltip content="The total engagement (Replies, Retweets, Likes, Views) on your mentions with Plant">
                     <div className="flex gap-1 items-center">
                       Engagement <QuestionIcon />
                     </div>
                   </Tooltip>
-                  {/* <SortButton
+                  <SortButton
                     direction={
-                      sortData.column === "twitterRank.totalEngagementScore"
+                      sortData.column === "TwitterRank.TotalEngagementScore"
                         ? sortData.direction
                         : "none"
                     }
-                    data-column="twitterRank.totalEngagementScore"
+                    data-column="TwitterRank.TotalEngagementScore"
                     onClick={handleSort}
-                  /> */}
+                  />
                 </div>
               </th>
               <th className="text-center">
-                <div className="flex items-center justify-center gap-1">
+                <div className="flex items-center justify-center gap-0.5">
                   <Tooltip content="Relevance of your Mention with Plant on X. It should be related to tokens or wallets or crypto projects.">
                     <div className="flex gap-1 items-center">
                       Relevance <QuestionIcon />
                     </div>
                   </Tooltip>
-                  {/* <SortButton
+                  <SortButton
                     direction={
-                      sortData.column === "twitterRank.totalRelevanceScore"
+                      sortData.column === "TwitterRank.TotalRelevanceScore"
                         ? sortData.direction
                         : "none"
                     }
-                    data-column="twitterRank.totalRelevanceScore"
+                    data-column="TwitterRank.TotalRelevanceScore"
                     onClick={handleSort}
-                  /> */}
+                  />
                 </div>
               </th>
               <th className="text-center">
-                <div className="flex items-center justify-center gap-1">
+                <div className="flex items-center justify-center gap-0.5">
                   <Tooltip content="Depth in your Mention with Plant on X. The more information and words the more it learns.">
                     <div className="flex gap-1 items-center">
                       Depth <QuestionIcon />
                     </div>
                   </Tooltip>
-                  {/* <SortButton
+                  <SortButton
                     direction={
-                      sortData.column === "twitterRank.totalDepthScore"
+                      sortData.column === "TwitterRank.TotalDepthScore"
                         ? sortData.direction
                         : "none"
                     }
-                    data-column="twitterRank.totalDepthScore"
+                    data-column="TwitterRank.TotalDepthScore"
                     onClick={handleSort}
-                  /> */}
+                  />
                 </div>
               </th>
               <th className="text-center">
-                <div className="flex items-center justify-center gap-1">
+                <div className="flex items-center justify-center gap-0.5">
                   <Tooltip content="Novelty in your Mentions with Plant on X. New tokens and projects are valued more. Tokens that have never been mentioned before.">
                     <div className="flex gap-1 items-center">
                       Novelty <QuestionIcon />
                     </div>
                   </Tooltip>
-                  {/* <SortButton
+                  <SortButton
                     direction={
-                      sortData.column === "twitterRank.totalNoveltyScore"
+                      sortData.column === "TwitterRank.TotalNoveltyScore"
                         ? sortData.direction
                         : "none"
                     }
-                    data-column="twitterRank.totalNoveltyScore"
+                    data-column="TwitterRank.TotalNoveltyScore"
                     onClick={handleSort}
-                  /> */}
+                  />
                 </div>
               </th>
               <th className="text-center">
-                <div className="flex items-center justify-center gap-1">
+                <div className="flex items-center justify-center gap-0.5">
                   <Tooltip content="Sentiment in your mentions with Plant on X. Positive sentiment is valued more.">
                     <div className="flex gap-1 items-center">
                       Sentiment <QuestionIcon />
                     </div>
                   </Tooltip>
-                  {/* <SortButton
+                  <SortButton
                     direction={
-                      sortData.column === "twitterRank.totalSentimentScore"
+                      sortData.column === "TwitterRank.TotalSentimentScore"
                         ? sortData.direction
                         : "none"
                     }
-                    data-column="twitterRank.totalSentimentScore"
+                    data-column="TwitterRank.TotalSentimentScore"
                     onClick={handleSort}
-                  /> */}
+                  />
                 </div>
               </th>
               <th>
-                <div className="flex items-center justify-center gap-1">
+                <div className="flex items-center justify-center gap-0.5">
                   Score
-                  {/* <SortButton
+                  <SortButton
                     direction={
-                      sortData.column === "twitterRank.totalScore"
+                      sortData.column === "TwitterRank.TotalScoreTimeDecayed"
                         ? sortData.direction
                         : "none"
                     }
-                    data-column="twitterRank.totalScore"
+                    data-column="TwitterRank.TotalScoreTimeDecayed"
                     onClick={handleSort}
-                  /> */}
+                  />
                 </div>
               </th>
-              <th className="w-[50px]" />
+              <th className="w-[30px]" />
             </tr>
           </thead>
           <tbody>

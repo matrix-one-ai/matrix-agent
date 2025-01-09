@@ -20,13 +20,13 @@ const SortButton: React.FC<ISortButtonProps> = ({
       <div
         className={clsx(
           "relative w-0 h-0 border-l-[5px] border-r-[5px] border-b-[6px] border-l-transparent border-r-transparent",
-          direction === "desc" ? "border-b-[#989898]" : "border-b-secondary",
+          direction === "asc" ? "border-b-[#989898]" : "border-b-secondary",
         )}
       />
       <div
         className={clsx(
           "relative w-0 h-0 border-l-[5px] border-r-[5px] border-t-[6px] border-l-transparent border-r-transparent",
-          direction === "asc" ? "border-t-[#989898]" : "border-t-secondary",
+          direction === "desc" ? "border-t-[#989898]" : "border-t-secondary",
         )}
       />
     </button>
