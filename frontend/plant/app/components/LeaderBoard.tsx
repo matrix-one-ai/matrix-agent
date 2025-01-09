@@ -139,10 +139,15 @@ const LeaderBoard = () => {
     if (maxPage <= LB_PAGE_COUNT_LIMIT)
       return Array.from({ length: maxPage }, (_, i) => i + 1);
 
-    const startPage =
+    let startPage =
       Math.floor((page - 1) / LB_PAGE_COUNT_LIMIT) * LB_PAGE_COUNT_LIMIT + 1;
     let endPage = startPage + 4;
-    endPage = endPage > maxPage ? maxPage : endPage;
+
+    // If endPage is greater than maxPage, adjust startPage and endPage
+    if (endPage > maxPage) {
+      startPage = maxPage - 4;
+      endPage = maxPage;
+    }
 
     return Array.from(
       { length: endPage - startPage + 1 },
@@ -499,7 +504,7 @@ const LeaderBoard = () => {
                   <button
                     key={`pagination-btn-${pg}`}
                     className={clsx(
-                      "flex justify-center items-center w-[21px] h-4 rounded-[100px] border border-black/0",
+                      "flex justify-center items-center w-[21px] h-4 rounded-[100px] border border-black/0 hover:bg-[#F9E9C4]",
                       pg === page && "border-black/100",
                     )}
                     onClick={() => handleGoToPage(pg)}
