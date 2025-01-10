@@ -136,6 +136,25 @@ export interface ILeaderBoardData {
   items: TLeaderBoardDataItem[];
 }
 
+export type TLatestTweetsDataItem = {
+  name: string;
+  avatarUrl: string;
+  bookmarkCount: number;
+  handle: string;
+  likes: number;
+  replies: number;
+  retweets: number;
+  tweetDate: string;
+  tweetText: string;
+  tweetUrl: string;
+  views: number;
+};
+
+export interface ILatestTweetsData {
+  totalCount: number;
+  items: TLatestTweetsDataItem[];
+}
+
 export type TSortDirection = "asc" | "desc" | "none";
 
 export enum ELeaderBoardPageSize {

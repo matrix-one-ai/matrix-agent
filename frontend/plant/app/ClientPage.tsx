@@ -8,6 +8,7 @@ import React from "react";
 // } from "./types";
 import Link from "next/link";
 import { useTweetWidget } from "./hooks/useTweetWidget";
+import LatestTweets from "@/app/components/LatestTweets";
 import LeaderBoard from "@/app/components/LeaderBoard";
 // import Card from "@/app/components/Card/Card";
 import CactusVRM from "@/app/components/CactusVRM";
@@ -133,6 +134,7 @@ const ClientPage = () => {
 
       {/* Leaderboard */}
       <div className="flex flex-col gap-6 w-full">
+        <LatestTweets />
         <LeaderBoard />
         {/* <Card
           contentClassName="!overflow-auto"

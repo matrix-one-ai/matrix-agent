@@ -1,26 +1,35 @@
 /**
- * Extract date and time from an ISO string
- * @param timestamp
+ * Converts a UTC date string to a local date string
  * @returns
  */
-export function formatTimestampToLocal(timestamp: string): {
-  date: string;
-  time: string;
-} {
-  const dateObj = new Date(timestamp); // Convert the ISO string to a Date object
+export function formatLocalDate(input: string): string {
+  const date = new Date(input);
 
-  // Extract and format the date
-  const day = dateObj.getDate();
-  const month = dateObj.toLocaleString("default", { month: "long" }); // e.g., "November"
-  const year = dateObj.getFullYear();
-  const formattedDate = `${day} ${month} ${year}`;
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const month = months[date.getMonth()];
+  const day = date.getDate();
 
-  // Extract and format the time
-  const hours = dateObj.getHours().toString().padStart(2, "0");
-  const minutes = dateObj.getMinutes().toString().padStart(2, "0");
-  const formattedTime = `${hours}:${minutes}`;
+  let hours = date.getHours();
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  const period = hours >= 12 ? "PM" : "AM";
 
-  return { date: formattedDate, time: formattedTime };
+  hours = hours % 12 || 12;
+  const formattedHours = hours.toString().padStart(2, "0");
+
+  return `${month} ${day}, ${formattedHours}:${minutes}${period}`;
 }
 
 /**
