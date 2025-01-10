@@ -195,13 +195,13 @@ const LeaderBoard = () => {
       >
         <table
           className={clsx(
-            "w-full min-w-[980px] table-fixed overflow-x-auto font-bold border-collapse",
+            "w-full min-w-[940px] table-fixed overflow-x-auto font-bold border-collapse",
             loading && "animate-pulse animate-duration-[1500ms]",
           )}
         >
           <thead className="sticky top-0 bg-primary z-10">
             <tr className="text-left h-11">
-              <th className="w-[15%] sticky left-0 bg-primary z-10">
+              <th className="w-[12%] sticky left-0 bg-primary z-10">
                 <div className="flex items-center gap-1 w-full relative">
                   <input
                     className="w-full bg-transparent border border-black rounded-[20px] font-bold text-xs px-2 py-1 placeholder:text-black placeholder:font-bold focus:bg-white focus:outline-none focus:placeholder:text-gray-500 focus:border-[#70C238]"
