@@ -1,5 +1,6 @@
 import { ImageResponse } from "@vercel/og";
 import { NextRequest, NextResponse } from "next/server";
+import { getBaseUrl } from "@/app/api/utils/baseUrl";
 
 const loadFont = async (fontUrl: string): Promise<ArrayBuffer> => {
   const response = await fetch(fontUrl);
@@ -23,16 +24,9 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const urlOrigin =
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:3000"
-        : process.env.VERCEL_URL
-          ? `https://${process.env.VERCEL_URL}`
-          : "https://plant.fun";
-    const fontData = await loadFont(
-      `${urlOrigin}/fonts/Comic Sans MS Bold.ttf`,
-    );
-    const backgroundImage = `${urlOrigin}/images/post.png`;
+    const baseUrl = getBaseUrl();
+    const fontData = await loadFont(`${baseUrl}/fonts/Comic Sans MS Bold.ttf`);
+    const backgroundImage = `${baseUrl}/images/post.png`;
 
     return new ImageResponse(
       (
