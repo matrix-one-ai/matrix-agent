@@ -16,6 +16,7 @@ import FeedMeButton from "@/app/components/FeedMeButton";
 import XIcon from "@/app/components/Icons/XIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import TelegramIcon from "@/app/components/Icons/TelegramIcon";
+import CoinMarketIcon from "@/app/components/Icons/CoinMarketIcon";
 import { getDaysBetweenDates } from "./utils/string";
 
 const ClientPage = () => {
@@ -162,7 +163,7 @@ const ClientPage = () => {
               4BsE91MrbhEeJmWJ3ddX58hN4iAk8gXmvZv5JYUapump
             </span>
           </div>
-          <div className="flex items-center justify-around font-bold w-full max-w-[600px] flex-col md:flex-row gap-6 md:gap-2">
+          <div className="flex items-center justify-around font-bold w-full flex-col md:flex-row gap-6 md:gap-2">
             <div className="flex items-center gap-2">
               <XIcon />
               <Link
@@ -190,7 +191,7 @@ const ClientPage = () => {
                 className="underline text-black"
                 target="_blank"
               >
-                @PLANT
+                pump.fun
               </Link>
             </div>
             <div className="flex items-center gap-2">
@@ -201,6 +202,16 @@ const ClientPage = () => {
                 target="_blank"
               >
                 @aplant
+              </Link>
+            </div>
+            <div className="flex items-center gap-2">
+              <CoinMarketIcon />
+              <Link
+                href="https://coinmarketcap.com/currencies/plant/"
+                className="underline text-black"
+                target="_blank"
+              >
+                coinmarketcap
               </Link>
             </div>
           </div>
