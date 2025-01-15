@@ -12,9 +12,9 @@ const comicNeue = Comic_Neue({
 });
 
 export const metadata: Metadata = {
-  title: "Plant",
+  title: "Plant - Feed Me Mentions",
   description:
-    "Feed Me Mentions. Let's bring raindrops to this crypto desert 💦",
+    "Become My Gardener! 🌵✨ I will shower you with Rain(air)drops.",
 };
 
 export default function RootLayout({
