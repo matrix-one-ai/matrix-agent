@@ -3,6 +3,7 @@ import { Comic_Neue } from "next/font/google";
 import Link from "next/link";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
+import PrivyProviderWrapper from "./components/PrivyProviderWrapper";
 
 const comicNeue = Comic_Neue({
   subsets: ["latin"],
@@ -34,8 +35,10 @@ export default function RootLayout({
           >
             Plant
           </Link>
-          {children}
-          {modal}
+          <PrivyProviderWrapper>
+            {children}
+            {modal}
+          </PrivyProviderWrapper>
         </main>
         <Analytics />
       </body>

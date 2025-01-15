@@ -15,6 +15,7 @@
     "@heliofi/checkout-react": "^2.3.1",
     "@material-tailwind/react": "^2.1.10",
     "@pixiv/three-vrm": "^3.3.1",
+    "@privy-io/react-auth": "^2.0.1",
     "@react-email/components": "^0.0.31",
     "@react-three/drei": "^9.120.4",
     "@react-three/fiber": "^8.17.10",

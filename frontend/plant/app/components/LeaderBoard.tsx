@@ -8,6 +8,7 @@ import React, {
 import Link from "next/link";
 import Image from "next/image";
 import clsx from "clsx";
+import { usePrivy } from "@privy-io/react-auth";
 import { useDebounce } from "use-debounce";
 import Card from "@/app/components/Card/Card";
 import Tooltip from "@/app/components/Tooltip";
@@ -33,6 +34,8 @@ import {
 import { AbortableFetch } from "@/app/utils/abortablePromise";
 
 const LeaderBoard = () => {
+  const { ready, authenticated, user, linkWallet, linkTwitter, login, logout } =
+    usePrivy();
   const [loading, { toggleOn: toggleOnLoading, toggleOff: toggleOffLoading }] =
     useToggle(false);
   const [data, setData] = useState<ILeaderBoardData | null>(null);
@@ -49,6 +52,32 @@ const LeaderBoard = () => {
   });
   const tableWrapperRef = useRef<HTMLDivElement | null>(null);
   const abortableLBFetchRef = useRef<AbortableFetch | null>(null);
+
+  // Handler for login
+  const handleLogin = useCallback(() => {
+    // Let show link modal for twitter or wallet after the login
+    localStorage.setItem("linkAccount", "true");
+    login();
+  }, [login]);
+
+  // Link wallet or twitter too
+  useEffect(() => {
+    const linkAccount = localStorage.getItem("linkAccount") === "true";
+
+    if (!authenticated || !user || !linkAccount) return;
+
+    const { wallet, twitter } = user;
+
+    // Link actions
+    if (!wallet) {
+      linkWallet();
+    } else if (!twitter) {
+      linkTwitter();
+    }
+
+    // Don't show link modal again
+    localStorage.setItem("linkAccount", "false");
+  }, [authenticated, user, linkWallet, linkTwitter]);
 
   // Handler for sorting
   const handleSort = useCallback(
@@ -189,6 +218,22 @@ const LeaderBoard = () => {
       className="max-h-[90vh]"
       title="My Gardeners"
     >
+      <div className="h-10">
+        {ready &&
+          (authenticated ? (
+            <>
+              {!user?.wallet && (
+                <button onClick={linkWallet}>Link wallet</button>
+              )}
+              {!user?.twitter && (
+                <button onClick={linkTwitter}>Link twitter</button>
+              )}
+              <button onClick={logout}>Logout</button>
+            </>
+          ) : (
+            <button onClick={handleLogin}>Login</button>
+          ))}
+      </div>
       <div
         ref={tableWrapperRef}
         className="relative w-full h-0 flex-grow px-4 overflow-auto [clip-path:inset(0_16px_round_0)]"
