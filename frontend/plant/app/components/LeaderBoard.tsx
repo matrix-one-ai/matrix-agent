@@ -267,7 +267,12 @@ const LeaderBoard = () => {
       className="max-h-[90vh]"
       title="My Gardeners"
     >
-      <div className="px-4 py-6 flex justify-between">
+      <div
+        className={clsx(
+          "px-4 py-6 flex justify-between",
+          !ready && "invisible",
+        )}
+      >
         <div>{/* TODO: Time bar for next airdrop */}</div>
         <div className="flex flex-col gap-1 text-sm font-bold">
           <div className="flex items-center gap-2">
