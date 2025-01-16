@@ -8,7 +8,14 @@ import React, {
 import Link from "next/link";
 import Image from "next/image";
 import clsx from "clsx";
-import { usePrivy } from "@privy-io/react-auth";
+import {
+  usePrivy,
+  useLogin,
+  useLinkAccount,
+  PrivyErrorCode,
+  User,
+  LinkedAccountWithMetadata,
+} from "@privy-io/react-auth";
 import { useDebounce } from "use-debounce";
 import Card from "@/app/components/Card/Card";
 import Tooltip from "@/app/components/Tooltip";
@@ -34,8 +41,7 @@ import {
 import { AbortableFetch } from "@/app/utils/abortablePromise";
 
 const LeaderBoard = () => {
-  const { ready, authenticated, user, linkWallet, linkTwitter, login, logout } =
-    usePrivy();
+  const { ready, authenticated, user, logout } = usePrivy();
   const [loading, { toggleOn: toggleOnLoading, toggleOff: toggleOffLoading }] =
     useToggle(false);
   const [data, setData] = useState<ILeaderBoardData | null>(null);
@@ -53,31 +59,63 @@ const LeaderBoard = () => {
   const tableWrapperRef = useRef<HTMLDivElement | null>(null);
   const abortableLBFetchRef = useRef<AbortableFetch | null>(null);
 
-  // Handler for login
-  const handleLogin = useCallback(() => {
-    // Let show link modal for twitter or wallet after the login
-    localStorage.setItem("linkAccount", "true");
-    login();
-  }, [login]);
+  // Callback for privy link account success
+  const onLinkAccountSuccess = useCallback(
+    ({
+      user,
+    }: {
+      user: User;
+      linkMethod: string; // TODO: Instead of string, LoginMethod should be used, but that type is not exported from privy lib
+      linkedAccount: LinkedAccountWithMetadata;
+    }) => {
+      // TODO: API integration
+      console.info(user);
+    },
+    [],
+  );
 
-  // Link wallet or twitter too
-  useEffect(() => {
-    const linkAccount = localStorage.getItem("linkAccount") === "true";
+  // Callback for privy link account failed
+  const onLinkAccountFailed = useCallback((error: PrivyErrorCode) => {
+    console.warn("Linking account failed: ", error);
+  }, []);
 
-    if (!authenticated || !user || !linkAccount) return;
+  const { linkTwitter, linkWallet } = useLinkAccount({
+    onSuccess: onLinkAccountSuccess,
+    onError: onLinkAccountFailed,
+  });
 
-    const { wallet, twitter } = user;
+  // Callback for privy login success
+  const onLoginComplete = useCallback(
+    ({
+      user,
+    }: {
+      user: User;
+      isNewUser: boolean;
+      wasAlreadyAuthenticated: boolean;
+      loginMethod: string | null; // TODO: Instead of string, LoginMethod should be used, but that type is not exported from privy lib
+      loginAccount: LinkedAccountWithMetadata | null;
+    }) => {
+      const { wallet, twitter } = user;
 
-    // Link actions
-    if (!wallet) {
-      linkWallet();
-    } else if (!twitter) {
-      linkTwitter();
-    }
+      // Link actions
+      if (!wallet) {
+        linkWallet();
+      } else if (!twitter) {
+        linkTwitter();
+      }
+    },
+    [linkTwitter, linkWallet],
+  );
 
-    // Don't show link modal again
-    localStorage.setItem("linkAccount", "false");
-  }, [authenticated, user, linkWallet, linkTwitter]);
+  // Callback for privy login failed
+  const onLoginFailed = useCallback((error: PrivyErrorCode) => {
+    console.error("Login failed: ", error);
+  }, []);
+
+  const { login } = useLogin({
+    onComplete: onLoginComplete,
+    onError: onLoginFailed,
+  });
 
   // Handler for sorting
   const handleSort = useCallback(
@@ -231,7 +269,7 @@ const LeaderBoard = () => {
               <button onClick={logout}>Logout</button>
             </>
           ) : (
-            <button onClick={handleLogin}>Login</button>
+            <button onClick={login}>Login</button>
           ))}
       </div>
       <div
