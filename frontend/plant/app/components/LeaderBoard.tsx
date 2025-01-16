@@ -269,23 +269,35 @@ const LeaderBoard = () => {
     >
       <div
         className={clsx(
-          "px-4 py-6 flex justify-between",
+          "px-4 py-6 flex justify-between gap-4 flex-col-reverse md:flex-row text-sm font-bold",
           !ready && "invisible",
         )}
       >
-        <div>{/* TODO: Time bar for next airdrop */}</div>
-        <div className="flex flex-col gap-1 text-sm font-bold">
+        <div className="flex">
+          <div className="flex flex-col gap-1">
+            <span className="py-1">Time to next Rain(air)drop</span>
+            <div className="flex items-center gap-1.5">
+              {isFullyAuthenticated ? (
+                <span className="text-[#70C238]">You are Eligible</span>
+              ) : (
+                <span className="text-[#C34D4D]">You are Not Eligible</span>
+              )}
+              {isFullyAuthenticated ? <CheckIcon /> : <UncheckIcon />}
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-1 items-end">
           <div className="flex items-center gap-2">
             {isFullyAuthenticated ? (
               <button
-                className="px-4 py-1.5 border border-black rounded-[100px]"
+                className="px-4 py-1 border border-black rounded-[100px]"
                 onClick={logout}
               >
                 Disconnect
               </button>
             ) : (
               <button
-                className="px-4 py-1.5 border border-red-600 rounded-[100px]"
+                className="px-4 py-1 border border-[#C34D4D] rounded-[100px]"
                 onClick={
                   !authenticated
                     ? login
@@ -311,7 +323,7 @@ const LeaderBoard = () => {
           {!isFullyAuthenticated && (
             <div className="flex items-center gap-1.5">
               <WarningIcon />
-              <span className="text-red-600">
+              <span className="text-[#C34D4D]">
                 {!authenticated
                   ? "Please Connect Twitter and Wallet"
                   : !user?.wallet
