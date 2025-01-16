@@ -274,7 +274,7 @@ const LeaderBoard = () => {
         )}
       >
         <div className="flex">
-          <div className="flex flex-col gap-1">
+          {/* <div className="flex flex-col gap-1">
             <span className="py-1">Time to next Rain(air)drop</span>
             <div className="flex items-center gap-1.5">
               {isFullyAuthenticated ? (
@@ -284,7 +284,7 @@ const LeaderBoard = () => {
               )}
               {isFullyAuthenticated ? <CheckIcon /> : <UncheckIcon />}
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="flex flex-col gap-1 items-end">
           <div className="flex items-center gap-2">
