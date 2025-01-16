@@ -19,6 +19,8 @@ export default function PrivyProviderWrapper({
       clientId={process.env.NEXT_PUBLIC_PRIVY_CLIENT_ID || ""}
       config={{
         appearance: {
+          loginMessage:
+            "To claim Rain(air)drop you need to log in with both Twitter and your Wallet accounts",
           // Use 'solana-only' or 'ethereum-and-solana'
           walletChainType: "solana-only",
         },
