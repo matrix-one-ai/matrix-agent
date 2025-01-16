@@ -26,6 +26,11 @@ import { useToggle } from "@/app/hooks/useToggle";
 import QuestionIcon from "@/app/components/Icons/QuestionIcon";
 import LeftChevronIcon from "@/app/components/Icons/LeftChevronIcon";
 import RightChevronIcon from "@/app/components/Icons/RightChevronIcon";
+import XIcon from "@/app/components/Icons/XIcon";
+import WalletIcon from "@/app/components/Icons/WalletIcon";
+import CheckIcon from "@/app/components/Icons/CheckIcon";
+import UncheckIcon from "@/app/components/Icons/UncheckIcon";
+import WarningIcon from "@/app/components/Icons/WarningIcon";
 import SearchIcon from "@/app/components/Icons/SearchIcon";
 import {
   ILeaderBoardData,
@@ -250,27 +255,67 @@ const LeaderBoard = () => {
     [],
   );
 
+  // Check if user is fully authenticated
+  const isFullyAuthenticated = useMemo(
+    () => authenticated && user && user.twitter && user.wallet,
+    [authenticated, user],
+  );
+
   return (
     <Card
       contentClassName="flex flex-col !p-0 !h-[750px] cursor-default"
       className="max-h-[90vh]"
       title="My Gardeners"
     >
-      <div className="h-10">
-        {ready &&
-          (authenticated ? (
-            <>
-              {!user?.wallet && (
-                <button onClick={linkWallet}>Link wallet</button>
-              )}
-              {!user?.twitter && (
-                <button onClick={linkTwitter}>Link twitter</button>
-              )}
-              <button onClick={logout}>Logout</button>
-            </>
-          ) : (
-            <button onClick={login}>Login</button>
-          ))}
+      <div className="px-4 py-6 flex justify-between">
+        <div>{/* TODO: Time bar for next airdrop */}</div>
+        <div className="flex flex-col gap-1 text-sm font-bold">
+          <div className="flex items-center gap-2">
+            {isFullyAuthenticated ? (
+              <button
+                className="px-4 py-1.5 border border-black rounded-[100px]"
+                onClick={logout}
+              >
+                Disconnect
+              </button>
+            ) : (
+              <button
+                className="px-4 py-1.5 border border-red-600 rounded-[100px]"
+                onClick={
+                  !authenticated
+                    ? login
+                    : !user?.wallet
+                      ? linkWallet
+                      : linkTwitter
+                }
+              >
+                Claim Rain(air)drop
+              </button>
+            )}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1">
+                <XIcon />
+                {user?.twitter ? <CheckIcon /> : <UncheckIcon />}
+              </div>
+              <div className="flex items-center gap-1">
+                <WalletIcon />
+                {user?.wallet ? <CheckIcon /> : <UncheckIcon />}
+              </div>
+            </div>
+          </div>
+          {!isFullyAuthenticated && (
+            <div className="flex items-center gap-1.5">
+              <WarningIcon />
+              <span className="text-red-600">
+                {!authenticated
+                  ? "Please Connect Twitter and Wallet"
+                  : !user?.wallet
+                    ? "Please Connect Wallet"
+                    : "Please Connect Twitter"}
+              </span>
+            </div>
+          )}
+        </div>
       </div>
       <div
         ref={tableWrapperRef}
