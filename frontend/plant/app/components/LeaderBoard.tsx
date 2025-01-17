@@ -30,7 +30,6 @@ import XIcon from "@/app/components/Icons/XIcon";
 import WalletIcon from "@/app/components/Icons/WalletIcon";
 import CheckIcon from "@/app/components/Icons/CheckIcon";
 import UncheckIcon from "@/app/components/Icons/UncheckIcon";
-import WarningIcon from "@/app/components/Icons/WarningIcon";
 import SearchIcon from "@/app/components/Icons/SearchIcon";
 import {
   ILeaderBoardData,
@@ -297,7 +296,7 @@ const LeaderBoard = () => {
               </button>
             ) : (
               <button
-                className="px-4 py-1 border border-[#C34D4D] rounded-[100px] hover:bg-[#F9E9C4]"
+                className="px-4 py-1 border border-black rounded-[100px] hover:bg-[#F9E9C4]"
                 onClick={
                   !authenticated
                     ? login
@@ -320,18 +319,17 @@ const LeaderBoard = () => {
               </div>
             </div>
           </div>
-          {!isFullyAuthenticated && (
-            <div className="flex items-center gap-1.5">
-              <WarningIcon />
-              <span className="text-[#C34D4D]">
-                {!authenticated
-                  ? "Please Connect Twitter and Wallet"
-                  : !user?.wallet
-                    ? "Please Connect Wallet"
-                    : "Please Connect Twitter"}
-              </span>
-            </div>
-          )}
+          <div className="flex w-full items-center gap-1.5">
+            <span>
+              {!authenticated
+                ? ""
+                : !user?.wallet
+                  ? "Not Eligible. Connect Wallet"
+                  : !user.twitter
+                    ? "Not Eligible. Connect Twitter"
+                    : "Eligible"}
+            </span>
+          </div>
         </div>
       </div>
       <div
