@@ -66,18 +66,58 @@ const LeaderBoard = () => {
   });
   const tableWrapperRef = useRef<HTMLDivElement | null>(null);
   const abortableLBFetchRef = useRef<AbortableFetch | null>(null);
+  const abortableWalletPostRef = useRef<AbortableFetch | null>(null);
 
   // Callback for privy link account success
   const onLinkAccountSuccess = useCallback(
-    ({
+    async ({
       user,
     }: {
       user: User;
       linkMethod: string; // TODO: Instead of string, LoginMethod should be used, but that type is not exported from privy lib
       linkedAccount: LinkedAccountWithMetadata;
     }) => {
-      // TODO: API integration
-      console.info(user);
+      try {
+        const { wallet, twitter } = user;
+
+        if (!wallet || !twitter) {
+          throw new Error("Wallet and Twitter are required.");
+        }
+
+        abortableWalletPostRef.current?.abort();
+        abortableWalletPostRef.current = new AbortableFetch(
+          "/api/azure-sass/character-persona/update-solana-wallet",
+          {
+            method: "POST",
+            headers: {
+              cache: "no-cache",
+            },
+            body: JSON.stringify({
+              characterName: "Plant",
+              personaName: twitter.name,
+              twitterHandle: `@${twitter.username}`,
+              solanaWallet: wallet.address,
+            }),
+          },
+        );
+        const resp = await abortableWalletPostRef.current.fetch;
+        abortableWalletPostRef.current = null;
+        if (resp.ok) {
+          const { data } = await resp.json();
+
+          if (!data) {
+            throw new Error(
+              "Updating/creating user failed. Please try again later.",
+            );
+          }
+        }
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          console.log("Fetch aborted.");
+        } else {
+          console.error("Fetch failed:", error);
+        }
+      }
     },
     [],
   );
