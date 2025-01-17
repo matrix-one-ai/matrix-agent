@@ -42,7 +42,7 @@ export async function GET() {
           headers: {
             "Content-Type": "application/json",
             "Abp.TenantId": "2",
-            cache: "no-cache",
+            cache: "no-store",
           },
           body: JSON.stringify({
             userNameOrEmailAddress: "external-api",

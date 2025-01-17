@@ -26,7 +26,7 @@ const LatestTweets = () => {
         "/api/azure-sass/latest-tweets",
         {
           headers: {
-            cache: "no-cache",
+            cache: "no-store",
           },
         },
       );

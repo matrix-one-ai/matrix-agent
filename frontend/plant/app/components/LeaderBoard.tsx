@@ -81,7 +81,7 @@ const LeaderBoard = () => {
         `/api/azure-sass/leaderboard?page=${page}&pagesize=${pageSize}&personaName=${debouncedSearchName}&sorting=${sortData.direction === "asc" ? `${sortData.column}` : `${sortData.column} desc`}`,
         {
           headers: {
-            cache: "no-cache",
+            cache: "no-store",
           },
         },
       );

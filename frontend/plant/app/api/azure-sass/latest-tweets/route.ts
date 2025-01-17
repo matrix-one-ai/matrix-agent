@@ -8,7 +8,7 @@ export async function GET() {
     // Authenticate first
     const authResp = await fetch(`${baseUrl}/api/azure-sass/auth`, {
       headers: {
-        cache: "no-cache",
+        cache: "no-store",
       },
     });
 
@@ -27,7 +27,7 @@ export async function GET() {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${data}`,
-            cache: "no-cache",
+            cache: "no-store",
           },
         },
       );
