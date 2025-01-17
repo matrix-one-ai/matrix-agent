@@ -290,14 +290,14 @@ const LeaderBoard = () => {
           <div className="flex items-center gap-2">
             {isFullyAuthenticated ? (
               <button
-                className="px-4 py-1 border border-black rounded-[100px]"
+                className="px-4 py-1 border border-black rounded-[100px] hover:bg-[#F9E9C4]"
                 onClick={logout}
               >
                 Disconnect
               </button>
             ) : (
               <button
-                className="px-4 py-1 border border-[#C34D4D] rounded-[100px]"
+                className="px-4 py-1 border border-[#C34D4D] rounded-[100px] hover:bg-[#F9E9C4]"
                 onClick={
                   !authenticated
                     ? login
