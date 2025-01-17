@@ -14,11 +14,13 @@ import RisingSproutsComingSoon from "@/app/components/RisingSproutsComingSoon";
 // import Card from "@/app/components/Card/Card";
 import CactusVRM from "@/app/components/CactusVRM";
 import FeedMeButton from "@/app/components/FeedMeButton";
+import ClipboardCopy from "@/app/components/ClipboardCopy";
 // import EmojiCursorFollower from "@/app/components/EmojiCursorFollower";
 import XIcon from "@/app/components/Icons/XIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import TelegramIcon from "@/app/components/Icons/TelegramIcon";
 import CoinMarketIcon from "@/app/components/Icons/CoinMarketIcon";
+import ClipboardIcon from "@/app/components/Icons/ClipboardIcon";
 import { getDaysBetweenDates } from "./utils/string";
 
 const ClientPage = () => {
@@ -159,14 +161,18 @@ const ClientPage = () => {
       {/* Footer */}
       <div className="flex flex-col gap-4 w-full">
         <div className="flex flex-col gap-2 w-full items-center">
-          <div className="flex items-center gap-2 font-bold text-sm md:text-base">
+          <ClipboardCopy
+            text="4BsE91MrbhEeJmWJ3ddX58hN4iAk8gXmvZv5JYUapump"
+            className="flex items-center gap-2 font-bold text-sm md:text-base"
+          >
+            <ClipboardIcon />
             <span className="text-secondary [text-shadow:_1px_1px_0_#000,_-1px_-1px_0_#000,_-1px_1px_0_#000,_1px_-1px_0_#000]">
               CA
             </span>
-            <span className="text-black">
+            <span className="text-black underline">
               4BsE91MrbhEeJmWJ3ddX58hN4iAk8gXmvZv5JYUapump
             </span>
-          </div>
+          </ClipboardCopy>
           <div className="flex items-center justify-around font-bold w-full flex-col md:flex-row gap-6 md:gap-2">
             <div className="flex items-center gap-2">
               <XIcon />
