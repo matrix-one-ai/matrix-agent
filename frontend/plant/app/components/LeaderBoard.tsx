@@ -308,16 +308,18 @@ const LeaderBoard = () => {
                 Claim Rain(air)drop
               </button>
             )}
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1">
-                <XIcon />
-                {user?.twitter ? <CheckIcon /> : <UncheckIcon />}
+            {authenticated && (
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1">
+                  <XIcon />
+                  {user?.twitter ? <CheckIcon /> : <UncheckIcon />}
+                </div>
+                <div className="flex items-center gap-1">
+                  <WalletIcon />
+                  {user?.wallet ? <CheckIcon /> : <UncheckIcon />}
+                </div>
               </div>
-              <div className="flex items-center gap-1">
-                <WalletIcon />
-                {user?.wallet ? <CheckIcon /> : <UncheckIcon />}
-              </div>
-            </div>
+            )}
           </div>
           <div className="flex w-full items-center gap-1.5">
             <span>
