@@ -272,14 +272,16 @@ const LeaderBoard = () => {
     >
       <div
         className={clsx(
-          "px-4 py-6 flex justify-between gap-4 flex-col-reverse md:flex-row text-sm font-bold",
+          "px-2 md:px-4 py-6 flex justify-between gap-4 flex-col-reverse lg:flex-row text-sm font-bold",
           !ready && "invisible",
         )}
       >
-        <div className="flex items-start">
-          <div className="flex gap-4 items-center">
-            <span className="py-1">Time to next Rain(air)drop</span>
-            <div className="flex gap-2">
+        <div className="flex items-start  w-full lg:w-0 lg:flex-grow">
+          <div className="flex gap-4 items-center w-full">
+            <span className="py-1 hidden lg:block">
+              Time to next Rain(air)drop
+            </span>
+            <div className="flex justify-between gap-1 w-0 flex-grow">
               {Array.from(
                 { length: AIRDROP_PROGRESS_MILESTONE_COUNT },
                 (_, i) => (
@@ -299,57 +301,82 @@ const LeaderBoard = () => {
           </div>
         </div>
         <div className="flex flex-col gap-1 items-end">
-          <div className="flex items-center gap-2">
-            {isFullyAuthenticated ? (
-              <button
-                className="px-4 py-1 border border-black rounded-[100px] hover:bg-[#F9E9C4]"
-                onClick={logout}
-              >
-                Disconnect
-              </button>
-            ) : (
-              <button
-                className="px-4 py-1 border border-black rounded-[100px] hover:bg-[#F9E9C4]"
-                onClick={
-                  !authenticated
-                    ? login
-                    : !user?.wallet
-                      ? linkWallet
-                      : linkTwitter
-                }
-              >
-                Claim Rain(air)drop
-              </button>
-            )}
-            {authenticated && (
-              <div className="flex items-center gap-3">
+          <div className="flex justify-between items-center gap-2 w-full lg:w-auto">
+            <span className="py-1 block lg:hidden">
+              Time to next Rain(air)drop
+            </span>
+            <div className="flex items-center gap-2">
+              {isFullyAuthenticated ? (
+                <button
+                  className="px-4 py-1 border border-black rounded-[100px] hover:bg-[#F9E9C4]"
+                  onClick={logout}
+                >
+                  Disconnect
+                </button>
+              ) : (
+                <button
+                  className="px-4 py-1 border border-black rounded-[100px] hover:bg-[#F9E9C4]"
+                  onClick={
+                    !authenticated
+                      ? login
+                      : !user?.wallet
+                        ? linkWallet
+                        : linkTwitter
+                  }
+                >
+                  Claim Rain(air)drop
+                </button>
+              )}
+              {authenticated && (
+                <div className="hidden lg:flex items-center gap-3">
+                  <div className="flex items-center gap-1">
+                    <XIcon />
+                    {user?.twitter ? <CheckIcon /> : <UncheckIcon />}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <WalletIcon />
+                    {user?.wallet ? <CheckIcon /> : <UncheckIcon />}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          {authenticated && (
+            <>
+              <div className="flex w-full items-center gap-1.5 justify-end lg:justify-start text-[10px] lg:text-sm">
+                <span>
+                  {!user?.wallet
+                    ? "Not Eligible. Connect Wallet"
+                    : !user.twitter
+                      ? "Not Eligible. Connect Twitter"
+                      : "Eligible"}
+                </span>
+              </div>
+              <div className="flex items-center gap-3 lg:hidden">
                 <div className="flex items-center gap-1">
-                  <XIcon />
-                  {user?.twitter ? <CheckIcon /> : <UncheckIcon />}
+                  <XIcon width={15} height={15} />
+                  {user?.twitter ? (
+                    <CheckIcon width={8} />
+                  ) : (
+                    <UncheckIcon width={8} />
+                  )}
                 </div>
                 <div className="flex items-center gap-1">
-                  <WalletIcon />
-                  {user?.wallet ? <CheckIcon /> : <UncheckIcon />}
+                  <WalletIcon width={15} height={15} />
+                  {user?.wallet ? (
+                    <CheckIcon width={8} />
+                  ) : (
+                    <UncheckIcon width={8} />
+                  )}
                 </div>
               </div>
-            )}
-          </div>
-          <div className="flex w-full items-center gap-1.5">
-            <span>
-              {!authenticated
-                ? ""
-                : !user?.wallet
-                  ? "Not Eligible. Connect Wallet"
-                  : !user.twitter
-                    ? "Not Eligible. Connect Twitter"
-                    : "Eligible"}
-            </span>
-          </div>
+            </>
+          )}
         </div>
       </div>
       <div
         ref={tableWrapperRef}
-        className="relative w-full h-0 flex-grow px-4 overflow-auto [clip-path:inset(0_16px_round_0)]"
+        className="relative w-full h-0 flex-grow px-2 md:px-4 overflow-auto [clip-path:inset(0_8px_round_0)] md:[clip-path:inset(0_16px_round_0)]"
       >
         <table
           className={clsx(
