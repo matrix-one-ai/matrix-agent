@@ -77,7 +77,7 @@ const LatestTweets = () => {
       contentClassName="flex flex-col !p-0 cursor-default"
       title="My Sprouting Feed"
     >
-      <div className="relative w-full h-[60vh] md:h-[450px] flex-grow overflow-auto grid grid-cols-1 md:grid-cols-2 gap-4 p-2 md:p-4 text-sm">
+      <div className="relative w-full h-[60vh] md:h-[480px] flex-grow overflow-auto grid grid-cols-1 md:grid-cols-2 gap-4 p-2 md:p-4 text-sm">
         {(data?.items || []).map(
           (
             {
