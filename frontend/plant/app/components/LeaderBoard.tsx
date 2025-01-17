@@ -31,6 +31,7 @@ import WalletIcon from "@/app/components/Icons/WalletIcon";
 import CheckIcon from "@/app/components/Icons/CheckIcon";
 import UncheckIcon from "@/app/components/Icons/UncheckIcon";
 import SearchIcon from "@/app/components/Icons/SearchIcon";
+import WaterdropIcon from "@/app/components/Icons/WaterdropIcon";
 import {
   ILeaderBoardData,
   TLeaderBoardDataItem,
@@ -41,11 +42,14 @@ import {
   BLOCK_USER_NAMES,
   LB_PLACEHOLDER_AVATAR_SRC,
   LB_PAGE_COUNT_LIMIT,
+  AIRDROP_PROGRESS_MILESTONE_COUNT,
 } from "@/app/constants";
 import { AbortableFetch } from "@/app/utils/abortablePromise";
+import useAirdropProgress from "../hooks/useAirdropProgress";
 
 const LeaderBoard = () => {
   const { ready, authenticated, user, logout } = usePrivy();
+  const airdropProgress = useAirdropProgress();
   const [loading, { toggleOn: toggleOnLoading, toggleOff: toggleOffLoading }] =
     useToggle(false);
   const [data, setData] = useState<ILeaderBoardData | null>(null);
@@ -272,18 +276,27 @@ const LeaderBoard = () => {
           !ready && "invisible",
         )}
       >
-        <div className="flex">
-          {/* <div className="flex flex-col gap-1">
+        <div className="flex items-start">
+          <div className="flex gap-4 items-center">
             <span className="py-1">Time to next Rain(air)drop</span>
-            <div className="flex items-center gap-1.5">
-              {isFullyAuthenticated ? (
-                <span className="text-[#70C238]">You are Eligible</span>
-              ) : (
-                <span className="text-[#C34D4D]">You are Not Eligible</span>
+            <div className="flex gap-2">
+              {Array.from(
+                { length: AIRDROP_PROGRESS_MILESTONE_COUNT },
+                (_, i) => (
+                  <WaterdropIcon
+                    key={`raindrop-progress-${i}`}
+                    className={clsx(
+                      i < airdropProgress
+                        ? "text-[#19B0FE]"
+                        : i === airdropProgress
+                          ? "animate-blinkWaterdrop"
+                          : "text-white",
+                    )}
+                  />
+                ),
               )}
-              {isFullyAuthenticated ? <CheckIcon /> : <UncheckIcon />}
             </div>
-          </div> */}
+          </div>
         </div>
         <div className="flex flex-col gap-1 items-end">
           <div className="flex items-center gap-2">

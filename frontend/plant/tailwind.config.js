@@ -27,6 +27,15 @@ export const theme = {
       primary: "#F7E3B5",
       secondary: "#70C238",
     },
+    keyframes: {
+      blinkWaterdrop: {
+        "0%, 100%": { color: "rgba(25, 178, 254, 0.3)" },
+        "50%": { color: "rgba(25, 178, 254, 1)" },
+      },
+    },
+    animation: {
+      blinkWaterdrop: "blinkWaterdrop 1s ease-in-out infinite",
+    },
   },
 };
 export const plugins = [
