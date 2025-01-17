@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useTweetWidget } from "./hooks/useTweetWidget";
 import LatestTweets from "@/app/components/LatestTweets";
 import LeaderBoard from "@/app/components/LeaderBoard";
+import RisingSproutsComingSoon from "@/app/components/RisingSproutsComingSoon";
 // import Card from "@/app/components/Card/Card";
 import CactusVRM from "@/app/components/CactusVRM";
 import FeedMeButton from "@/app/components/FeedMeButton";
@@ -136,6 +137,7 @@ const ClientPage = () => {
       <div className="flex flex-col gap-6 w-full">
         <LatestTweets />
         <LeaderBoard />
+        <RisingSproutsComingSoon />
         {/* <Card
           contentClassName="!overflow-auto"
           className="max-h-[90vh]"
