@@ -90,7 +90,7 @@ const LeaderBoard = () => {
           {
             method: "POST",
             headers: {
-              cache: "no-cache",
+              cache: "no-store",
             },
             body: JSON.stringify({
               characterName: "Plant",

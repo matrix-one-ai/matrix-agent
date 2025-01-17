@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     // Authenticate first
     const authResp = await fetch(`${baseUrl}/api/azure-sass/auth`, {
       headers: {
-        cache: "no-cache",
+        cache: "no-store",
       },
     });
 
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
-            cache: "no-cache",
+            cache: "no-store",
           },
           body: JSON.stringify(body),
         },
