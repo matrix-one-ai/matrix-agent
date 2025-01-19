@@ -161,20 +161,17 @@ const ClientPage = () => {
       {/* Footer */}
       <div className="flex flex-col gap-4 w-full">
         <div className="flex flex-col gap-2 w-full items-center">
-          <ClipboardCopy
-            text="4BsE91MrbhEeJmWJ3ddX58hN4iAk8gXmvZv5JYUapump"
-            className="flex flex-col md:flex-row items-center gap-2 font-bold text-sm md:text-base"
-          >
+          <div className="flex flex-col md:flex-row items-center gap-2 font-bold text-sm md:text-base">
             <div className="flex items-center gap-2">
-              <ClipboardIcon />
+              {/* <ClipboardIcon /> */}
               <span className="text-secondary [text-shadow:_1px_1px_0_#000,_-1px_-1px_0_#000,_-1px_1px_0_#000,_1px_-1px_0_#000]">
                 CA
               </span>
             </div>
-            <span className="text-black underline">
+            <span className="text-black">
               4BsE91MrbhEeJmWJ3ddX58hN4iAk8gXmvZv5JYUapump
             </span>
-          </ClipboardCopy>
+          </div>
           <div className="flex items-center justify-around font-bold w-full flex-col md:flex-row gap-6 md:gap-2">
             <div className="flex items-center gap-2">
               <XIcon />
