@@ -42,12 +42,12 @@ export async function GET() {
           headers: {
             "Content-Type": "application/json",
             "Abp.TenantId": "2",
-            cache: "no-store",
           },
           body: JSON.stringify({
             userNameOrEmailAddress: "external-api",
             password: "egq3yxq!QEX!myq2cyb",
           }),
+          cache: "no-store",
         },
       );
 
