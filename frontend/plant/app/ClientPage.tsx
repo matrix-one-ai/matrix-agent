@@ -14,13 +14,13 @@ import RisingSproutsComingSoon from "@/app/components/RisingSproutsComingSoon";
 // import Card from "@/app/components/Card/Card";
 import CactusVRM from "@/app/components/CactusVRM";
 import FeedMeButton from "@/app/components/FeedMeButton";
-import ClipboardCopy from "@/app/components/ClipboardCopy";
+// import ClipboardCopy from "@/app/components/ClipboardCopy";
 // import EmojiCursorFollower from "@/app/components/EmojiCursorFollower";
 import XIcon from "@/app/components/Icons/XIcon";
 import PumpFunIcon from "@/app/components/Icons/PumpFunIcon";
 import TelegramIcon from "@/app/components/Icons/TelegramIcon";
 import CoinMarketIcon from "@/app/components/Icons/CoinMarketIcon";
-import ClipboardIcon from "@/app/components/Icons/ClipboardIcon";
+// import ClipboardIcon from "@/app/components/Icons/ClipboardIcon";
 import { getDaysBetweenDates } from "./utils/string";
 
 const ClientPage = () => {
