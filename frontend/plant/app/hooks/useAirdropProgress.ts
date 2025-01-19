@@ -19,7 +19,7 @@ function getAirdropProgress(): number {
   }
 
   // Ensure the currentDate is after the start date, otherwise adjust
-  while (!(actualStartDate <= currentDate && actualEndDate > currentDate)) {
+  while (!(actualStartDate < currentDate && actualEndDate >= currentDate)) {
     actualStartDate.setDate(actualStartDate.getDate() + AIRDROP_INTERVAL);
     actualEndDate.setDate(actualStartDate.getDate() + AIRDROP_INTERVAL);
   }
@@ -29,7 +29,7 @@ function getAirdropProgress(): number {
   const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24)) + 1;
 
   // Calculate the progress
-  const progress = diffInDays / AIRDROP_INTERVAL;
+  const progress = diffInDays / (AIRDROP_INTERVAL + 1);
   const rescaledProgress = Math.round(
     AIRDROP_PROGRESS_MILESTONE_COUNT * progress,
   );
