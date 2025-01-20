@@ -9,8 +9,9 @@ const RisingSproutsComingSoon = () => {
       title="Rising Sprouts"
     >
       <div className="relative w-full h-[50vh] flex-grow overflow-auto p-2 md:p-4 font-bold flex flex-col items-center justify-center">
-        <p className="text-center text-2xl mb-4">🚧 Coming soon! 🚧</p>
-        <p className="text-center text-sm mb-6">
+        <p className="text-center text-2xl mb-4">
+          🚧 Coming soon! 🚧
+          <br />
           High-potential tokens analyzed by Plant as soon as they hit Raydium or
           Meteora.
         </p>
