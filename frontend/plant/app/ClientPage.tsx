@@ -137,9 +137,9 @@ const ClientPage = () => {
 
       {/* Leaderboard */}
       <div className="flex flex-col gap-6 w-full">
-        <LatestTweets />
         <LeaderBoard />
         <RisingSproutsComingSoon />
+        <LatestTweets />
         {/* <Card
           contentClassName="!overflow-auto"
           className="max-h-[90vh]"
