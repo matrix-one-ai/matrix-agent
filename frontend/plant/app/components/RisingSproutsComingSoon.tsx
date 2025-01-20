@@ -16,7 +16,7 @@ const RisingSproutsComingSoon = () => {
         </p>
         <Link
           className="px-4 py-1 border border-black rounded-[100px] hover:bg-[#F9E9C4]"
-          href="/"
+          href="https://app.wasabi.xyz/vaults?vault=sPLANT&network=solana"
           target="_blank"
         >
           Stake Here
