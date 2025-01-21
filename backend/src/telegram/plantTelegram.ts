@@ -90,7 +90,8 @@ const azureLogin = async () => {
 };
 
 const bot = new Telegraf(token);
-let chatId: string;
+let chatId: string | null = null;
+let threadId: number | null = null;
 let authAccessToken: string;
 const usedTokenInsightIds: string[] = [];
 
@@ -127,7 +128,9 @@ export const plantTelegramAgentInit = async () => {
 
     console.log(tokenInsight);
 
-    bot.telegram.sendMessage(chatId, tokenInsight.tweetText);
+    bot.telegram.sendMessage(chatId as string, tokenInsight.tweetText, {
+      message_thread_id: threadId as number,
+    });
   };
 
   // Send a message every hour
@@ -137,9 +140,15 @@ export const plantTelegramAgentInit = async () => {
 
   bot.on(message("text"), async (ctx) => {
     try {
-      if (!chatId) {
-        chatId = ctx.chat.id.toString();
+      const newChatId = ctx.chat.id.toString();
+      const newThreadId = ctx.message?.message_thread_id as number;
+
+      if (!chatId && !threadId && newThreadId && newChatId) {
         console.log(`Chat ID: ${chatId}`);
+        console.log(`Thread ID: ${threadId}`);
+
+        chatId = newChatId;
+        threadId = newThreadId;
 
         await postTokenInsights();
       }
