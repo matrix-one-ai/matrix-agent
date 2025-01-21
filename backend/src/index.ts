@@ -6,6 +6,7 @@ import sequelize from "./db/db";
 import twitterAgentInit from "./twitter";
 import { discordAgentInit } from "./discord";
 import { telegramAgentInit } from "./telegram";
+import { plantTelegramAgentInit } from "./telegram/plantTelegram";
 
 dotenv.config();
 
@@ -36,7 +37,8 @@ io.on("connection", (socket) => {
 server.listen(port, () => {
   console.log(`Matrix agent listening on port ${port}`);
 
-  twitterAgentInit();
-  discordAgentInit();
-  telegramAgentInit();
+  // twitterAgentInit();
+  // discordAgentInit();
+  // telegramAgentInit();
+  plantTelegramAgentInit();
 });
