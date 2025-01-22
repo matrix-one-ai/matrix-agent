@@ -114,10 +114,15 @@ export const plantTelegramAgentInit = async () => {
     );
     const tokenInsights = await tokenInsightsResp.json();
 
-    const filteredTokenInsights: TokenInsight[] = tokenInsights.result.filter(
-      (tokenInsight: TokenInsight) =>
-        !usedTokenInsightIds.includes(tokenInsight.id)
-    );
+    const filteredTokenInsights = (tokenInsights.result as TokenInsight[])
+      .filter(
+        (tokenInsight: TokenInsight) =>
+          !usedTokenInsightIds.includes(tokenInsight.id)
+      )
+      .sort(
+        (a, b) =>
+          new Date(b.tweetSentAt).getTime() - new Date(a.tweetSentAt).getTime()
+      );
 
     if (filteredTokenInsights.length === 0) {
       console.log("No new token insights");
