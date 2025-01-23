@@ -145,12 +145,15 @@ const LeaderBoard = () => {
     }) => {
       const { wallet, twitter } = user;
 
-      // Link actions
-      if (!wallet) {
-        linkWallet();
-      } else if (!twitter) {
-        linkTwitter();
-      }
+      // After login with only X, then refresh the page. Without below timeout delay, the page will be crashed with privy ready status. Privy Bug.
+      setTimeout(() => {
+        // Link actions
+        if (!wallet) {
+          linkWallet();
+        } else if (!twitter) {
+          linkTwitter();
+        }
+      }, 100);
     },
     [linkTwitter, linkWallet],
   );
