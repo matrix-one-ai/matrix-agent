@@ -19,14 +19,33 @@ export default function PrivyProviderWrapper({
     const observer = new MutationObserver((mutationsList) => {
       for (const mutation of mutationsList) {
         mutation.addedNodes.forEach((node) => {
-          if (
-            node instanceof HTMLElement &&
-            node.classList.contains("login-method-button")
-          ) {
-            const buttonName = node.getElementsByTagName("span")[0].textContent;
+          if (node instanceof HTMLElement) {
+            // Hide blocked wallet buttons
+            if (node.classList.contains("login-method-button")) {
+              const buttonName =
+                node.getElementsByTagName("span")[0]?.textContent;
 
-            if (buttonName && BLOCKED_WALLET_NAMES.includes(buttonName)) {
-              node.style.display = "none";
+              if (buttonName && BLOCKED_WALLET_NAMES.includes(buttonName)) {
+                node.style.display = "none";
+              }
+            } else if (
+              node.id === "headlessui-portal-root" ||
+              node.className.includes("LoginMethodContainer-")
+            ) {
+              const loginButtons = node.querySelectorAll(
+                ".login-method-button",
+              );
+
+              loginButtons.forEach((button) => {
+                if (!(button instanceof HTMLElement)) return;
+
+                const buttonName =
+                  button.getElementsByTagName("span")[0]?.textContent;
+
+                if (buttonName && BLOCKED_WALLET_NAMES.includes(buttonName)) {
+                  button.style.display = "none";
+                }
+              });
             }
           }
         });
