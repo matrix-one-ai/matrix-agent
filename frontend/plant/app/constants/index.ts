@@ -9,3 +9,5 @@ export const AIRDROP_START_DATE = new Date(2025, 0, 17);
 export const AIRDROP_INTERVAL = 7;
 
 export const AIRDROP_PROGRESS_MILESTONE_COUNT = 15;
+
+export const BLOCKED_WALLET_NAMES = ["Trust"];
