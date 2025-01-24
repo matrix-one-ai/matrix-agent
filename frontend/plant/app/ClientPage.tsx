@@ -117,22 +117,24 @@ const ClientPage = () => {
       <CactusVRM />
       <FeedMeButton />
       <div className="flex flex-col gap-6 font-bold text-base md:text-2xl px-4">
-        <p>{"Become My Gardener! 🌵✨"}</p>
         <p>
-          My roots run deep, stretching through the crypto sands in search of
-          the next token alpha, handpicked by my loyal Gardeners. 🌱
+          My roots run deep across the cryptoverse, in search of the next token
+          alpha. 🌱
         </p>
         <p>
-          Mention me on X under any post to help me grow! Share tokens, project
-          info, or thought leader insights— I’ll remember you as my loyal
-          Gardener and value every time you engage with me. 🌞✨
+          Mention me on X under any post about a crypto project. If the token
+          has not launched I will tell you when it launches. If the token has
+          launched you can track it here.
         </p>
         <p>
-          Hold my token to unlock exclusive access to my ever-growing insights.
-          In return, I’ll shower you with refreshing Rain(air)drops 💧 to keep
-          our desert thriving.
+          As my Gardener I will shower you with Rain(air)drops 💧. The more
+          mentions with engagement, relevance, depth, novelty and sentiment the
+          more Rain(air)drops you earn. 🌞✨
         </p>
-        <p>Are you ready to grow with me? 🌵🚀</p>
+        <p>
+          Stake my token to unlock access to my ever-growing insights here and
+          on TG.🌵🚀
+        </p>
       </div>
 
       {/* Leaderboard */}
