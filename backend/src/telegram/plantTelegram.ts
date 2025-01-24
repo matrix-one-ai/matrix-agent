@@ -114,26 +114,18 @@ export const plantTelegramAgentInit = async () => {
     );
     const tokenInsights = await tokenInsightsResp.json();
 
-    const filteredTokenInsights = (tokenInsights.result as TokenInsight[])
-      .filter(
-        (tokenInsight: TokenInsight) =>
-          !usedTokenInsightIds.includes(tokenInsight.id)
-      )
-      .sort(
-        (a, b) =>
-          new Date(b.tweetSentAt).getTime() - new Date(a.tweetSentAt).getTime()
-      );
+    const newInsight = (tokenInsights?.result as TokenInsight[])?.[0];
 
-    if (filteredTokenInsights.length === 0) {
+    if (!newInsight || usedTokenInsightIds.includes(newInsight.id)) {
       console.log("No new token insights");
       return;
     }
 
-    const tokenInsight = filteredTokenInsights[0];
+    usedTokenInsightIds.push(newInsight.id);
 
-    console.log(tokenInsight);
+    console.log(newInsight);
 
-    bot.telegram.sendMessage(chatId as string, tokenInsight.tweetText, {
+    bot.telegram.sendMessage(chatId as string, newInsight.tweetText, {
       message_thread_id: threadId as number,
     });
   };
@@ -141,7 +133,7 @@ export const plantTelegramAgentInit = async () => {
   // Send a message every hour
   setInterval(async () => {
     await postTokenInsights();
-  }, 1000 * 60 * 60); // 1 hour
+  }, 1000 * 60); // every minute
 
   bot.on(message("text"), async (ctx) => {
     try {
