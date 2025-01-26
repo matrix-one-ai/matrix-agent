@@ -47,7 +47,7 @@ export async function GET() {
             userNameOrEmailAddress: "external-api",
             password: "egq3yxq!QEX!myq2cyb",
           }),
-          cache: "no-store",
+          cache: "no-cache",
         },
       );
 
