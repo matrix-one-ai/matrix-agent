@@ -11,6 +11,7 @@ import { useTweetWidget } from "./hooks/useTweetWidget";
 import LatestTweets from "@/app/components/LatestTweets";
 import LeaderBoard from "@/app/components/LeaderBoard";
 import RisingSproutsComingSoon from "@/app/components/RisingSproutsComingSoon";
+import SproutTokensComingSoon from "@/app/components/SproutTokensComingSoon";
 // import Card from "@/app/components/Card/Card";
 import CactusVRM from "@/app/components/CactusVRM";
 import FeedMeButton from "@/app/components/FeedMeButton";
@@ -141,6 +142,7 @@ const ClientPage = () => {
       <div className="flex flex-col gap-6 w-full">
         <LeaderBoard />
         <RisingSproutsComingSoon />
+        <SproutTokensComingSoon />
         <LatestTweets />
         {/* <Card
           contentClassName="!overflow-auto"
