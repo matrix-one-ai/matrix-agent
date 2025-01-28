@@ -10,7 +10,7 @@ const SproutTokensComingSoon = () => {
     >
       <div className="relative w-full h-[50vh] flex-grow overflow-auto p-2 md:p-4 font-bold flex flex-col items-center justify-center">
         <p className="text-center text-2xl mb-4">
-          🚧 Coming Soon to Sprout Tokens! 🚧
+          🚧 Soon to Sprout Tokens! 🚧
         </p>
         <p className="text-center text-base mb-2">
           Plant constantly evaluates a project on socials before the token is
