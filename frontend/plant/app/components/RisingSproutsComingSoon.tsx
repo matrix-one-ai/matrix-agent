@@ -6,7 +6,7 @@ const RisingSproutsComingSoon = () => {
   return (
     <Card
       contentClassName="flex flex-col !p-0 cursor-default"
-      title="Rising Sprouts"
+      title="Sprouting Tokens"
     >
       <div className="relative w-full h-[50vh] flex-grow overflow-auto p-2 md:p-4 font-bold flex flex-col items-center justify-center">
         <p className="text-center text-2xl mb-4">
