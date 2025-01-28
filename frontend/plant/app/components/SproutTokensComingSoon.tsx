@@ -20,7 +20,7 @@ const SproutTokensComingSoon = () => {
         </p>
         <Link
           className="px-4 py-1 border border-black rounded-[100px] hover:bg-[#F9E9C4]"
-          href="/"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSdvNfYwTTjwCJYh0Jx9tOzMbJUUYvoETSYCmpD7c2EaySgBlA/viewform?usp=sharing"
           target="_blank"
         >
           Submit Project
