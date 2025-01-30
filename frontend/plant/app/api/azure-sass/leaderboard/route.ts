@@ -32,7 +32,8 @@ export async function GET(request: NextRequest) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${data}`,
+            // Authorization: `Bearer ${data}`,
+            "X-Api-Key": data,
             cache: "no-store",
           },
           body: JSON.stringify({

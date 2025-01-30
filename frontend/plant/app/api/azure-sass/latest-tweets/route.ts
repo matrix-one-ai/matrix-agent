@@ -26,7 +26,8 @@ export async function GET() {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${data}`,
+            // Authorization: `Bearer ${data}`,
+            "X-Api-Key": data,
             cache: "no-store",
           },
         },
