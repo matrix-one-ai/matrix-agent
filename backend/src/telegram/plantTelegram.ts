@@ -62,43 +62,43 @@ if (!token) {
   throw new Error("PLANT_TELEGRAM_TOKEN is not set in environment variables.");
 }
 
-const azureLogin = async () => {
-  const authResp = await fetch(
-    "https://sami-one-portal-be.azurewebsites.net/api/TokenAuth/Authenticate",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Abp.TenantId": "2",
-        cache: "no-cache",
-      },
-      body: JSON.stringify({
-        userNameOrEmailAddress: "external-api",
-        password: "egq3yxq!QEX!myq2cyb",
-      }),
-    }
-  );
+// const azureLogin = async () => {
+//   const authResp = await fetch(
+//     "https://sami-one-portal-be.azurewebsites.net/api/TokenAuth/Authenticate",
+//     {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         "Abp.TenantId": "2",
+//         cache: "no-cache",
+//       },
+//       body: JSON.stringify({
+//         userNameOrEmailAddress: "external-api",
+//         password: "egq3yxq!QEX!myq2cyb",
+//       }),
+//     }
+//   );
 
-  const authData = await authResp.json();
+//   const authData = await authResp.json();
 
-  if (authData.error || !authData?.result?.accessToken) {
-    console.log(authData.error);
-    return;
-  }
+//   if (authData.error || !authData?.result?.accessToken) {
+//     console.log(authData.error);
+//     return;
+//   }
 
-  return authData.result.accessToken;
-};
+//   return authData.result.accessToken;
+// };
 
 const bot = new Telegraf(token);
 let chatId: string | null = null;
 let threadId: number | null = null;
-let authAccessToken: string;
+// let authAccessToken: string;
 const usedTokenInsightIds: string[] = [];
 
 export const plantTelegramAgentInit = async () => {
   bot.launch();
 
-  authAccessToken = await azureLogin();
+  // authAccessToken = await azureLogin();
 
   const postTokenInsights = async () => {
     const tokenInsightsResp = await fetch(
@@ -107,10 +107,11 @@ export const plantTelegramAgentInit = async () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${authAccessToken}`,
+          // Authorization: `Bearer ${authAccessToken}`,
+          "X-Api-Key": "matrix-5dd9ae979c7d440e9e5602b25e08f65d",
           cache: "no-cache",
         },
-      }
+      },
     );
     const tokenInsights = await tokenInsightsResp.json();
 
