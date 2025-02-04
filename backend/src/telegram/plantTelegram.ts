@@ -101,6 +101,10 @@ export const plantTelegramAgentInit = async () => {
   // authAccessToken = await azureLogin();
 
   const postTokenInsights = async () => {
+    if (!chatId || !threadId) {
+      return;
+    }
+
     const tokenInsightsResp = await fetch(
       "https://sami-one-portal-be.azurewebsites.net/api/services/app/DataManagement/GetLatestRaydiumTweets",
       {
