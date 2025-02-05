@@ -767,7 +767,17 @@ const LeaderBoard = () => {
       </div>
       <div className="flex justify-between gap-2 items-center px-9 h-8 font-bold text-[10px] overflow-x-auto hidden-scrollbar bg-[#decca2] border-t-2 border-t-black">
         <Tooltip
-          content="Entry Level: New members who’ve just started contributing. They plant the seeds of engagement by mentioning the plant occasionally. Requirements: Minimal contributions like basic mentions or interactions."
+          content={
+            <>
+              <p className="mb-1">
+                Entry Level: New members who’ve just started contributing. They
+                plant the seeds of engagement by mentioning the plant
+                occasionally. Requirements: Minimal contributions like basic
+                mentions or interactions.
+              </p>
+              <p>Get a Rain(air)drop multiplier of 1</p>
+            </>
+          }
           placement="bottom"
         >
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
@@ -780,7 +790,17 @@ const LeaderBoard = () => {
           </div>
         </Tooltip>
         <Tooltip
-          content="Intermediate Level: Members who consistently provide relevant and thoughtful mentions, helping the plant grow strong roots. Requirements: Regular participation with more relevant and deeper mentions."
+          content={
+            <>
+              <p className="mb-1">
+                Intermediate Level: Members who consistently provide relevant
+                and thoughtful mentions, helping the plant grow strong roots.
+                Requirements: Regular participation with more relevant and
+                deeper mentions.
+              </p>
+              <p>Get a Rain(air)drop multiplier of 1.25</p>
+            </>
+          }
           placement="bottom"
         >
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
@@ -793,7 +813,17 @@ const LeaderBoard = () => {
           </div>
         </Tooltip>
         <Tooltip
-          content="Advanced Level: Highly active members whose mentions are consistently engaging, positive, and insightful, acting as the plant's main source of growth. Requirements: High-quality mentions, positive sentiment, and creative contributions."
+          content={
+            <>
+              <p className="mb-1">
+                Advanced Level: Highly active members whose mentions are
+                consistently engaging, positive, and insightful, acting as the
+                plant&apos;s main source of growth. Requirements: High-quality
+                mentions, positive sentiment, and creative contributions.
+              </p>
+              <p>Get a Rain(air)drop multiplier of 1.5</p>
+            </>
+          }
           placement="bottom"
         >
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
@@ -806,7 +836,18 @@ const LeaderBoard = () => {
           </div>
         </Tooltip>
         <Tooltip
-          content="Expert Level: Top-tier contributors who bring novelty, enthusiasm, and drive engagement across the community, making the plant thrive. Requirements: Exceptional engagement, introducing novel ideas, and driving significant community activity."
+          content={
+            <>
+              <p className="mb-1">
+                Expert Level: Top-tier contributors who bring novelty,
+                enthusiasm, and drive engagement across the community, making
+                the plant thrive. Requirements: Exceptional engagement,
+                introducing novel ideas, and driving significant community
+                activity.
+              </p>
+              <p>Get a Rain(air)drop multiplier of 1.75</p>
+            </>
+          }
           placement="bottom"
         >
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
@@ -819,7 +860,19 @@ const LeaderBoard = () => {
           </div>
         </Tooltip>
         <Tooltip
-          content="Elite Level: The most dedicated and impactful members who consistently lead the community, provide key insights, and help others contribute. They are the ultimate nurturers of the plant’s growth. Requirements: Leadership in engagement, top-quality contributions, and recognition as community role models."
+          content={
+            <>
+              <p className="mb-1">
+                Elite Level: The most dedicated and impactful members who
+                consistently lead the community, provide key insights, and help
+                others contribute. They are the ultimate nurturers of the
+                plant’s growth. Requirements: Leadership in engagement,
+                top-quality contributions, and recognition as community role
+                models.
+              </p>
+              <p>Get a Rain(air)drop multiplier of 2</p>
+            </>
+          }
           placement="bottom"
         >
           <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap">
