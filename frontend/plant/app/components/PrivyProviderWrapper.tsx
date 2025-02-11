@@ -70,6 +70,11 @@ export default function PrivyProviderWrapper({
           // Use 'solana-only' or 'ethereum-and-solana'
           walletChainType: "solana-only",
         },
+        loginMethods: ["twitter", "wallet"],
+        loginMethodsAndOrder: {
+          primary: ["twitter"],
+          overflow: ["detected_solana_wallets"],
+        },
         externalWallets: {
           solana: {
             connectors: solanaConnectors,
